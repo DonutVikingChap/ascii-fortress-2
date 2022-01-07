@@ -1,0 +1,43 @@
+#ifndef AF2_CONSOLE_COMMANDS_PROCESS_COMMANDS_HPP
+#define AF2_CONSOLE_COMMANDS_PROCESS_COMMANDS_HPP
+
+#include "../con_command.hpp" // ConCommand, CON_COMMAND, CON_COMMAND_EXTERN
+#include "../convar.hpp"      // ConVar...
+
+extern ConVarIntMinMax await_limit;
+extern ConVarBool cvar_debug;
+
+CON_COMMAND_EXTERN(void);
+
+CON_COMMAND_EXTERN(return );
+CON_COMMAND_EXTERN(break);
+CON_COMMAND_EXTERN(continue);
+
+CON_COMMAND_EXTERN(if);
+CON_COMMAND_EXTERN(elif);
+CON_COMMAND_EXTERN(else);
+
+CON_COMMAND_EXTERN(while);
+CON_COMMAND_EXTERN(for);
+
+CON_COMMAND_EXTERN(script);
+CON_COMMAND_EXTERN(scope);
+CON_COMMAND_EXTERN(exec);
+CON_COMMAND_EXTERN(file);
+
+CON_COMMAND_EXTERN(import);
+CON_COMMAND_EXTERN(export);
+
+CON_COMMAND_EXTERN(exit);
+
+CON_COMMAND_EXTERN(error);
+CON_COMMAND_EXTERN(error_clear);
+
+CON_COMMAND_EXTERN(try);
+CON_COMMAND_EXTERN(catch);
+CON_COMMAND_EXTERN(throw);
+
+CON_COMMAND_EXTERN(assert);
+CON_COMMAND_EXTERN(breakpoint);
+
+#endif

@@ -1,0 +1,26 @@
+#ifndef AF2_CONSOLE_COMMANDS_STREAM_COMMANDS_HPP
+#define AF2_CONSOLE_COMMANDS_STREAM_COMMANDS_HPP
+
+#include "../con_command.hpp" // ConCommand, CON_COMMAND, CON_COMMAND_EXTERN
+
+CON_COMMAND_EXTERN(echo);
+
+CON_COMMAND_EXTERN(write);
+CON_COMMAND_EXTERN(write_to);
+CON_COMMAND_EXTERN(writeln);
+CON_COMMAND_EXTERN(writeln_to);
+
+CON_COMMAND_EXTERN(write_done);
+CON_COMMAND_EXTERN(write_done_to);
+
+CON_COMMAND_EXTERN(write_has_output);
+
+CON_COMMAND_EXTERN(input_received);
+CON_COMMAND_EXTERN(input_done);
+
+CON_COMMAND_EXTERN(read_has_input);
+
+CON_COMMAND_EXTERN(read);
+CON_COMMAND_EXTERN(readln);
+
+#endif

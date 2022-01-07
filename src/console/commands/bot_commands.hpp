@@ -1,0 +1,31 @@
+#ifndef AF2_CONSOLE_COMMANDS_BOT_COMMANDS_HPP
+#define AF2_CONSOLE_COMMANDS_BOT_COMMANDS_HPP
+
+#include "../convar.hpp" // ConVar..., CONVAR_CALLBACK
+
+extern ConVarFloatMinMax bot_range_shotgun;
+extern ConVarIntMinMax bot_range;
+extern ConVarFloatMinMax bot_defend_time;
+extern ConVarFloatMinMax bot_heal_time;
+extern ConVarFloatMinMax bot_heal_cooldown;
+extern ConVarFloatMinMax bot_spycheck_time;
+extern ConVarFloatMinMax bot_spycheck_cooldown;
+extern ConVarFloatMinMax bot_spycheck_cooldown_spawn;
+extern ConVarFloatMinMax bot_spycheck_panic_time;
+extern ConVarFloatMinMax bot_spycheck_reaction_time;
+extern ConVarFloatMinMax bot_probability_spycheck;
+extern ConVarFloatMinMax bot_probability_get_health;
+extern ConVarFloatMinMax bot_class_weight_scout;
+extern ConVarFloatMinMax bot_class_weight_soldier;
+extern ConVarFloatMinMax bot_class_weight_pyro;
+extern ConVarFloatMinMax bot_class_weight_demoman;
+extern ConVarFloatMinMax bot_class_weight_heavy;
+extern ConVarFloatMinMax bot_class_weight_engineer;
+extern ConVarFloatMinMax bot_class_weight_medic;
+extern ConVarFloatMinMax bot_class_weight_sniper;
+extern ConVarFloatMinMax bot_class_weight_spy;
+extern ConVarFloatMinMax bot_decision_weight_do_objective;
+extern ConVarFloatMinMax bot_decision_weight_roam;
+extern ConVarFloatMinMax bot_decision_weight_defend;
+
+#endif

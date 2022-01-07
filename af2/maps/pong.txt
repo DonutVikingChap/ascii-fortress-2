@@ -1,0 +1,48 @@
+pong.txt
+
+Author: Donut the Vikingchap
+http://steamcommunity.com/id/donutvikingchap
+
+Multiplayer ping pong game!
+
+[SPAWN_RED] 1
+[SPAWN_BLU] 2
+
+[DATA]
+#####################################################
+###|                                             |###
+###|                                             |###
+###|                                             |###
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+##1|                                             |2##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+## |                                             | ##
+###|                                             |###
+###|                                             |###
+###|                                             |###
+#####################################################
+#####################################################
+[END_DATA]
+
+[RESOURCES]
+cfg/gamemodes/pong.cfg
+[END_RESOURCES]
+
+[SCRIPT]
+import file gamemodes/pong
+[END_SCRIPT]

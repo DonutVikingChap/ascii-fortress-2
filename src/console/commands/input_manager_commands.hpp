@@ -1,0 +1,24 @@
+#ifndef AF2_CONSOLE_COMMANDS_INPUT_MANAGER_COMMANDS_HPP
+#define AF2_CONSOLE_COMMANDS_INPUT_MANAGER_COMMANDS_HPP
+
+#include "../con_command.hpp" // ConCommand, CON_COMMAND, CON_COMMAND_EXTERN
+
+CON_COMMAND_EXTERN(mouse_x);
+CON_COMMAND_EXTERN(mouse_y);
+
+CON_COMMAND_EXTERN(joystick_axis);
+CON_COMMAND_EXTERN(joystick_list);
+CON_COMMAND_EXTERN(joystick_info);
+
+CON_COMMAND_EXTERN(actionlist);
+CON_COMMAND_EXTERN(inputlist);
+
+CON_COMMAND_EXTERN(bind);
+CON_COMMAND_EXTERN(unbind);
+CON_COMMAND_EXTERN(unbindall);
+
+CON_COMMAND_EXTERN(allunbound);
+
+CON_COMMAND_EXTERN(bindlist);
+
+#endif

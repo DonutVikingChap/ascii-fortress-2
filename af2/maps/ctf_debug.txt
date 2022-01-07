@@ -1,0 +1,177 @@
+ctf_debug.txt
+
+Author: Donut the Vikingchap
+http://steamcommunity.com/id/donutvikingchap
+
+A variant of ctf_map1.txt with a bunch of extra test stuff for debugging.
+
+[SPAWN_RED] 1
+[SPAWN_BLU] 2
+[MEDKIT] 3
+[AMMOPACK] 4
+[FLAG_RED] 5
+[FLAG_BLU] 6
+[SPAWNVIS_RED] 7
+[SPAWNVIS_BLU] 8
+[RESUPPLY] 9
+
+[DATA]
+####################################################################################################################################################################
+#                                          #####                                                       |#################+----------------+#########################
+#                                      ### #####                                                       |#################|                |#########################
+#                     #                ### #####                                                       |#################|                |#########################
+#                     #                ### #####        ##########################                     |#################|                |#########################
+#                     #                ### #####                     #############                     |#################|                |#########################
+#               4 3   #                ###                           #############                     |#################|                |#########################
+#                     #                #########        ########     #############                     +-----------------+                |#########################
+#######################                #########        ########     #############                                       82              9|##########              #
+#                                      #                ########                                                         8                |########     ######     #
+#                                      #  3             ########                                        ##########       82               |######            #     #
+#                                      #                ########     #############                      ##########       +-------+   +----+####           6  #     #
+#                                      #  4             ########     #############                      ##########       ########|   |#######                #     #
+#                                      #                ########     #############                       #########       ########+888+#####                        #
+#                                      #                ########     ### DEBUG ###                        ########                                                 #
+#                                      #                             #############                      #  #######                                                 #
+#                                      #                             #############                      ##  ######                                                 #
+#                                      #########        ##########################                      ###  #####                                                 #
+#                                                                                                       ####  ####                       /TTT\                     #
+#                                                                                                                                    /TTTTTTTT\                    #
+#                                                                                                                               /#######\TTTTTT\                   #
+#             ########                                                                  ########                               /#TTTTTTT#\TTTTTT\                  #
+#             ########                                                                  ########                              /#TTTTTTTTT#\TTTTTT\                 #
+########      ########                                                                        ##                             /#TTTTTTTTTTT#\TTTTT|                 #
+########      ########                                                                     3  ##                            /#T[RED BREAD]T#\TTT#|                M#
+########777777########                                                                        ##                           /#TTTTTTTTTTTTTTT#\TT#|               MM#
+##}       1 1    9 {##                                                                        ##                           |#################|#T#|              MM #
+##}                {##                                 /TTTTTTTTTTTT\                         ##############               |#TTTTTTTTTTTTTTT#|#T#              MM  #
+##}                {##                                /##############\                                                     |#       TTTTTTTT#|#T              MM   #
+##}                {##                               /################\                                                    |#  4 3  TTTTTTTT#|#              MM    #
+##}                {##           ########           /##################\                                                   |#       TTTTTTTT#|              MM   ~ #
+##}                {##           ########           [##################]                                                                                   MM      #
+##}                {##           ########           [##################]                                                                                  MM  ~    #
+######################           ########           [##################]                                                                                 MM     ~  #
+######################           ########           [##################]                                                                                MM   ~     #
+######################           ########vvvvvvvvvvv[##################]                                                                               MM         ~#
+#                                ########           [##################]                                                                              MM    ~      #
+#                                ########                                                                                                            MM  ~     ~   #
+#                                ########                                                                                                           MM             #
+#                                ########                                      #################                                                   MM      ~       #
+#                                     ###                                      #                                                                  MM  ~          ~ #
+#                                     ###                                      #   3   4                                                         MM     ~          #
+#                                     ###                                      #                                                                MM          ~      #
+#     #                                 >                                      #                                                               MM  ~     ~      ~  #
+#     #  5                              >                                      #                                                              MM      ~            #
+#     #                                 >                                      >                                                             MM             ~  ~   #
+#     ######                          ###                                      >                              ############                  MM     ~      ~        #
+#                                     ###                                      >                              ############                 MM   ~       ~      ~   #
+#                                     ###                                      >                              ############                MM                       #
+####################################################################################################################################################################
+[END_DATA]
+
+[SCRIPT]
+println_colored magenta concat("Initializing " $map_name "...")
+
+function on_server_receive_command sender_ip command ... {
+	if streq($command "lol") {
+		sv_write_output $sender_ip "XD"
+		return
+	}
+	default_on_server_receive_command $sender_ip $command @...
+}
+
+function on_map_start {
+	println_colored magenta concat($map_name ": Map started.")
+}
+
+function on_map_end {
+	println_colored magenta concat($map_name ": Map ended.")
+}
+
+function on_round_start {
+	println_colored magenta concat($map_name ": Started new round.")
+}
+
+function on_pickup_flag team_id player_id {
+	println_colored magenta concat($map_name ": " mp_get_flag_name($team_id) " was picked up by " mp_get_player_name($player_id) "!")
+}
+
+function on_drop_flag team_id player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " dropped the " mp_get_flag_name($team_id) "!")
+}
+
+function on_return_flag team_id {
+	println_colored magenta concat($map_name ": " mp_get_flag_name($team_id) " returned.")
+}
+
+function on_capture_flag team_id player_id {
+	println_colored magenta concat($map_name ": " mp_get_flag_name($team_id) " was captured by " mp_get_player_name($player_id) "!")
+}
+
+function on_round_won team_id {
+	println_colored magenta concat($map_name ": " mp_get_team_name($team_id) " won!")
+}
+
+function on_player_join player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " joined with id " $player_id ".")
+}
+
+function on_player_leave player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " left.")
+}
+
+function on_team_select player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " selected team " mp_get_team_name(mp_get_player_team($player_id)) " and class " mp_get_class_name(mp_get_player_class($player_id)) ".")
+}
+
+function on_stalemate {
+	println_colored magenta concat($map_name ": Stalemate!")
+}
+
+function on_player_spawn player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " spawned.")
+}
+
+function on_sentry_create sentry_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name(mp_get_sentry_owner($sentry_id)) " built a sentry.")
+}
+
+function on_medkit_spawn medkit_id {
+	println_colored magenta concat($map_name ": Medkit " $medkit_id " spawned.")
+}
+
+function on_ammopack_spawn ammopack_id {
+	println_colored magenta concat($map_name ": Ammopack " $ammopack_id " spawned.")
+}
+
+function on_pickup_medkit medkit_id player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " picked up medkit " $medkit_id ".")
+}
+
+function on_pickup_ammopack ammopack_id player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " picked up ammopack " $ammopack_id ".")
+}
+
+function on_kill_player victim_id killer_id {
+	if not(eq($killer_id 0)) {
+		println_colored magenta concat($map_name ": " mp_get_player_name($killer_id) " killed " mp_get_player_name($victim_id) "!")
+	}
+	else {
+		println_colored magenta concat($map_name ": " mp_get_player_name($victim_id) " died.")
+	}
+}
+
+function on_kill_sentry sentry_id killer_id {
+	if not(eq($killer_id 0)) {
+		println_colored magenta concat($map_name ": " mp_get_player_name($killer_id) " destroyed " mp_get_player_name(mp_get_sentry_owner($sentry_id)) "'s sentry gun!")
+	}
+	else {
+		println_colored magenta concat($map_name ": " mp_get_player_name(mp_get_sentry_owner($sentry_id)) "'s sentry gun was destroyed.")
+	}
+}
+
+function on_resupply player_id {
+	println_colored magenta concat($map_name ": " mp_get_player_name($player_id) " resupplied.")
+}
+
+println_colored magenta concat("Initialized " $map_name ".")
+[END_SCRIPT]
