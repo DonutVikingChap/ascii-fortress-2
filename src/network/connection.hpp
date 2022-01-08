@@ -94,7 +94,7 @@ struct PacketHeader final {
 		NONE = 0,
 		COMPRESSED = 1 << 1, // The packet payload data is compressed.
 		RELIABLE = 1 << 2,   // This packet is reliable and contains a unique sequence number.
-		SPLIT = 1 << 3,      // This packet is split into multiple pieces. This is once of the pieces. SPLIT implies RELIABLE.
+		SPLIT = 1 << 3,      // This packet is split into multiple pieces. This is one of the pieces. SPLIT implies RELIABLE.
 		LAST_PIECE = 1 << 4, // This is the last piece of the split packet whose other pieces came before. LAST_PIECE implies SPLIT.
 		EARLY_ACKS = 1 << 5, // This header contains a mask of packets received after ack. If this is not set, ack is the latest packet received.
 	};
