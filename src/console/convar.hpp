@@ -40,7 +40,7 @@ public:
 		NO_FLAGS = 0,
 		ALL_FLAGS = static_cast<Flags>(~0),
 		CHEAT = 1 << 0,                   // Changing the value is considered a cheat.
-		READ_ONLY = 1 << 1,               // Read only, cannot be set by user at all.
+		READ_ONLY = 1 << 1,               // Read only, cannot be set by the user at all.
 		INIT = 1 << 2,                    // Can only be changed during startup.
 		ARCHIVE = 1 << 3,                 // Value is saved to a config file on shutdown.
 		REPLICATED = 1 << 4,              // Value is networked to all clients and can only be changed by the server.
@@ -128,7 +128,7 @@ private:
 	Flags m_flags;                           // Switches that determine how the cvar is used and how it can be accessed.
 	std::string m_description;               // Contains a human-readable explanation of what the cvar is used for.
 	std::string m_defaultValue;              // Default value that the cvar is set to when initialized or reset.
-	std::optional<std::string> m_localValue; // Used to store the old clientside value of replicated cvars while they are overriden by the server.
+	std::optional<std::string> m_localValue; // Used to store the old clientside value of replicated cvars while they are overridden by the server.
 	Callback m_callback;                     // Function that is called when the cvar is modified. May be null.
 };
 

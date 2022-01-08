@@ -706,7 +706,7 @@ of the existing map files to see how they look!
 
 Note: If you make any changes to the included maps, you will not be able to join
 servers running them because they will detect that your map file is different.
-To fix this, you need to delete or re-name the map you made changes to and
+To fix this, you need to delete or rename the map you made changes to and
 re-download the official version of the original map.
 
 You can create your own map files in the maps directory and host them on your
