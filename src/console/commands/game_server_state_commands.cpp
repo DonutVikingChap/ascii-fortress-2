@@ -15,7 +15,7 @@
 #include <memory>     // std::make_unique
 
 CON_COMMAND(start_dedicated, "[map]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Start a dedicated server running the specified map.",
-			{}, Suggestions::suggestMap<1>) {
+            {}, Suggestions::suggestMap<1>) {
 	if (frame.progress() == 0) {
 		return cmd::deferToNextFrame(1);
 	}

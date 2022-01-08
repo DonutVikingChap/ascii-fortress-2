@@ -70,7 +70,7 @@ public:
 		SHARED_VARIABLE = REPLICATED,
 	};
 	using Callback = cmd::Result (*)(ConVar& self, std::string_view oldVal, Game& game, GameServer* server, GameClient* client,
-									 MetaServer* metaServer, MetaClient* metaClient);
+	                                 MetaServer* metaServer, MetaClient* metaClient);
 
 	ConVar(const ConVar&) = delete;
 	ConVar(ConVar&&) = delete;
@@ -88,7 +88,7 @@ public:
 	auto setSilent(std::string_view value) -> cmd::Result;
 
 	auto overrideLocalValue(std::string_view value, Game& game, GameServer* server, GameClient* client, MetaServer* metaServer,
-							MetaClient* metaClient) -> cmd::Result;
+	                        MetaClient* metaClient) -> cmd::Result;
 	auto overrideLocalValueSilent(std::string_view value) -> cmd::Result;
 	auto restoreLocalValue(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> cmd::Result;
 	auto restoreLocalValueSilent() -> cmd::Result;
@@ -330,7 +330,7 @@ private:
 class ConVarFloatMinMax final : private ConVar {
 public:
 	ConVarFloatMinMax(std::string name, float defaultValue, Flags flags, std::string description, float minValue, float maxValue,
-					  Callback onModified = nullptr);
+	                  Callback onModified = nullptr);
 
 	using ConVar::set;
 	using ConVar::setSilent;
@@ -421,12 +421,12 @@ private:
 
 #define CONVAR_CALLBACK(name) \
 	auto name([[maybe_unused]] ConVar& self, \
-			  [[maybe_unused]] std::string_view oldVal, \
-			  [[maybe_unused]] Game& game, \
-			  [[maybe_unused]] GameServer* server, \
-			  [[maybe_unused]] GameClient* client, \
-			  [[maybe_unused]] MetaServer* metaServer, \
-			  [[maybe_unused]] MetaClient* metaClient) \
+	          [[maybe_unused]] std::string_view oldVal, \
+	          [[maybe_unused]] Game& game, \
+	          [[maybe_unused]] GameServer* server, \
+	          [[maybe_unused]] GameClient* client, \
+	          [[maybe_unused]] MetaServer* metaServer, \
+	          [[maybe_unused]] MetaClient* metaClient) \
 		->cmd::Result
 
 #endif

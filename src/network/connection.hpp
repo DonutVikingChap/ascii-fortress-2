@@ -112,13 +112,13 @@ struct PacketHeader final {
 
 	friend auto operator<<(std::ostream& stream, const PacketHeader& header) -> std::ostream& {
 		return stream << fmt::format("{{checksum: {}, flags: {:#0{}x}, ack: {{{}, {:#0{}x}}}, seq: {}}}",
-									 header.checksum,
-									 header.flags,
-									 2 + 2 * sizeof(Flags),
-									 header.ack,
-									 header.mask,
-									 2 + 2 * sizeof(PacketMask),
-									 header.seq);
+		                             header.checksum,
+		                             header.flags,
+		                             2 + 2 * sizeof(Flags),
+		                             header.ack,
+		                             header.mask,
+		                             2 + 2 * sizeof(PacketMask),
+		                             header.seq);
 	}
 
 	template <typename Stream>
@@ -403,7 +403,7 @@ protected:
 	using ConnectedCallback = void (*)(NetChannel&, msg::in::Connect&&);
 
 	NetChannel(util::Span<const MessageHandler> messageHandlers, ConnectedCallback onConnected, UDPSocket& socket, Duration timeout,
-			   int throttleMaxSendBufferSize, int throttleMaxPeriod);
+	           int throttleMaxSendBufferSize, int throttleMaxPeriod);
 
 public:
 	~NetChannel() = default;
@@ -469,10 +469,10 @@ protected:
 			if constexpr (net::is_secret_message_v<Message>) {
 				if (data.size() > crypto::Stream::MAX_MESSAGE_SIZE) {
 					DEBUG_MSG(Msg::CONNECTION_EVENT,
-							  "Failed to buffer {} (greater than max secret message size ({}/{}))!",
-							  DEBUG_TYPE_NAME_ONLY(Message),
-							  data.size(),
-							  crypto::Stream::MAX_MESSAGE_SIZE);
+					          "Failed to buffer {} (greater than max secret message size ({}/{}))!",
+					          DEBUG_TYPE_NAME_ONLY(Message),
+					          data.size(),
+					          crypto::Stream::MAX_MESSAGE_SIZE);
 					++m_stats.invalidOutgoingSecretMessageSizeCount;
 					return false;
 				}
@@ -576,13 +576,13 @@ private:
 	[[nodiscard]] auto throttle() -> bool;
 
 	[[nodiscard]] auto writeMessages(PacketHeader::Flags& flags, PacketMask mask, std::vector<std::byte>& payload,
-									 std::vector<BufferedMessage>& messages) -> SendStatus;
+	                                 std::vector<BufferedMessage>& messages) -> SendStatus;
 
 	[[nodiscard]] auto getEarlyPacketMask() const -> PacketMask;
 
 	[[nodiscard]] auto sendPacket(PacketHeader::Flags flags, PacketMask mask, std::vector<std::byte>&& payload) -> SendStatus;
 	[[nodiscard]] auto splitAndSendMessage(std::vector<std::byte>&& payload, PacketHeader::Flags flags, PacketMask mask,
-										   util::Span<const std::byte> message) -> SendStatus;
+	                                       util::Span<const std::byte> message) -> SendStatus;
 	[[nodiscard]] auto sendAndBufferPacket(const PacketHeader& header, std::vector<std::byte>&& payload) -> SendStatus;
 	[[nodiscard]] auto sendPacket(const PacketHeader& header, util::Span<const std::byte> payload) -> SendStatus;
 
@@ -629,7 +629,7 @@ private:
 	using AllIncomingMessages = util::typelist_concat_t<NetChannelInputMessages, IncomingMessages>;
 
 	static_assert(util::typelist_size_v<AllIncomingMessages> <= std::numeric_limits<MessageType>::max(),
-				  "Too many incoming message types.");
+	              "Too many incoming message types.");
 
 	static_assert(is_all_input_messages_v<AllIncomingMessages>, "Incoming message list contains a type that is not an input message!");
 
@@ -686,7 +686,7 @@ public:
 		using AllOutgoingMessages = util::typelist_concat_t<NetChannelOutputMessages, MessageList>;
 
 		static_assert(util::typelist_size_v<AllOutgoingMessages> <= std::numeric_limits<MessageType>::max(),
-					  "Too many outgoing message types.");
+		              "Too many outgoing message types.");
 
 		static_assert(is_all_output_messages_v<AllOutgoingMessages>, "Outgoing message list contains a type that is not an output message!");
 

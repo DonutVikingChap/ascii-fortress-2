@@ -11,7 +11,7 @@
 namespace gui {
 
 Menu::Menu(std::vector<Element*> elements, Function onSelectNone, Function onEscape, DirectionFunction onDirection, ClickFunction onClick,
-		   ScrollFunction onScroll, HoverFunction onHover)
+           ScrollFunction onScroll, HoverFunction onHover)
 	: m_elements(std::move(elements))
 	, m_onSelectNone(std::move(onSelectNone))
 	, m_onEscape(std::move(onEscape))
@@ -102,8 +102,8 @@ auto Menu::handleEvent(const SDL_Event& e, const CharWindow& charWindow) -> void
 				auto mouseY = int{};
 				SDL_GetMouseState(&mouseX, &mouseY);
 				m_onScroll(*this,
-						   charWindow.screenToGridCoordinates(Vec2{mouseX, mouseY}),
-						   Vec2{static_cast<Vec2::Length>(scrollsX), static_cast<Vec2::Length>(-scrollsY)});
+				           charWindow.screenToGridCoordinates(Vec2{mouseX, mouseY}),
+				           Vec2{static_cast<Vec2::Length>(scrollsX), static_cast<Vec2::Length>(-scrollsY)});
 			}
 		} else if (e.type == SDL_MOUSEMOTION) {
 			if (m_onHover) {
@@ -151,9 +151,9 @@ auto Menu::handleEvent(const SDL_Event& e, const CharWindow& charWindow) -> void
 				case SDLK_DOWN:
 					if (m_onDirection && util::noneOf(m_elements, [](const auto& element) { return element->isActivated(); })) {
 						const auto x = static_cast<Vec2::Length>(static_cast<int>(e.key.keysym.sym == SDLK_RIGHT) -
-																 static_cast<int>(e.key.keysym.sym == SDLK_LEFT));
+						                                         static_cast<int>(e.key.keysym.sym == SDLK_LEFT));
 						const auto y = static_cast<Vec2::Length>(static_cast<int>(e.key.keysym.sym == SDLK_DOWN) -
-																 static_cast<int>(e.key.keysym.sym == SDLK_UP));
+						                                         static_cast<int>(e.key.keysym.sym == SDLK_UP));
 						m_onDirection(*this, Vec2{x, y});
 					}
 					break;

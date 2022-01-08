@@ -44,7 +44,7 @@ SUGGESTIONS(suggestInventoryIp) {
 } // namespace
 
 CON_COMMAND(cl_inventory_add, "<server_ip> <inventory_id> <token>", ConCommand::CLIENT | ConCommand::ADMIN_ONLY,
-			"Add inventory credentials for a certain server.", {}, nullptr) {
+            "Add inventory credentials for a certain server.", {}, nullptr) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -77,7 +77,7 @@ CON_COMMAND(cl_inventory_add, "<server_ip> <inventory_id> <token>", ConCommand::
 }
 
 CON_COMMAND(cl_inventory_remove, "<server_ip>", ConCommand::CLIENT | ConCommand::ADMIN_ONLY,
-			"Remove inventory credentials for a certain server.", {}, suggestInventoryIp) {
+            "Remove inventory credentials for a certain server.", {}, suggestInventoryIp) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

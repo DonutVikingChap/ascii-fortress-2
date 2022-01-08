@@ -15,23 +15,23 @@ namespace net {
 
 template <typename T, MessageDirection DIR>
 using Big = std::conditional_t<DIR == MessageDirection::INPUT, //
-							   T,                              //
-							   const T&>;
+                               T,                              //
+                               const T&>;
 
 template <MessageDirection DIR>
 using String = std::conditional_t<DIR == MessageDirection::INPUT, //
-								  std::string,                    //
-								  std::string_view>;
+                                  std::string,                    //
+                                  std::string_view>;
 
 template <typename T, std::size_t N, MessageDirection DIR>
 using Array = std::conditional_t<DIR == MessageDirection::INPUT, //
-								 std::array<T, N>,               //
-								 util::Span<const T, N>>;
+                                 std::array<T, N>,               //
+                                 util::Span<const T, N>>;
 
 template <typename T, MessageDirection DIR>
 using List = std::conditional_t<DIR == MessageDirection::INPUT, //
-								std::vector<T>,                 //
-								util::Span<const T>>;
+                                std::vector<T>,                 //
+                                util::Span<const T>>;
 
 } // namespace net
 

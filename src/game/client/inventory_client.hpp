@@ -33,7 +33,7 @@ public:
 	InventoryClient(InventoryClient&&) = delete;
 
 	auto operator=(const InventoryClient&) -> InventoryClient& = delete;
-	auto operator=(InventoryClient &&) -> InventoryClient& = delete;
+	auto operator=(InventoryClient&&) -> InventoryClient& = delete;
 
 	[[nodiscard]] auto initInventoryClient() noexcept -> bool;
 

@@ -53,9 +53,9 @@ CON_COMMAND(or, "<x> [y...]", ConCommand::NO_FLAGS, "Return 1 if any of the argu
 }
 
 CON_COMMAND(xor, "<x> [y...]", ConCommand::NO_FLAGS, "Return 1 if exactly one argument is 1, otherwise return 0.",
-			{
+            {
 			},
-			nullptr) {
+            nullptr) {
 	if (argv.size() < 2) {
 		return cmd::error(self.getUsage());
 	}

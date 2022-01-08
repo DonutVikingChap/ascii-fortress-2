@@ -122,7 +122,7 @@ auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginInfo&& ms
 	}
 }
 
-auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginGranted &&) -> void {
+auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginGranted&&) -> void {
 	if (m_state == State::LOGIN_PART1 || m_state == State::LOGIN_PART2) {
 		INFO_MSG(Msg::CLIENT | Msg::CONNECTION_EVENT | Msg::RCON, "Rcon client logged in successfully.");
 		m_state = State::READY;
@@ -131,7 +131,7 @@ auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginGranted &
 	}
 }
 
-auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginDenied &&) -> void {
+auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoginDenied&&) -> void {
 	if (m_state == State::LOGIN_PART1 || m_state == State::LOGIN_PART2) {
 		INFO_MSG(Msg::CLIENT | Msg::CONNECTION_EVENT | Msg::RCON, "Rcon client login failed.");
 		m_state = State::NONE;
@@ -157,14 +157,14 @@ auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleOutput&& msg) 
 	}
 }
 
-auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleDone &&) -> void {
+auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleDone&&) -> void {
 	if (m_state == State::ABORTING) {
 		m_state = State::READY;
 	}
 	this->resetRconOutput();
 }
 
-auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoggedOut &&) -> void {
+auto RemoteConsoleClient::handleMessage(msg::cl::in::RemoteConsoleLoggedOut&&) -> void {
 	DEBUG_MSG(Msg::CLIENT | Msg::CONNECTION_EVENT | Msg::RCON, "Rcon client logged out.");
 	if (m_state == State::READY) {
 		this->vm().outputError("Remote console session timed out.");

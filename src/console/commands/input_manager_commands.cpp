@@ -120,7 +120,7 @@ CON_COMMAND(actionlist, "", ConCommand::NO_FLAGS, "List all available in-game ac
 	};
 
 	return cmd::done(InputManager::actionMap() | util::transform(formatAction) | util::collect<std::vector<std::string>>() | util::sort() |
-					 util::join('\n'));
+	                 util::join('\n'));
 }
 
 CON_COMMAND(inputlist, "", ConCommand::NO_FLAGS, "Get a list of all valid input names for binding keys.", {}, nullptr) {

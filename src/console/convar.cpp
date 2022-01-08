@@ -55,7 +55,7 @@ auto ConVar::setSilent(std::string_view value) -> cmd::Result {
 }
 
 auto ConVar::overrideLocalValue(std::string_view value, Game& game, GameServer* server, GameClient* client, MetaServer* metaServer,
-								MetaClient* metaClient) -> cmd::Result {
+                                MetaClient* metaClient) -> cmd::Result {
 	if (!m_localValue) {
 		m_localValue = m_string;
 	}
@@ -746,7 +746,7 @@ auto ConVarFloat::updateValue(std::string_view value) -> cmd::Result {
 }
 
 ConVarFloatMinMax::ConVarFloatMinMax(std::string name, float defaultValue, Flags flags, std::string description, float minValue,
-									 float maxValue, Callback onModified)
+                                     float maxValue, Callback onModified)
 	: ConVar(Type::FLOAT, std::move(name), util::toString(defaultValue), flags, std::move(description), onModified)
 	, m_value(defaultValue)
 	, m_minValue(minValue)

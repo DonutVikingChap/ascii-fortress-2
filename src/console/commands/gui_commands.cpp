@@ -80,7 +80,7 @@ CON_COMMAND(gui_clear, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Clear 
 }
 
 CON_COMMAND(gui_is_activated, "<id>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Check if an element in the GUI is activated.", {},
-			suggestGuiId<1>) {
+            suggestGuiId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -119,7 +119,7 @@ CON_COMMAND(gui_activate, "<id>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, 
 }
 
 CON_COMMAND(gui_deactivate, "[id]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Deselect one or all activated elements in the GUI.", {},
-			suggestGuiId<1>) {
+            suggestGuiId<1>) {
 	if (argv.empty() || argv.size() > 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -142,7 +142,7 @@ CON_COMMAND(gui_deactivate, "[id]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON
 }
 
 CON_COMMAND(gui_has_element, "<id>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Check if a GUI element with a certain id exists.", {},
-			suggestGuiId<1>) {
+            suggestGuiId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -215,7 +215,7 @@ CON_COMMAND(gui_get_text, "<id>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, 
 }
 
 CON_COMMAND(gui_set_color, "<id> <color>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Set the color of a GUI element.", {},
-			SUGGEST(suggestGuiId<1>, cmd::suggestColor<2>)) {
+            SUGGEST(suggestGuiId<1>, cmd::suggestColor<2>)) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -294,7 +294,7 @@ CON_COMMAND(gui_get_value, "<id>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
 }
 
 CON_COMMAND(gui_screen_get, "<id> <x> <y> [default]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the character at a certain position on a screen in the GUI.", {}, suggestGuiId<1>) {
+            "Get the character at a certain position on a screen in the GUI.", {}, suggestGuiId<1>) {
 	if (argv.size() != 4 && argv.size() != 5) {
 		return cmd::error(self.getUsage());
 	}
@@ -324,7 +324,7 @@ CON_COMMAND(gui_screen_get, "<id> <x> <y> [default]", ConCommand::ADMIN_ONLY | C
 }
 
 CON_COMMAND(gui_screen_set, "<id> <x> <y> <char>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Set the character at a certain position on a screen in the GUI.", {}, suggestGuiId<1>) {
+            "Set the character at a certain position on a screen in the GUI.", {}, suggestGuiId<1>) {
 	if (argv.size() != 5) {
 		return cmd::error(self.getUsage());
 	}
@@ -347,7 +347,7 @@ CON_COMMAND(gui_screen_set, "<id> <x> <y> <char>", ConCommand::ADMIN_ONLY | ConC
 }
 
 CON_COMMAND(gui_button, "<id> <x> <y> <w> <h> <color> <text> <script>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a button that executes a script when clicked.", {}, cmd::suggestColor<6>) {
+            "Place a button that executes a script when clicked.", {}, cmd::suggestColor<6>) {
 	if (argv.size() != 9) {
 		return cmd::error(self.getUsage());
 	}
@@ -372,12 +372,12 @@ CON_COMMAND(gui_button, "<id> <x> <y> <w> <h> <color> <text> <script>", ConComma
 }
 
 CON_COMMAND(gui_input, "<id> <x> <y> <w> <h> <color> <text> <script> [options...]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a text input box that controls a cvar.",
-			cmd::opts(cmd::opt('p', "private", "Show text as asterisks (*)."),
-					  cmd::opt('r', "replace-mode", "Start with replace mode (insert) enabled."),
-					  cmd::opt('l', "length", "Maximum number of characters allowed.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('t', "type", "Type of value (bool/char/int/float/string).", cmd::OptionType::ARGUMENT_REQUIRED)),
-			cmd::suggestColor<6>) {
+            "Place a text input box that controls a cvar.",
+            cmd::opts(cmd::opt('p', "private", "Show text as asterisks (*)."),
+                      cmd::opt('r', "replace-mode", "Start with replace mode (insert) enabled."),
+                      cmd::opt('l', "length", "Maximum number of characters allowed.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('t', "type", "Type of value (bool/char/int/float/string).", cmd::OptionType::ARGUMENT_REQUIRED)),
+            cmd::suggestColor<6>) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 8) {
 		return cmd::error(self.getUsage());
@@ -417,7 +417,7 @@ CON_COMMAND(gui_input, "<id> <x> <y> <w> <h> <color> <text> <script> [options...
 }
 
 CON_COMMAND(gui_slider, "<id> <x> <y> <w> <h> <color> <value> <delta> <script>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a slider that executes a script when the value is changed.", {}, nullptr) {
+            "Place a slider that executes a script when the value is changed.", {}, nullptr) {
 	if (argv.size() != 10) {
 		return cmd::error(self.getUsage());
 	}
@@ -444,7 +444,7 @@ CON_COMMAND(gui_slider, "<id> <x> <y> <w> <h> <color> <value> <delta> <script>",
 }
 
 CON_COMMAND(gui_checkbox, "<id> <x> <y> <w> <h> <color> <value> <script>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a checkbox that executes a script when changed.", {}, nullptr) {
+            "Place a checkbox that executes a script when changed.", {}, nullptr) {
 	if (argv.size() != 9) {
 		return cmd::error(self.getUsage());
 	}
@@ -470,7 +470,7 @@ CON_COMMAND(gui_checkbox, "<id> <x> <y> <w> <h> <color> <value> <script>", ConCo
 }
 
 CON_COMMAND(gui_dropdown, "<id> <x> <y> <w> <h> <color> <value> <script> <alternatives...>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a dropdown menu that executes a script when modified.", {}, nullptr) {
+            "Place a dropdown menu that executes a script when modified.", {}, nullptr) {
 	if (argv.size() < 10) {
 		return cmd::error(self.getUsage());
 	}
@@ -506,7 +506,7 @@ CON_COMMAND(gui_dropdown, "<id> <x> <y> <w> <h> <color> <value> <script> <altern
 }
 
 CON_COMMAND(gui_screen, "<id> <x> <y> <w> <h> <color> [char]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a character matrix filled with a certain character.", {}, nullptr) {
+            "Place a character matrix filled with a certain character.", {}, nullptr) {
 	if (argv.size() != 7 && argv.size() != 8) {
 		return cmd::error(self.getUsage());
 	}
@@ -541,7 +541,7 @@ CON_COMMAND(gui_screen, "<id> <x> <y> <w> <h> <color> [char]", ConCommand::ADMIN
 }
 
 CON_COMMAND(gui_screen_matrix, "<id> <x> <y> <color> <chars>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a character matrix parsed from a screen string.", {}, nullptr) {
+            "Place a character matrix parsed from a screen string.", {}, nullptr) {
 	if (argv.size() != 6) {
 		return cmd::error(self.getUsage());
 	}
@@ -569,7 +569,7 @@ CON_COMMAND(gui_screen_matrix, "<id> <x> <y> <color> <chars>", ConCommand::ADMIN
 }
 
 CON_COMMAND(gui_screen_file, "<id> <x> <y> <color> <filename>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Place a character matrix loaded from a screen file.", {}, nullptr) {
+            "Place a character matrix loaded from a screen file.", {}, nullptr) {
 	if (argv.size() != 6) {
 		return cmd::error(self.getUsage());
 	}
@@ -623,14 +623,14 @@ CON_COMMAND(gui_text, "<id> <x> <y> <color> <text>", ConCommand::ADMIN_ONLY | Co
 }
 
 CON_COMMAND(gui_push_menu, "[ids...] [options...]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Add a menu of the elements with the given ids onto the menu stack.",
-			cmd::opts(cmd::opt('x', "on_select_none", "Executed when the menu is clicked outside of any elements.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('e', "on_escape", "Executed when escape is pressed.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('d', "on_direction", "Executed when a direction key is pressed.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('c', "on_click", "Executed when the menu is clicked.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('s', "on_scroll", "Executed when the menu is scrolled.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('h', "on_hover", "Executed when the cursor moves.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			suggestGuiIds) {
+            "Add a menu of the elements with the given ids onto the menu stack.",
+            cmd::opts(cmd::opt('x', "on_select_none", "Executed when the menu is clicked outside of any elements.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('e', "on_escape", "Executed when escape is pressed.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('d', "on_direction", "Executed when a direction key is pressed.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('c', "on_click", "Executed when the menu is clicked.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('s', "on_scroll", "Executed when the menu is scrolled.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('h', "on_hover", "Executed when the cursor moves.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            suggestGuiIds) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.empty()) {
 		return cmd::error(self.getUsage());
@@ -664,14 +664,14 @@ CON_COMMAND(gui_push_menu, "[ids...] [options...]", ConCommand::ADMIN_ONLY | Con
 	const auto onHover = options['h'];
 
 	if (!game.canvas().pushMenu(ids,
-								frame.env(),
-								frame.process(),
-								onSelectNone.valueOrEmpty(),
-								onEscape.valueOrEmpty(),
-								onDirection.valueOrEmpty(),
-								onClick.valueOrEmpty(),
-								onScroll.valueOrEmpty(),
-								onHover.valueOrEmpty())) {
+	                            frame.env(),
+	                            frame.process(),
+	                            onSelectNone.valueOrEmpty(),
+	                            onEscape.valueOrEmpty(),
+	                            onDirection.valueOrEmpty(),
+	                            onClick.valueOrEmpty(),
+	                            onScroll.valueOrEmpty(),
+	                            onHover.valueOrEmpty())) {
 		return cmd::error("{}: Couldn't add menu.", self.getName());
 	}
 
@@ -699,82 +699,82 @@ CON_COMMAND(gui_dump, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Get a f
 		return util::match(elementInfo)(
 			[](const gui::Canvas::ButtonInfoView& buttonInfo) {
 				return fmt::format("{:>2}: button   (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={}, text=\"{}\"){}",
-								   buttonInfo.id,
-								   buttonInfo.position.x,
-								   buttonInfo.position.y,
-								   buttonInfo.size.x,
-								   buttonInfo.size.y,
-								   buttonInfo.color.getString(),
-								   buttonInfo.text,
-								   (buttonInfo.activated) ? " (activated)" : "");
+			                       buttonInfo.id,
+			                       buttonInfo.position.x,
+			                       buttonInfo.position.y,
+			                       buttonInfo.size.x,
+			                       buttonInfo.size.y,
+			                       buttonInfo.color.getString(),
+			                       buttonInfo.text,
+			                       (buttonInfo.activated) ? " (activated)" : "");
 			},
 			[](const gui::Canvas::InputInfoView& inputInfo) {
 				return fmt::format("{:>2}: input    (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={}, text=\"{}\"){}",
-								   inputInfo.id,
-								   inputInfo.position.x,
-								   inputInfo.position.y,
-								   inputInfo.size.x,
-								   inputInfo.size.y,
-								   inputInfo.color.getString(),
-								   inputInfo.text,
-								   (inputInfo.activated) ? " (activated)" : "");
+			                       inputInfo.id,
+			                       inputInfo.position.x,
+			                       inputInfo.position.y,
+			                       inputInfo.size.x,
+			                       inputInfo.size.y,
+			                       inputInfo.color.getString(),
+			                       inputInfo.text,
+			                       (inputInfo.activated) ? " (activated)" : "");
 			},
 			[](const gui::Canvas::SliderInfoView& sliderInfo) {
 				return fmt::format("{:>2}: slider   (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={}){}",
-								   sliderInfo.id,
-								   sliderInfo.position.x,
-								   sliderInfo.position.y,
-								   sliderInfo.size.x,
-								   sliderInfo.size.y,
-								   sliderInfo.color.getString(),
-								   (sliderInfo.activated) ? " (activated)" : "");
+			                       sliderInfo.id,
+			                       sliderInfo.position.x,
+			                       sliderInfo.position.y,
+			                       sliderInfo.size.x,
+			                       sliderInfo.size.y,
+			                       sliderInfo.color.getString(),
+			                       (sliderInfo.activated) ? " (activated)" : "");
 			},
 			[](const gui::Canvas::CheckboxInfoView& checkboxInfo) {
 				return fmt::format("{:>2}: checkbox (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={}){}",
-								   checkboxInfo.id,
-								   checkboxInfo.position.x,
-								   checkboxInfo.position.y,
-								   checkboxInfo.size.x,
-								   checkboxInfo.size.y,
-								   checkboxInfo.color.getString(),
-								   (checkboxInfo.activated) ? " (activated)" : "");
+			                       checkboxInfo.id,
+			                       checkboxInfo.position.x,
+			                       checkboxInfo.position.y,
+			                       checkboxInfo.size.x,
+			                       checkboxInfo.size.y,
+			                       checkboxInfo.color.getString(),
+			                       (checkboxInfo.activated) ? " (activated)" : "");
 			},
 			[](const gui::Canvas::DropdownInfoView& dropdownInfo) {
 				return fmt::format("{:>2}: dropdown (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={}){}",
-								   dropdownInfo.id,
-								   dropdownInfo.position.x,
-								   dropdownInfo.position.y,
-								   dropdownInfo.size.x,
-								   dropdownInfo.size.y,
-								   dropdownInfo.color.getString(),
-								   (dropdownInfo.activated) ? " (activated)" : "");
+			                       dropdownInfo.id,
+			                       dropdownInfo.position.x,
+			                       dropdownInfo.position.y,
+			                       dropdownInfo.size.x,
+			                       dropdownInfo.size.y,
+			                       dropdownInfo.color.getString(),
+			                       (dropdownInfo.activated) ? " (activated)" : "");
 			},
 			[](const gui::Canvas::ScreenInfoView& screenInfo) {
 				return fmt::format("{:>2}: screen   (x={:>2}, y={:>2}, w={:>2}, h={:>2}, color={})",
-								   screenInfo.id,
-								   screenInfo.position.x,
-								   screenInfo.position.y,
-								   screenInfo.size.x,
-								   screenInfo.size.y,
-								   screenInfo.color.getString());
+			                       screenInfo.id,
+			                       screenInfo.position.x,
+			                       screenInfo.position.y,
+			                       screenInfo.size.x,
+			                       screenInfo.size.y,
+			                       screenInfo.color.getString());
 			},
 			[](const gui::Canvas::TextInfoView& textInfo) {
 				return fmt::format("{:>2}: text     (x={:>2}, y={:>2},             color={}, text=\"{}\")",
-								   textInfo.id,
-								   textInfo.position.x,
-								   textInfo.position.y,
-								   textInfo.color.getString(),
-								   textInfo.text);
+			                       textInfo.id,
+			                       textInfo.position.x,
+			                       textInfo.position.y,
+			                       textInfo.color.getString(),
+			                       textInfo.text);
 			});
 	};
 
 	static constexpr auto formatMenuInfo = [](const auto& iv) {
 		const auto& [i, menuInfo] = iv;
 		return fmt::format("menu[{}]: {:<14} (active id: {}){}",
-						   i,
-						   menuInfo.ids | util::transform([](const auto& id) { return util::toString(id); }) | util::join(' '),
-						   (menuInfo.activeId) ? util::toString(*menuInfo.activeId) : "none",
-						   (menuInfo.activated) ? " (activated)" : "");
+		                   i,
+		                   menuInfo.ids | util::transform([](const auto& id) { return util::toString(id); }) | util::join(' '),
+		                   (menuInfo.activeId) ? util::toString(*menuInfo.activeId) : "none",
+		                   (menuInfo.activated) ? " (activated)" : "");
 	};
 
 	auto elements = game.canvas().getElementInfo() | util::transform(formatElementInfo) | util::join('\n');

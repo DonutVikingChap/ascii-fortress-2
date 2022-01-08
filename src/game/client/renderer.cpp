@@ -26,7 +26,7 @@ constexpr auto VERTICES = std::array<Vertex, 4>{
 
 [[nodiscard]] constexpr auto toFloatColor(Color color) noexcept -> gfx::vec4 {
 	return gfx::vec4{static_cast<float>(color.r), static_cast<float>(color.g), static_cast<float>(color.b), static_cast<float>(color.a)} *
-		   (1.0f / 255.0f);
+	       (1.0f / 255.0f);
 };
 
 } // namespace
@@ -214,9 +214,9 @@ auto Renderer::render(const util::TileMatrix<Tile>& tileGrid, util::Span<const T
 		const auto screenSize = gfx::vec2{static_cast<float>(m_viewport.w), static_cast<float>(m_viewport.h)};
 		const auto glyphOffset = gfx::vec2{static_cast<float>(m_glyphOffset.x), static_cast<float>(m_glyphOffset.y)};
 		glViewport(static_cast<GLint>(m_viewport.x),
-				   static_cast<GLint>(m_viewport.y),
-				   static_cast<GLsizei>(m_viewport.w),
-				   static_cast<GLsizei>(m_viewport.h));
+		           static_cast<GLint>(m_viewport.y),
+		           static_cast<GLsizei>(m_viewport.w),
+		           static_cast<GLsizei>(m_viewport.h));
 		const auto offset = glyphOffset - screenSize * 0.5f;
 		const auto scale = 2.0f / screenSize;
 		glUniform2f(m_glyphShader.offset.getLocation(), offset.x, offset.y);
@@ -332,6 +332,6 @@ auto Renderer::updateGlyphOffset() -> void {
 	m_glyphOffset = Vec2{
 		m_baseGlyphOffset.x + static_cast<Vec2::Length>(std::floor(static_cast<float>(m_tileSpacing.x) * 0.5f - m_font.loadGlyph('0').size.x * 0.5f)),
 		m_baseGlyphOffset.y + static_cast<Vec2::Length>(std::floor(static_cast<float>(m_tileSpacing.y) * -0.5f -
-																   (m_font.getLineMetrics().ascender + m_font.getLineMetrics().descender) * 0.5f)),
+	                                                               (m_font.getLineMetrics().ascender + m_font.getLineMetrics().descender) * 0.5f)),
 	};
 }

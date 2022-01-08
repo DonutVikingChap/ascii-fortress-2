@@ -342,13 +342,13 @@ inline auto generateSalt(SaltRef result, SeedView seed) noexcept -> void {
 
 [[nodiscard]] inline auto deriveKey(KeyRef result, SaltView salt, PasswordView password, HashType type) noexcept -> bool {
 	return crypto_pwhash_argon2id(result.data(),
-								  result.size(),
-								  password.data(),
-								  password.size(),
-								  salt.data(),
-								  detail::getOpsLimit(type),
-								  detail::getMemLimit(type),
-								  crypto_pwhash_ALG_ARGON2ID13) == 0;
+	                              result.size(),
+	                              password.data(),
+	                              password.size(),
+	                              salt.data(),
+	                              detail::getOpsLimit(type),
+	                              detail::getMemLimit(type),
+	                              crypto_pwhash_ALG_ARGON2ID13) == 0;
 }
 
 } // namespace pw
@@ -379,12 +379,12 @@ static_assert(crypto_secretstream_xchacha20poly1305_KEYBYTES == crypto_kx_SESSIO
 }
 
 [[nodiscard]] inline auto generateSessionKeysServerSide(ReceiveKeyRef receiveKey, SendKeyRef sendKey, PublicKeyView serverPublicKey,
-														SecretKeyView serverSecretKey, PublicKeyView clientPublicKey) noexcept -> bool {
+                                                        SecretKeyView serverSecretKey, PublicKeyView clientPublicKey) noexcept -> bool {
 	return crypto_kx_server_session_keys(receiveKey.data(), sendKey.data(), serverPublicKey.data(), serverSecretKey.data(), clientPublicKey.data()) == 0;
 }
 
 [[nodiscard]] inline auto generateSessionKeysClientSide(ReceiveKeyRef receiveKey, SendKeyRef sendKey, PublicKeyView clientPublicKey,
-														SecretKeyView clientSecretKey, PublicKeyView serverPublicKey) noexcept -> bool {
+                                                        SecretKeyView clientSecretKey, PublicKeyView serverPublicKey) noexcept -> bool {
 	return crypto_kx_client_session_keys(receiveKey.data(), sendKey.data(), clientPublicKey.data(), clientSecretKey.data(), serverPublicKey.data()) == 0;
 }
 
@@ -413,13 +413,13 @@ public:
 		[[nodiscard]] auto push(util::Span<std::byte> output, util::Span<const std::byte> input) noexcept -> bool {
 			assert(output.size() == input.size() + MESSAGE_ADDED_BYTES);
 			return crypto_secretstream_xchacha20poly1305_push(&m_state,
-															  reinterpret_cast<unsigned char*>(output.data()),
-															  nullptr,
-															  reinterpret_cast<const unsigned char*>(input.data()),
-															  input.size(),
-															  nullptr,
-															  0,
-															  0) == 0;
+			                                                  reinterpret_cast<unsigned char*>(output.data()),
+			                                                  nullptr,
+			                                                  reinterpret_cast<const unsigned char*>(input.data()),
+			                                                  input.size(),
+			                                                  nullptr,
+			                                                  0,
+			                                                  0) == 0;
 		}
 
 	private:
@@ -435,13 +435,13 @@ public:
 		[[nodiscard]] auto pull(util::Span<std::byte> output, util::Span<const std::byte> input) noexcept -> bool {
 			assert(output.size() == input.size() - MESSAGE_ADDED_BYTES);
 			return crypto_secretstream_xchacha20poly1305_pull(&m_state,
-															  reinterpret_cast<unsigned char*>(output.data()),
-															  nullptr,
-															  nullptr,
-															  reinterpret_cast<const unsigned char*>(input.data()),
-															  input.size(),
-															  nullptr,
-															  0) == 0;
+			                                                  reinterpret_cast<unsigned char*>(output.data()),
+			                                                  nullptr,
+			                                                  nullptr,
+			                                                  reinterpret_cast<const unsigned char*>(input.data()),
+			                                                  input.size(),
+			                                                  nullptr,
+			                                                  0) == 0;
 		}
 
 	private:

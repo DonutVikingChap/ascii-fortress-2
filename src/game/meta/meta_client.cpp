@@ -252,8 +252,8 @@ auto MetaClient::handleMessage(msg::meta::cl::in::GameServerAddressList&& msg) -
 		m_hasReceivedGameServerEndpoints = true;
 	} else {
 		INFO_MSG(Msg::CLIENT | Msg::CONNECTION_EVENT,
-				 "Meta client: Received unrequested game server address list from bad game server \"{}\".",
-				 std::string{m_currentGameServer->connection.getRemoteEndpoint()});
+		         "Meta client: Received unrequested game server address list from bad game server \"{}\".",
+		         std::string{m_currentGameServer->connection.getRemoteEndpoint()});
 		m_currentGameServer->connection.disconnect("Invalid message.");
 	}
 }
@@ -261,8 +261,8 @@ auto MetaClient::handleMessage(msg::meta::cl::in::GameServerAddressList&& msg) -
 auto MetaClient::handleMessage(msg::meta::cl::in::MetaInfo&& msg) -> void {
 	if (m_currentGameServer == m_gameServerConnections.end()) {
 		INFO_MSG(Msg::CLIENT | Msg::CONNECTION_EVENT,
-				 "Meta client: Received unrequested meta info from bad meta server \"{}\".",
-				 std::string{m_metaServerConnection.getRemoteEndpoint()});
+		         "Meta client: Received unrequested meta info from bad meta server \"{}\".",
+		         std::string{m_metaServerConnection.getRemoteEndpoint()});
 		this->stop("Invalid message received from meta server.");
 	} else {
 		if (!m_currentGameServer->connection.disconnecting()) {
@@ -316,9 +316,9 @@ auto MetaClient::updateConnections() -> void {
 		m_currentGameServer = it;
 		if (!it->connection.update()) {
 			INFO_MSG(Msg::CLIENT,
-					 "Meta client: Game server \"{}\" was dropped.{}",
-					 std::string{it->connection.getRemoteEndpoint()},
-					 (it->connection.getDisconnectMessage().empty()) ? "" : fmt::format(" Reason: {}", it->connection.getDisconnectMessage()));
+			         "Meta client: Game server \"{}\" was dropped.{}",
+			         std::string{it->connection.getRemoteEndpoint()},
+			         (it->connection.getDisconnectMessage().empty()) ? "" : fmt::format(" Reason: {}", it->connection.getDisconnectMessage()));
 			const auto [itCooldown, inserted] = m_gameServerCooldowns.try_emplace(it->connection.getRemoteEndpoint());
 			itCooldown->second.endTime = net::Clock::now() + net::DISCONNECT_DURATION;
 
@@ -344,7 +344,7 @@ auto MetaClient::sendPackets() -> void {
 
 auto MetaClient::findGameServer(net::IpEndpoint endpoint) noexcept -> GameServers::iterator {
 	return util::findIf(m_gameServerConnections,
-						[endpoint](const auto& gameServer) { return gameServer.connection.getRemoteEndpoint() == endpoint; });
+	                    [endpoint](const auto& gameServer) { return gameServer.connection.getRemoteEndpoint() == endpoint; });
 }
 
 auto MetaClient::connectPending(net::IpEndpoint endpoint) -> bool {
@@ -357,9 +357,9 @@ auto MetaClient::connectPending(net::IpEndpoint endpoint) -> bool {
 		auto& gameServer = m_gameServerConnections.emplace_back(m_socket, timeout, meta_cl_throttle_limit, meta_cl_throttle_max_period, *this);
 		if (!gameServer.connection.connect(endpoint)) {
 			INFO_MSG(Msg::CLIENT,
-					 "Meta client: Failed to initialize connection to game server \"{}\": {}",
-					 std::string{endpoint},
-					 gameServer.connection.getDisconnectMessage());
+			         "Meta client: Failed to initialize connection to game server \"{}\": {}",
+			         std::string{endpoint},
+			         gameServer.connection.getDisconnectMessage());
 			m_gameServerConnections.pop_back();
 		}
 	}

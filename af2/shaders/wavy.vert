@@ -22,14 +22,14 @@ const float greenPhase = 2.0 * pi * 1.0 / 3.0;
 const float bluePhase = 2.0 * pi * 2.0 / 3.0;
 
 void main() {
-    float phase = 1.0 / wavelength * instanceOffset.x * scale.x;
-    float t = frequency * time;
-    vec3 waveColor = vec3(
-        0.7 + 0.3 * sin(phase + redPhase + t),
-        0.7 + 0.3 * sin(phase + greenPhase + t),
-        0.7 + 0.3 * sin(phase + bluePhase + t)
-    );
-    vec2 waveOffset = vec2(0.0, amplitude * sin(phase + t));
+	float phase = 1.0 / wavelength * instanceOffset.x * scale.x;
+	float t = frequency * time;
+	vec3 waveColor = vec3(
+		0.7 + 0.3 * sin(phase + redPhase + t),
+		0.7 + 0.3 * sin(phase + greenPhase + t),
+		0.7 + 0.3 * sin(phase + bluePhase + t)
+	);
+	vec2 waveOffset = vec2(0.0, amplitude * sin(phase + t));
 
 	ioTextureCoordinates = instanceTextureOffset + inCoordinates * instanceTextureScale;
 	ioColor = vec4(instanceColor.rgb * waveColor, instanceColor.a);

@@ -135,9 +135,9 @@ auto CharWindow::drawLineHorizontal(Vec2 position, Vec2::Length length, char ch,
 	if (ch != '\0') {
 		if (const auto clipped = clipNegative(position.x, length)) {
 			m_tileBuffer.drawLineHorizontal(static_cast<std::size_t>(clipped->offset),
-											static_cast<std::size_t>(position.y),
-											static_cast<std::size_t>(clipped->length),
-											Renderer::Tile{static_cast<char32_t>(ch), color});
+			                                static_cast<std::size_t>(position.y),
+			                                static_cast<std::size_t>(clipped->length),
+			                                Renderer::Tile{static_cast<char32_t>(ch), color});
 		}
 	}
 }
@@ -145,9 +145,9 @@ auto CharWindow::drawLineHorizontal(Vec2 position, Vec2::Length length, char ch,
 auto CharWindow::drawLineHorizontal(Vec2 position, Vec2::Length length, Color color) -> void {
 	if (const auto clipped = clipNegative(position.x, length)) {
 		m_tileBuffer.drawLineHorizontal(static_cast<std::size_t>(clipped->offset),
-										static_cast<std::size_t>(position.y),
-										static_cast<std::size_t>(clipped->length),
-										Renderer::Tile{static_cast<char32_t>('\0'), color});
+		                                static_cast<std::size_t>(position.y),
+		                                static_cast<std::size_t>(clipped->length),
+		                                Renderer::Tile{static_cast<char32_t>('\0'), color});
 	}
 }
 
@@ -155,9 +155,9 @@ auto CharWindow::drawLineVertical(Vec2 position, Vec2::Length length, char ch, C
 	if (ch != '\0') {
 		if (const auto clipped = clipNegative(position.y, length)) {
 			m_tileBuffer.drawLineHorizontal(static_cast<std::size_t>(position.x),
-											static_cast<std::size_t>(clipped->offset),
-											static_cast<std::size_t>(clipped->length),
-											Renderer::Tile{static_cast<char32_t>(ch), color});
+			                                static_cast<std::size_t>(clipped->offset),
+			                                static_cast<std::size_t>(clipped->length),
+			                                Renderer::Tile{static_cast<char32_t>(ch), color});
 		}
 	}
 }
@@ -165,9 +165,9 @@ auto CharWindow::drawLineVertical(Vec2 position, Vec2::Length length, char ch, C
 auto CharWindow::drawLineVertical(Vec2 position, Vec2::Length length, Color color) -> void {
 	if (const auto clipped = clipNegative(position.y, length)) {
 		m_tileBuffer.drawLineHorizontal(static_cast<std::size_t>(position.x),
-										static_cast<std::size_t>(clipped->offset),
-										static_cast<std::size_t>(clipped->length),
-										Renderer::Tile{static_cast<char32_t>('\0'), color});
+		                                static_cast<std::size_t>(clipped->offset),
+		                                static_cast<std::size_t>(clipped->length),
+		                                Renderer::Tile{static_cast<char32_t>('\0'), color});
 	}
 }
 
@@ -176,10 +176,10 @@ auto CharWindow::drawRect(const Rect& area, char ch, Color color) -> void {
 		if (const auto horizontal = clipNegative(area.x, area.w)) {
 			if (const auto vertical = clipNegative(area.y, area.h)) {
 				m_tileBuffer.drawRect(static_cast<std::size_t>(horizontal->offset),
-									  static_cast<std::size_t>(vertical->offset),
-									  static_cast<std::size_t>(horizontal->length),
-									  static_cast<std::size_t>(vertical->length),
-									  Renderer::Tile{static_cast<char32_t>(ch), color});
+				                      static_cast<std::size_t>(vertical->offset),
+				                      static_cast<std::size_t>(horizontal->length),
+				                      static_cast<std::size_t>(vertical->length),
+				                      Renderer::Tile{static_cast<char32_t>(ch), color});
 			}
 		}
 	}
@@ -189,10 +189,10 @@ auto CharWindow::drawRect(const Rect& area, Color color) -> void {
 	if (const auto horizontal = clipNegative(area.x, area.w)) {
 		if (const auto vertical = clipNegative(area.y, area.h)) {
 			m_tileBuffer.drawRect(static_cast<std::size_t>(horizontal->offset),
-								  static_cast<std::size_t>(vertical->offset),
-								  static_cast<std::size_t>(horizontal->length),
-								  static_cast<std::size_t>(vertical->length),
-								  Renderer::Tile{static_cast<char32_t>('\0'), color});
+			                      static_cast<std::size_t>(vertical->offset),
+			                      static_cast<std::size_t>(horizontal->length),
+			                      static_cast<std::size_t>(vertical->length),
+			                      Renderer::Tile{static_cast<char32_t>('\0'), color});
 		}
 	}
 }
@@ -202,10 +202,10 @@ auto CharWindow::fillRect(const Rect& area, char ch, Color color) -> void {
 		if (const auto horizontal = clipNegative(area.x, area.w)) {
 			if (const auto vertical = clipNegative(area.y, area.h)) {
 				m_tileBuffer.fillRect(static_cast<std::size_t>(horizontal->offset),
-									  static_cast<std::size_t>(vertical->offset),
-									  static_cast<std::size_t>(horizontal->length),
-									  static_cast<std::size_t>(vertical->length),
-									  Renderer::Tile{static_cast<char32_t>(ch), color});
+				                      static_cast<std::size_t>(vertical->offset),
+				                      static_cast<std::size_t>(horizontal->length),
+				                      static_cast<std::size_t>(vertical->length),
+				                      Renderer::Tile{static_cast<char32_t>(ch), color});
 			}
 		}
 	}
@@ -215,10 +215,10 @@ auto CharWindow::fillRect(const Rect& area, Color color) -> void {
 	if (const auto horizontal = clipNegative(area.x, area.w)) {
 		if (const auto vertical = clipNegative(area.y, area.h)) {
 			m_tileBuffer.fillRect(static_cast<std::size_t>(horizontal->offset),
-								  static_cast<std::size_t>(vertical->offset),
-								  static_cast<std::size_t>(horizontal->length),
-								  static_cast<std::size_t>(vertical->length),
-								  Renderer::Tile{static_cast<char32_t>('\0'), color});
+			                      static_cast<std::size_t>(vertical->offset),
+			                      static_cast<std::size_t>(horizontal->length),
+			                      static_cast<std::size_t>(vertical->length),
+			                      Renderer::Tile{static_cast<char32_t>('\0'), color});
 		}
 	}
 }
@@ -256,7 +256,7 @@ auto CharWindow::draw(Vec2 position, const util::TileMatrix<char>& matrix, const
 }
 
 auto CharWindow::draw(Vec2 position, const Map& map, const Rect& srcRect, Color worldColor, Color nonSolidColor, bool red, bool blue, char trackChar,
-					  Color trackColor, char respawnVisChar, Color respawnVisColor, char resupplyChar, Color resupplyColor) -> void {
+                      Color trackColor, char respawnVisChar, Color respawnVisColor, char resupplyChar, Color resupplyColor) -> void {
 	const auto viewport = Rect{position.x, position.y, srcRect.w, srcRect.h};
 
 	const auto worldToGridCoordinates = [position, viewPosition = Vec2{srcRect.x, srcRect.y}](Vec2 p) {
@@ -326,18 +326,18 @@ auto CharWindow::clear() -> void {
 
 auto CharWindow::clear(Vec2 position) -> void {
 	m_tileBuffer.set(static_cast<std::size_t>(position.x),
-					 static_cast<std::size_t>(position.y),
-					 Renderer::Tile{static_cast<char32_t>(' '), Color::transparent()});
+	                 static_cast<std::size_t>(position.y),
+	                 Renderer::Tile{static_cast<char32_t>(' '), Color::transparent()});
 }
 
 auto CharWindow::clear(const Rect& area) -> void {
 	if (const auto horizontal = clipNegative(area.x, area.w)) {
 		if (const auto vertical = clipNegative(area.y, area.h)) {
 			m_tileBuffer.fillRect(static_cast<std::size_t>(horizontal->offset),
-								  static_cast<std::size_t>(vertical->offset),
-								  static_cast<std::size_t>(horizontal->length),
-								  static_cast<std::size_t>(vertical->length),
-								  Renderer::Tile{static_cast<char32_t>(' '), Color::transparent()});
+			                      static_cast<std::size_t>(vertical->offset),
+			                      static_cast<std::size_t>(horizontal->length),
+			                      static_cast<std::size_t>(vertical->length),
+			                      Renderer::Tile{static_cast<char32_t>(' '), Color::transparent()});
 		}
 	}
 }

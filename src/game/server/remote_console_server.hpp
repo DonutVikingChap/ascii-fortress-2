@@ -67,7 +67,7 @@ public:
 	[[nodiscard]] auto killRconProcess(std::string_view username) -> bool;
 
 	[[nodiscard]] auto addRconUser(std::string username, const crypto::FastHash& keyHash, const crypto::pw::Salt& salt,
-								   crypto::pw::HashType hashType, bool admin) -> bool;
+	                               crypto::pw::HashType hashType, bool admin) -> bool;
 	[[nodiscard]] auto removeRconUser(const std::string& username) -> bool;
 
 	[[nodiscard]] auto getRconUsernames() const -> std::vector<std::string>;

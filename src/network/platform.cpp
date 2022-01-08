@@ -38,12 +38,12 @@ auto WSAErrorCategory::name() const noexcept -> const char* {
 auto WSAErrorCategory::message(int condition) const -> std::string {
 	auto buffer = std::array<wchar_t, 256>{};
 	auto size = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM,
-							   nullptr,
-							   static_cast<DWORD>(condition),
-							   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-							   buffer.data(),
-							   static_cast<DWORD>(buffer.size()),
-							   nullptr);
+	                           nullptr,
+	                           static_cast<DWORD>(condition),
+	                           MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+	                           buffer.data(),
+	                           static_cast<DWORD>(buffer.size()),
+	                           nullptr);
 	while (size > 0 && (buffer[size - 1] == '\r' || buffer[size - 1] == '\n')) {
 		--size;
 	}

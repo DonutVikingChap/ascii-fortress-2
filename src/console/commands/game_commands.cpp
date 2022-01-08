@@ -160,7 +160,7 @@ ConVarBool			host_server_admin{				"host_server_admin",				false,													Co
 // clang-format on
 
 CON_COMMAND(r_size, "[width] [height]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Set or query the main window width and height simultaneously.", {}, nullptr) {
+            "Set or query the main window width and height simultaneously.", {}, nullptr) {
 	if (argv.size() == 1) {
 		return cmd::done("{}x{}", r_width, r_height);
 	}
@@ -194,7 +194,7 @@ CON_COMMAND(r_desktop_width, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "
 }
 
 CON_COMMAND(r_desktop_height, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the height (in pixels) of the host's desktop resolution.", {}, nullptr) {
+            "Get the height (in pixels) of the host's desktop resolution.", {}, nullptr) {
 	if (argv.size() != 1) {
 		return cmd::error(self.getUsage());
 	}
@@ -202,7 +202,7 @@ CON_COMMAND(r_desktop_height, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
 }
 
 CON_COMMAND(r_desktop_size, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the size <width>x<height> (in pixels) of the host's desktop resolution.", {}, nullptr) {
+            "Get the size <width>x<height> (in pixels) of the host's desktop resolution.", {}, nullptr) {
 	if (argv.size() != 1) {
 		return cmd::error(self.getUsage());
 	}
@@ -317,7 +317,7 @@ CON_COMMAND(open_teamchat, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Ma
 }
 
 CON_COMMAND(open_textinput, "<script>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Make text input active and execute a script when the text is submitted. The script receives a parameter named text.", {}, nullptr) {
+            "Make text input active and execute a script when the text is submitted. The script receives a parameter named text.", {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -332,9 +332,9 @@ CON_COMMAND(open_textinput, "<script>", ConCommand::ADMIN_ONLY | ConCommand::NO_
 }
 
 CON_COMMAND(open_password, "<script>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Make password text input active and execute a script when the password is submitted. The script receives a parameter named "
-			"password.",
-			{}, nullptr) {
+            "Make password text input active and execute a script when the password is submitted. The script receives a parameter named "
+            "password.",
+            {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -502,7 +502,7 @@ CON_COMMAND(quit, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Quit the ga
 }
 
 CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Create a copy of the game folder containing all necessary game files with the default configs.", {}, nullptr) {
+            "Create a copy of the game folder containing all necessary game files with the default configs.", {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -608,33 +608,33 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 	const auto sortedCvars = ConVar::all() | util::transform(getElementPtr) | util::collect<std::vector<ConVar*>>() | util::sort(compareName);
 	static constexpr auto omakeFilename = "omake.txt";
 	if (!util::dumpFile((outPath / omakeFilename).string(),
-						fmt::format("-------------------------------------------------------------------\n"
-									"* {} ~ {}.\n"
-									"\n"
-									"  Console Commands & Variables\n"
-									"\n"
-									"                               Generated for Version {} at\n"
-									"                                                     {}\n"
-									"-------------------------------------------------------------------\n"
-									"\n"
-									"====================================================================\n"
-									"#1. Console Commands\n"
-									"====================================================================\n"
-									"\n"
-									"{}\n"
-									"\n"
-									"====================================================================\n"
-									"#2. Console Variables\n"
-									"====================================================================\n"
-									"\n"
-									"{}\n"
-									"\n",
-									util::toUpper(cvar_game),
-									game_name,
-									game_version,
-									util::getLocalTimeStr("%Y-%m-%d"),
-									sortedCommands | util::transform(formatCommand) | util::join('\n'),
-									sortedCvars | util::transform(formatCvar) | util::join('\n')))) {
+	                    fmt::format("-------------------------------------------------------------------\n"
+	                                "* {} ~ {}.\n"
+	                                "\n"
+	                                "  Console Commands & Variables\n"
+	                                "\n"
+	                                "                               Generated for Version {} at\n"
+	                                "                                                     {}\n"
+	                                "-------------------------------------------------------------------\n"
+	                                "\n"
+	                                "====================================================================\n"
+	                                "#1. Console Commands\n"
+	                                "====================================================================\n"
+	                                "\n"
+	                                "{}\n"
+	                                "\n"
+	                                "====================================================================\n"
+	                                "#2. Console Variables\n"
+	                                "====================================================================\n"
+	                                "\n"
+	                                "{}\n"
+	                                "\n",
+	                                util::toUpper(cvar_game),
+	                                game_name,
+	                                game_version,
+	                                util::getLocalTimeStr("%Y-%m-%d"),
+	                                sortedCommands | util::transform(formatCommand) | util::join('\n'),
+	                                sortedCvars | util::transform(formatCvar) | util::join('\n')))) {
 		return cmd::error("{}: Failed to write omake file!", self.getName());
 	}
 
@@ -685,7 +685,7 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 	};
 	static constexpr auto tmLanguageFilename = "af2script.tmLanguage.json";
 	if (!util::dumpFile((outDataPath / cfgSubpath / tmLanguageFilename).string(),
-						fmt::format(R"JSON({{
+	                    fmt::format(R"JSON({{
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "AF2Script",
 	"patterns": [{{"include": "#keywords"}}, {{"include": "#strings"}}],
@@ -712,21 +712,21 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 	}},
 	"scopeName": "source.af2"
 }})JSON",
-									controlKeywordCommands | util::transform(getName) | util::join('|'),
-									(keywordCommands | util::transform(getName) | util::join('|')) + "|" +
-										(keywordCvars | util::transform(getName) | util::join('|')),
-									sortedCommands | util::filter(isRegularCommand) | util::transform(getName) | util::join('|'),
-									sortedCvars | util::filter(isRegularCvar) | util::transform(getName) | util::join('|')))) {
+	                                controlKeywordCommands | util::transform(getName) | util::join('|'),
+	                                (keywordCommands | util::transform(getName) | util::join('|')) + "|" +
+	                                    (keywordCvars | util::transform(getName) | util::join('|')),
+	                                sortedCommands | util::filter(isRegularCommand) | util::transform(getName) | util::join('|'),
+	                                sortedCvars | util::filter(isRegularCvar) | util::transform(getName) | util::join('|')))) {
 		return cmd::error("{}: Failed to write tmLanguage file!", self.getName());
 	}
 
 	std::filesystem::copy_file(exePath, outPath / exeFilename, std::filesystem::copy_options::update_existing, ec);
 	if (ec) {
 		return cmd::error("{}: Failed to copy game executable \"{}\" to \"{}\": {}",
-						  self.getName(),
-						  game.getFilename(),
-						  (outPath / exeFilename).string(),
-						  ec.message());
+		                  self.getName(),
+		                  game.getFilename(),
+		                  (outPath / exeFilename).string(),
+		                  ec.message());
 	}
 
 #ifdef _WIN32
@@ -740,10 +740,10 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 				std::filesystem::copy_file(path, outPath / path.filename(), std::filesystem::copy_options::update_existing, ec);
 				if (ec) {
 					return cmd::error("{}: Failed to copy library file \"{}\" to \"{}\": {}",
-									  self.getName(),
-									  path,
-									  (outPath / path.filename()).string(),
-									  ec.message());
+					                  self.getName(),
+					                  path,
+					                  (outPath / path.filename()).string(),
+					                  ec.message());
 				}
 			}
 		}
@@ -763,12 +763,12 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 	if (cvar_game != "af2") {
 		static constexpr auto initFilename = "init.cfg";
 		if (!util::dumpFile((outPath / initFilename).string(),
-							fmt::format("// Startup script for \"{}\".\n"
-										"// Do not modify this file as a user. Use the autoexec file instead.\n"
-										"{} {}\n",
-										game_name,
-										data_dir.cvar().getName(),
-										Script::escapedString(dataFilename.string())))) {
+		                    fmt::format("// Startup script for \"{}\".\n"
+		                                "// Do not modify this file as a user. Use the autoexec file instead.\n"
+		                                "{} {}\n",
+		                                game_name,
+		                                data_dir.cvar().getName(),
+		                                Script::escapedString(dataFilename.string())))) {
 			return cmd::error("{}: Failed to write init file!", self.getName());
 		}
 	}
@@ -870,17 +870,17 @@ CON_COMMAND(host_writeconfig, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, 
 	using Refs = std::vector<CvarRef>;
 
 	if (!util::dumpFile(fmt::format("{}/{}/{}", data_dir, data_subdir_cfg, host_config_file),
-						fmt::format("{}\n"
-									"\n"
-									"// Cvars:\n"
-									"{}\n"
-									"\n"
-									"// Binds:\n"
-									"{}\n",
-									Game::getConfigHeader(),
-									ConVar::all() | util::filter(isCvarNonDefault) | util::collect<Refs>() | util::sort(compareCvarRefs) |
-										util::transform(getCvarCommand) | util::join('\n'),
-									game.inputManager().getBinds() | util::sort(compareBinds) | util::transform(getBindCommand) | util::join('\n')))) {
+	                    fmt::format("{}\n"
+	                                "\n"
+	                                "// Cvars:\n"
+	                                "{}\n"
+	                                "\n"
+	                                "// Binds:\n"
+	                                "{}\n",
+	                                Game::getConfigHeader(),
+	                                ConVar::all() | util::filter(isCvarNonDefault) | util::collect<Refs>() | util::sort(compareCvarRefs) |
+	                                    util::transform(getCvarCommand) | util::join('\n'),
+	                                game.inputManager().getBinds() | util::sort(compareBinds) | util::transform(getBindCommand) | util::join('\n')))) {
 		return cmd::error("{}: Failed to save config file \"{}\"!", self.getName(), host_config_file);
 	}
 	return cmd::done();
@@ -910,7 +910,7 @@ CON_COMMAND(map_get_char, "<x> <y>", ConCommand::NO_FLAGS, "Get the character at
 }
 
 CON_COMMAND(map_is_solid, "<x> <y> [team] [dx dy]", ConCommand::NO_FLAGS,
-			"Check if the map is solid at a certain position (for the given team and in the given direction).", {}, nullptr) {
+            "Check if the map is solid at a certain position (for the given team and in the given direction).", {}, nullptr) {
 	if (argv.size() != 3 && argv.size() != 4 && argv.size() != 6) {
 		return cmd::error(self.getUsage());
 	}
@@ -944,7 +944,7 @@ CON_COMMAND(map_is_solid, "<x> <y> [team] [dx dy]", ConCommand::NO_FLAGS,
 }
 
 CON_COMMAND(map_find_path, "<start_x> <start_y> <destination_x> <destination_y> [team]", ConCommand::NO_FLAGS,
-			"Use a pathfinding algorithm to find the shortest path between two points on the map.", {}, nullptr) {
+            "Use a pathfinding algorithm to find the shortest path between two points on the map.", {}, nullptr) {
 	if (argv.size() != 5 && argv.size() != 6) {
 		return cmd::error(self.getUsage());
 	}
@@ -988,9 +988,9 @@ CON_COMMAND(map_height, "", ConCommand::NO_FLAGS, "Get the height of the map.", 
 }
 
 CON_COMMAND(screenshot, "[options...] [filename]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Capture a screenshot of the main window and save to an image file.",
-			cmd::opts(cmd::opt('f', "format", "Image format to save as (bmp|png|tga|jpg). Default is png.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            "Capture a screenshot of the main window and save to an image file.",
+            cmd::opts(cmd::opt('f', "format", "Image format to save as (bmp|png|tga|jpg). Default is png.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() > 1) {
 		return cmd::error(self.getUsage());

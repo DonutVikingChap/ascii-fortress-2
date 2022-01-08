@@ -52,13 +52,13 @@ ConVarIntMinMax		meta_cl_sendrate{				"meta_cl_cmdrate",					10,		ConVar::CLIENT
 // clang-format on
 
 CON_COMMAND(meta_is_connecting, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Check if the meta client is connecting to the meta server.", {}, nullptr) {
+            "Check if the meta client is connecting to the meta server.", {}, nullptr) {
 	assert(metaClient);
 	return cmd::done(metaClient->isConnecting());
 }
 
 CON_COMMAND(meta_refresh, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Refresh the meta client's server list.", {}, nullptr) {
+            "Refresh the meta client's server list.", {}, nullptr) {
 	assert(metaClient);
 	if (!metaClient->refresh()) {
 		return cmd::error("{}: Failed to refresh server list!", self.getName());
@@ -67,31 +67,31 @@ CON_COMMAND(meta_refresh, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY |
 }
 
 CON_COMMAND(meta_has_received_ip_list, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Check if the server ip list has been retrieved by the meta client.", {}, nullptr) {
+            "Check if the server ip list has been retrieved by the meta client.", {}, nullptr) {
 	assert(metaClient);
 	return cmd::done(metaClient->hasReceivedGameServerEndpoints());
 }
 
 CON_COMMAND(meta_ip_count, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the current number of server ips retrieved by the meta client.", {}, nullptr) {
+            "Get the current number of server ips retrieved by the meta client.", {}, nullptr) {
 	assert(metaClient);
 	return cmd::done(metaClient->gameServerEndpoints().size());
 }
 
 CON_COMMAND(meta_ip_list, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the current list of server ips retrieved by the meta client.", {}, nullptr) {
+            "Get the current list of server ips retrieved by the meta client.", {}, nullptr) {
 	assert(metaClient);
 	return cmd::done(metaClient->gameServerEndpoints() | util::transform(cmd::formatIpEndpoint) | util::join('\n'));
 }
 
 CON_COMMAND(meta_info_count, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the current number of server infos retrieved by the meta client.", {}, nullptr) {
+            "Get the current number of server infos retrieved by the meta client.", {}, nullptr) {
 	assert(metaClient);
 	return cmd::done(metaClient->metaInfo().size());
 }
 
 CON_COMMAND(meta_info, "", ConCommand::META_CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Get the current server info retrieved by the meta client.", {}, nullptr) {
+            "Get the current server info retrieved by the meta client.", {}, nullptr) {
 	assert(metaClient);
 	static constexpr auto compareMetaInfo = [](const auto& lhs, const auto& rhs) {
 		return lhs->ping < rhs->ping;

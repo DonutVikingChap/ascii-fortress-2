@@ -87,9 +87,9 @@ private:
 	};
 
 	using Inventories = util::MultiHash<Inventory,     // inventory
-										InventoryId,   // inventoryId
-										net::IpAddress // inventoryAddress
-										>;
+	                                    InventoryId,   // inventoryId
+	                                    net::IpAddress // inventoryAddress
+	                                    >;
 
 	static constexpr auto INVENTORY_INVENTORY = std::size_t{0};
 	static constexpr auto INVENTORY_ID = std::size_t{INVENTORY_INVENTORY + 1};

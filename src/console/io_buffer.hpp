@@ -20,7 +20,7 @@ public:
 
 private:
 	std::optional<std::string> m_str{};
-	bool                       m_done = true;
+	bool m_done = true;
 };
 
 #endif

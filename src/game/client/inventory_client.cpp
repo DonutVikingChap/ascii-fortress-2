@@ -40,9 +40,9 @@ auto InventoryClient::getInventoryList() const -> std::string {
 	static constexpr auto formatInventory = [](const auto& kv) {
 		const auto& [serverEndpoint, inventory] = kv;
 		return fmt::format("{}: {{id: {}, token: {}}}",
-						   Script::escapedString(std::string{serverEndpoint}),
-						   inventory.id,
-						   Script::escapedString(std::string_view{reinterpret_cast<const char*>(inventory.token.data()), inventory.token.size()}));
+		                   Script::escapedString(std::string{serverEndpoint}),
+		                   inventory.id,
+		                   Script::escapedString(std::string_view{reinterpret_cast<const char*>(inventory.token.data()), inventory.token.size()}));
 	};
 
 	return m_inventories | util::transform(formatInventory) | util::join('\n');
@@ -59,10 +59,10 @@ auto InventoryClient::getInventoryConfig() const -> std::string {
 	static constexpr auto getInventoryCommand = [](const auto& kv) {
 		const auto& [serverEndpoint, inventory] = *kv;
 		return fmt::format("{} {} {} {}",
-						   GET_COMMAND(cl_inventory_add).getName(),
-						   Script::escapedString(std::string{serverEndpoint}),
-						   inventory.id,
-						   Script::escapedString(std::string_view{reinterpret_cast<const char*>(inventory.token.data()), inventory.token.size()}));
+		                   GET_COMMAND(cl_inventory_add).getName(),
+		                   Script::escapedString(std::string{serverEndpoint}),
+		                   inventory.id,
+		                   Script::escapedString(std::string_view{reinterpret_cast<const char*>(inventory.token.data()), inventory.token.size()}));
 	};
 
 	return m_inventories | util::collect<Refs>() | util::sort(compareInventoryRefs) | util::transform(getInventoryCommand) | util::join('\n');

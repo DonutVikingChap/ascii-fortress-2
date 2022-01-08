@@ -20,7 +20,7 @@ auto sanitizeMessage(std::string_view message, bool allowNewlines) -> std::strin
 }
 
 NetChannel::NetChannel(util::Span<const MessageHandler> messageHandlers, ConnectedCallback onConnected, UDPSocket& socket, Duration timeout,
-					   int throttleMaxSendBufferSize, int throttleMaxPeriod)
+                       int throttleMaxSendBufferSize, int throttleMaxPeriod)
 	: m_messageHandlers(messageHandlers)
 	, m_onConnected(onConnected)
 	, m_socket(socket)
@@ -157,15 +157,15 @@ auto NetChannel::disconnect(std::string_view message, Duration delay) -> bool {
 			return true;
 		}
 		INFO_MSG(Msg::CONNECTION_EVENT,
-				 "NetChannel to \"{}\" tried to disconnect when it was already disconnecting. Message: {}",
-				 std::string{this->getRemoteEndpoint()},
-				 message);
+		         "NetChannel to \"{}\" tried to disconnect when it was already disconnecting. Message: {}",
+		         std::string{this->getRemoteEndpoint()},
+		         message);
 		return false;
 	}
 	INFO_MSG(Msg::CONNECTION_EVENT,
-			 "NetChannel to \"{}\" tried to disconnect when it was already closed. Message: {}",
-			 std::string{this->getRemoteEndpoint()},
-			 message);
+	         "NetChannel to \"{}\" tried to disconnect when it was already closed. Message: {}",
+	         std::string{this->getRemoteEndpoint()},
+	         message);
 	return false;
 }
 
@@ -232,8 +232,8 @@ auto NetChannel::handleMessage(msg::in::HandshakePart1&& msg) -> void {
 	assert(!this->disconnected());
 
 	INFO_MSG_INDENT(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					"NetChannel to \"{}\" received remote public key and handshake token.",
-					std::string{this->getRemoteEndpoint()}) {
+	                "NetChannel to \"{}\" received remote public key and handshake token.",
+	                std::string{this->getRemoteEndpoint()}) {
 		if (m_state != State::HANDSHAKE_PART1) {
 			++m_stats.invalidMessageOrderCount;
 			this->disconnect("Invalid handshake sequence.");
@@ -277,8 +277,8 @@ auto NetChannel::handleMessage(msg::in::HandshakePart2&& msg) -> void {
 	assert(!this->disconnected());
 
 	INFO_MSG_INDENT(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					"NetChannel to \"{}\" received receive stream header.",
-					std::string{this->getRemoteEndpoint()}) {
+	                "NetChannel to \"{}\" received receive stream header.",
+	                std::string{this->getRemoteEndpoint()}) {
 		if (m_state != State::HANDSHAKE_PART2) {
 			++m_stats.invalidMessageOrderCount;
 			this->disconnect("Invalid handshake sequence.");
@@ -287,8 +287,8 @@ auto NetChannel::handleMessage(msg::in::HandshakePart2&& msg) -> void {
 	}
 
 	INFO_MSG_INDENT(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					"NetChannel to \"{}\" initializing receive stream.",
-					std::string{this->getRemoteEndpoint()}) {
+	                "NetChannel to \"{}\" initializing receive stream.",
+	                std::string{this->getRemoteEndpoint()}) {
 		if (!m_receiveStream.init(msg.header, m_receiveKey)) {
 			this->disconnect("Invalid secret stream header.");
 			return;
@@ -315,8 +315,8 @@ auto NetChannel::handleMessage(msg::in::HandshakePart3&& msg) -> void {
 	}
 
 	INFO_MSG_INDENT(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					"NetChannel to \"{}\" verifying handshake token.",
-					std::string{this->getRemoteEndpoint()}) {
+	                "NetChannel to \"{}\" verifying handshake token.",
+	                std::string{this->getRemoteEndpoint()}) {
 		if (!crypto::verifyAccessToken(m_localHandshakeToken, msg.token)) {
 			this->disconnect("Invalid handshake token.");
 			return;
@@ -346,8 +346,8 @@ auto NetChannel::handleMessage(msg::in::Connect&& msg) -> void {
 	m_onConnected(*this, std::move(msg)); // NOLINT(performance-move-const-arg)
 
 	INFO_MSG(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-			 "NetChannel to \"{}\" handshake completed successfully.",
-			 std::string{this->getRemoteEndpoint()});
+	         "NetChannel to \"{}\" handshake completed successfully.",
+	         std::string{this->getRemoteEndpoint()});
 }
 
 auto NetChannel::handleMessage(msg::in::Disconnect&& msg) -> void {
@@ -355,18 +355,18 @@ auto NetChannel::handleMessage(msg::in::Disconnect&& msg) -> void {
 
 	if (!this->disconnecting()) {
 		INFO_MSG_INDENT(Msg::CONNECTION_EVENT,
-						"NetChannel to \"{}\" received disconnect message. Message: {}",
-						std::string{this->getRemoteEndpoint()},
-						msg.message) {
+		                "NetChannel to \"{}\" received disconnect message. Message: {}",
+		                std::string{this->getRemoteEndpoint()},
+		                msg.message) {
 			m_state = State::DISCONNECTING;
 			m_disconnectTime = Clock::now() + std::min(DISCONNECT_DURATION, m_timeout);
 			m_disconnectMessage = sanitizeMessage(msg.message);
 		}
 	} else {
 		INFO_MSG(Msg::CONNECTION_EVENT,
-				 "NetChannel to \"{}\" received disconnect message when it was already disconnecting. Message: {}",
-				 std::string{this->getRemoteEndpoint()},
-				 msg.message);
+		         "NetChannel to \"{}\" received disconnect message when it was already disconnecting. Message: {}",
+		         std::string{this->getRemoteEndpoint()},
+		         msg.message);
 		++m_stats.invalidMessageOrderCount;
 	}
 	if (!this->write(msg::out::Close{{}})) {
@@ -434,9 +434,9 @@ auto NetChannel::handleMessage(msg::in::EncryptedMessage&& msg) -> void {
 
 		if (!m_receiveStream.pull(secretMessage, util::Span{msg.cipherText})) {
 			INFO_MSG(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					 "NetChannel to \"{}\" failed to decrypt message: Invalid/incomplete/corrupted ciphertext ({} bytes).",
-					 std::string{this->getRemoteEndpoint()},
-					 messageSize);
+			         "NetChannel to \"{}\" failed to decrypt message: Invalid/incomplete/corrupted ciphertext ({} bytes).",
+			         std::string{this->getRemoteEndpoint()},
+			         messageSize);
 			++m_stats.invalidEncryptedMessageCount;
 			return;
 		}
@@ -451,8 +451,8 @@ auto NetChannel::handleMessage(msg::in::EncryptedMessage&& msg) -> void {
 
 			if (type == message_type_of_v<msg::in::EncryptedMessage, NetChannelInputMessages>) {
 				INFO_MSG(Msg::CONNECTION_EVENT,
-						 "NetChannel to \"{}\" received recursively encrypted message. Ignoring.",
-						 std::string{this->getRemoteEndpoint()});
+				         "NetChannel to \"{}\" received recursively encrypted message. Ignoring.",
+				         std::string{this->getRemoteEndpoint()});
 				++m_stats.invalidMessageTypeCount;
 				return;
 			}
@@ -460,9 +460,9 @@ auto NetChannel::handleMessage(msg::in::EncryptedMessage&& msg) -> void {
 			m_messageHandlers[type](*this, secretMessageStream);
 		} else {
 			INFO_MSG(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					 "NetChannel to \"{}\" failed to read secret message type ({} bytes).",
-					 std::string{this->getRemoteEndpoint()},
-					 messageSize);
+			         "NetChannel to \"{}\" failed to read secret message type ({} bytes).",
+			         std::string{this->getRemoteEndpoint()},
+			         messageSize);
 			++m_stats.invalidEncryptedMessageCount;
 			return;
 		}
@@ -515,8 +515,8 @@ auto NetChannel::initializeConnection(bool serverSide, IpEndpoint endpoint) -> b
 	}
 
 	INFO_MSG_INDENT(Msg::CONNECTION_EVENT | Msg::CONNECTION_CRYPTO,
-					"NetChannel to \"{}\" generating handshake token.",
-					std::string{this->getRemoteEndpoint()}) {
+	                "NetChannel to \"{}\" generating handshake token.",
+	                std::string{this->getRemoteEndpoint()}) {
 		crypto::generateAccessToken(m_localHandshakeToken);
 	}
 
@@ -608,9 +608,9 @@ auto NetChannel::processReceivedPackets() -> void {
 					} else {
 						// Packet is reliable and out of order. Save the payload for later.
 						DEBUG_MSG(Msg::CONNECTION_DETAILED,
-								  "Packet is reliable and out of order (#{}) (expected #{}). Saving payload for later.",
-								  header.seq,
-								  expectedSeq);
+						          "Packet is reliable and out of order (#{}) (expected #{}). Saving payload for later.",
+						          header.seq,
+						          expectedSeq);
 						if (this->savePacket(header, std::vector<std::byte>{packetStream.begin(), packetStream.end()})) {
 							++m_stats.reliablePacketsReceivedOutOfOrder;
 							shouldCheckSavedPackets = true;
@@ -650,8 +650,8 @@ auto NetChannel::processSavedPackets() -> void {
 		for (auto it = m_receiveBuffer.find(expectedSeq); it != m_receiveBuffer.end(); it = m_receiveBuffer.find(expectedSeq)) {
 			if ((it->second.header.flags & PacketHeader::SPLIT) != 0) {
 				DEBUG_MSG_INDENT(Msg::CONNECTION_DETAILED,
-								 "Next partial packet #{} was found! Checking for the rest of the pieces...",
-								 it->second.header.seq) {
+				                 "Next partial packet #{} was found! Checking for the rest of the pieces...",
+				                 it->second.header.seq) {
 					auto lastSeq = static_cast<SequenceNumber>(m_latestSeqHandled + 2); // Note: Expected to overflow.
 					while (true) {
 						it = m_receiveBuffer.find(lastSeq);
@@ -741,11 +741,11 @@ auto NetChannel::savePacket(const PacketHeader& header, std::vector<std::byte> p
 		DEBUG_MSG(Msg::CONNECTION_DETAILED, "Trying to save packet #{}. Recv buffer is empty.", header.seq);
 	} else {
 		DEBUG_MSG(Msg::CONNECTION_DETAILED,
-				  "Trying to save packet #{}. Recv buffer: {{size: {}, first: {}, last: {}}}.",
-				  header.seq,
-				  m_receiveBuffer.size(),
-				  m_receiveBuffer.front().first,
-				  m_receiveBuffer.back().first);
+		          "Trying to save packet #{}. Recv buffer: {{size: {}, first: {}, last: {}}}.",
+		          header.seq,
+		          m_receiveBuffer.size(),
+		          m_receiveBuffer.front().first,
+		          m_receiveBuffer.back().first);
 	}
 
 	if (static_cast<SequenceDistance>(header.seq - m_latestSeqHandled) <= 0) {
@@ -882,9 +882,9 @@ auto NetChannel::writeMessages(PacketHeader::Flags& flags, PacketMask mask, std:
 
 		if (message.data.size() > MAX_PACKET_PAYLOAD_SIZE) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED,
-					  "Message ({} bytes) is larger than the maximum message space of {} bytes. Splitting into multiple packets.",
-					  message.data.size(),
-					  MAX_PACKET_PAYLOAD_SIZE);
+			          "Message ({} bytes) is larger than the maximum message space of {} bytes. Splitting into multiple packets.",
+			          message.data.size(),
+			          MAX_PACKET_PAYLOAD_SIZE);
 			if (const auto status = this->splitAndSendMessage(std::move(payload), flags, mask, message.data); status != SendStatus::SUCCESS) {
 				return status;
 			}
@@ -897,9 +897,9 @@ auto NetChannel::writeMessages(PacketHeader::Flags& flags, PacketMask mask, std:
 
 			if (payload.size() + message.data.size() > MAX_PACKET_PAYLOAD_SIZE) {
 				DEBUG_MSG(Msg::CONNECTION_DETAILED,
-						  "Message ({} bytes) is too large to fit in remaining {} bytes of current packet payload. Sending another packet.",
-						  message.data.size(),
-						  MAX_PACKET_PAYLOAD_SIZE - payload.size());
+				          "Message ({} bytes) is too large to fit in remaining {} bytes of current packet payload. Sending another packet.",
+				          message.data.size(),
+				          MAX_PACKET_PAYLOAD_SIZE - payload.size());
 				if (const auto status = this->sendPacket(flags, mask, std::move(payload)); status != SendStatus::SUCCESS) {
 					return status;
 				}
@@ -946,7 +946,7 @@ auto NetChannel::sendPacket(PacketHeader::Flags flags, PacketMask mask, std::vec
 }
 
 auto NetChannel::splitAndSendMessage(std::vector<std::byte>&& payload, PacketHeader::Flags flags, PacketMask mask,
-									 util::Span<const std::byte> message) -> NetChannel::SendStatus {
+                                     util::Span<const std::byte> message) -> NetChannel::SendStatus {
 	auto i = MAX_PACKET_PAYLOAD_SIZE - payload.size();
 
 	const auto pieces = 2 + ((message.size() - i - 1) / MAX_PACKET_PAYLOAD_SIZE);

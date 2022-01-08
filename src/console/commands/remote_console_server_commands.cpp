@@ -34,14 +34,14 @@ SUGGESTIONS(suggestRconUsername) {
 } // namespace
 
 CON_COMMAND(sv_rcon_add_user, "[options...] <username> [password]", ConCommand::SERVER | ConCommand::ADMIN_ONLY,
-			"Add a remote console user account.",
-			cmd::opts(cmd::opt('a', "admin", "This user should have admin privileges."),
-					  cmd::opt('h', "hashtype",
-							   fmt::format("Type of hash function to use ({0}/{1}/{2}). Slower is stronger. Default is \"{0}\".",
-										   getHashTypeString(crypto::pw::HashType::FAST), getHashTypeString(crypto::pw::HashType::MEDIUM),
-										   getHashTypeString(crypto::pw::HashType::SLOW)),
-							   cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            "Add a remote console user account.",
+            cmd::opts(cmd::opt('a', "admin", "This user should have admin privileges."),
+                      cmd::opt('h', "hashtype",
+                               fmt::format("Type of hash function to use ({0}/{1}/{2}). Slower is stronger. Default is \"{0}\".",
+                                           getHashTypeString(crypto::pw::HashType::FAST), getHashTypeString(crypto::pw::HashType::MEDIUM),
+                                           getHashTypeString(crypto::pw::HashType::SLOW)),
+                               cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 1 && args.size() != 2) {
 		return cmd::error(self.getUsage());
@@ -50,8 +50,8 @@ CON_COMMAND(sv_rcon_add_user, "[options...] <username> [password]", ConCommand::
 	if (args.size() == 2 && (frame.process()->getUserFlags() & Process::CONSOLE) != 0) {
 		game.warning(
 			fmt::format("{0}: Warning: The password you just typed may have been logged to the console. Check any log files if this was a "
-						"mistake. Console users are advised to use {0} <username> to avoid this.",
-						self.getName()));
+		                "mistake. Console users are advised to use {0} <username> to avoid this.",
+		                self.getName()));
 	}
 
 	if (const auto& error = options.error()) {
@@ -109,8 +109,8 @@ CON_COMMAND(sv_rcon_add_user, "[options...] <username> [password]", ConCommand::
 }
 
 CON_COMMAND(sv_rcon_add_user_hashed, "[options...] <username> <hashtype> <keyhash> <salt>", ConCommand::SERVER | ConCommand::ADMIN_ONLY,
-			"Add a remote console user account with a pre-hashed password.",
-			cmd::opts(cmd::opt('a', "admin", "This user should have admin privileges.")), nullptr) {
+            "Add a remote console user account with a pre-hashed password.",
+            cmd::opts(cmd::opt('a', "admin", "This user should have admin privileges.")), nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 4) {
 		return cmd::error(self.getUsage());
@@ -171,7 +171,7 @@ CON_COMMAND(sv_rcon_userlist, "", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "
 }
 
 CON_COMMAND(sv_rcon_has_user, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Check if a certain remote console user exists.",
-			{}, suggestRconUsername) {
+            {}, suggestRconUsername) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -180,7 +180,7 @@ CON_COMMAND(sv_rcon_has_user, "<username>", ConCommand::SERVER | ConCommand::ADM
 }
 
 CON_COMMAND(sv_rcon_logged_in, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ONLY,
-			"Check if a certain user has an active remote console session.", {}, suggestRconUsername) {
+            "Check if a certain user has an active remote console session.", {}, suggestRconUsername) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -189,7 +189,7 @@ CON_COMMAND(sv_rcon_logged_in, "<username>", ConCommand::SERVER | ConCommand::AD
 }
 
 CON_COMMAND(sv_rcon_running, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ONLY,
-			"Check if a certain user has a running remote console process.", {}, suggestRconUsername) {
+            "Check if a certain user has a running remote console process.", {}, suggestRconUsername) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -198,7 +198,7 @@ CON_COMMAND(sv_rcon_running, "<username>", ConCommand::SERVER | ConCommand::ADMI
 }
 
 CON_COMMAND(sv_rcon_end, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "End the remote console session of a certain user.", {},
-			suggestRconUsername) {
+            suggestRconUsername) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -210,7 +210,7 @@ CON_COMMAND(sv_rcon_end, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ON
 }
 
 CON_COMMAND(sv_rcon_kill, "<username>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Stop the remote console session of a certain user.",
-			{}, suggestRconUsername) {
+            {}, suggestRconUsername) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

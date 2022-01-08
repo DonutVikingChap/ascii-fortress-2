@@ -76,7 +76,7 @@ auto RemoteConsoleServer::killRconProcess(std::string_view username) -> bool {
 }
 
 auto RemoteConsoleServer::addRconUser(std::string username, const crypto::FastHash& keyHash, const crypto::pw::Salt& salt,
-									  crypto::pw::HashType hashType, bool admin) -> bool {
+                                      crypto::pw::HashType hashType, bool admin) -> bool {
 	return m_users.try_emplace(std::move(username), keyHash, salt, hashType, admin).second;
 }
 
@@ -113,12 +113,12 @@ auto RemoteConsoleServer::getRconConfig() const -> std::string {
 	static constexpr auto getUserCommand = [](const auto& kv) {
 		const auto& [username, user] = *kv;
 		return fmt::format("{}{} {} {} {} {}",
-						   GET_COMMAND(sv_rcon_add_user_hashed).getName(),
-						   (user.admin) ? " --admin" : "",
-						   Script::escapedString(username),
-						   getHashTypeString(user.hashType),
-						   Script::escapedString(std::string_view{reinterpret_cast<const char*>(user.keyHash.data()), user.keyHash.size()}),
-						   Script::escapedString(std::string_view{reinterpret_cast<const char*>(user.salt.data()), user.salt.size()}));
+		                   GET_COMMAND(sv_rcon_add_user_hashed).getName(),
+		                   (user.admin) ? " --admin" : "",
+		                   Script::escapedString(username),
+		                   getHashTypeString(user.hashType),
+		                   Script::escapedString(std::string_view{reinterpret_cast<const char*>(user.keyHash.data()), user.keyHash.size()}),
+		                   Script::escapedString(std::string_view{reinterpret_cast<const char*>(user.salt.data()), user.salt.size()}));
 	};
 
 	return m_users | util::collect<Refs>() | util::sort(compareUserRefs) | util::transform(getUserCommand) | util::join('\n');

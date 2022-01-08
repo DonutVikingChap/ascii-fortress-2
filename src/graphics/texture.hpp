@@ -59,11 +59,11 @@ public:
 	}
 
 	Texture(TextureInternalFormat internalFormat, std::size_t width, std::size_t height, TextureFormat format, TextureComponentType type,
-			const void* pixels, Flags flags);
+	        const void* pixels, Flags flags);
 	Texture(TextureInternalFormat internalFormat, std::size_t width, std::size_t height, Flags flags);
 
 	auto paste(std::size_t width, std::size_t height, TextureFormat format, TextureComponentType type, const void* pixels, std::size_t x,
-			   std::size_t y) -> void;
+	           std::size_t y) -> void;
 
 	[[nodiscard]] auto readPixels8BitColor(TextureFormat format) const -> std::vector<std::byte>;
 

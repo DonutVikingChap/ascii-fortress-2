@@ -190,7 +190,7 @@ auto Slider::getValue() const noexcept -> float {
 
 auto Slider::getActiveRect(const CharWindow& charWindow) const -> Rect {
 	return Rect{charWindow.gridToScreenCoordinates(Vec2{m_position.x + 1, m_position.y}),
-				charWindow.gridToScreenSize(Vec2{m_size.x - 2, m_size.y})};
+	            charWindow.gridToScreenSize(Vec2{m_size.x - 2, m_size.y})};
 }
 
 auto Slider::slideHoverValueLeft() -> void {

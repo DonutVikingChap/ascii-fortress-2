@@ -24,7 +24,7 @@ ConVarString data_subdir_downloads{		"data_subdir_downloads",	"downloads",	ConVa
 // clang-format on
 
 CON_COMMAND(file_read, "<filepath>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Get the entire contents of a file.", {},
-			Suggestions::suggestFile<1>) {
+            Suggestions::suggestFile<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -37,7 +37,7 @@ CON_COMMAND(file_read, "<filepath>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCO
 }
 
 CON_COMMAND(file_append, "<filepath> <text>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Write text to the end of a file.", {},
-			Suggestions::suggestFile<1>) {
+            Suggestions::suggestFile<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -51,7 +51,7 @@ CON_COMMAND(file_append, "<filepath> <text>", ConCommand::ADMIN_ONLY | ConComman
 }
 
 CON_COMMAND(file_dump, "<filepath> <text>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Write text to a file. Replaces the entie file contents or creates it if it didn't already exist.", {}, Suggestions::suggestFile<1>) {
+            "Write text to a file. Replaces the entie file contents or creates it if it didn't already exist.", {}, Suggestions::suggestFile<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -80,7 +80,7 @@ CON_COMMAND(file_exists, "<filepath>", ConCommand::ADMIN_ONLY | ConCommand::NO_R
 }
 
 CON_COMMAND(file_create_path, "<filepath>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Create a path of directories if they don't already exist.", {}, nullptr) {
+            "Create a path of directories if they don't already exist.", {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

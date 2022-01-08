@@ -327,14 +327,14 @@ public:
 
 	template <typename... Args>
 	auto try_emplace(const key_type& key,
-					 Args&&... args) noexcept(std::is_nothrow_copy_constructible_v<key_type>&& std::is_nothrow_constructible_v<mapped_type, Args...>)
+	                 Args&&... args) noexcept(std::is_nothrow_copy_constructible_v<key_type>&& std::is_nothrow_constructible_v<mapped_type, Args...>)
 		-> std::pair<iterator, bool> {
 		return this->try_emplace_impl(key, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
 	auto try_emplace(key_type&& key,
-					 Args&&... args) noexcept(std::is_nothrow_move_constructible_v<key_type>&& std::is_nothrow_constructible_v<mapped_type, Args...>)
+	                 Args&&... args) noexcept(std::is_nothrow_move_constructible_v<key_type>&& std::is_nothrow_constructible_v<mapped_type, Args...>)
 		-> std::pair<iterator, bool> {
 		return this->try_emplace_impl(std::move(key), std::forward<Args>(args)...);
 	}

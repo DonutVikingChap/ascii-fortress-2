@@ -209,7 +209,7 @@ auto Font::GlyphAtlas::insert(std::size_t width, std::size_t height) -> InsertRe
 	AtlasRow* rowPtr = nullptr;
 	for (auto& row : m_rows) {
 		if (const auto heightRatio = static_cast<float>(paddedHeight) / static_cast<float>(row.height);
-			heightRatio >= 0.7f && heightRatio <= 1.0f && paddedWidth <= m_resolution - row.width) {
+		    heightRatio >= 0.7f && heightRatio <= 1.0f && paddedWidth <= m_resolution - row.width) {
 			rowPtr = &row;
 			break;
 		}

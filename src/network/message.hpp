@@ -69,23 +69,23 @@ struct SecretInputOutputMessage : TieInputOutputStreamableBase<T> {};
 
 template <typename T, MessageDirection DIR>
 using TieStreamableBase = std::conditional_t<DIR == MessageDirection::INPUT, //
-											 TieInputStreamableBase<T>,      //
-											 TieOutputStreamableBase<T>>;
+                                             TieInputStreamableBase<T>,      //
+                                             TieOutputStreamableBase<T>>;
 
 template <typename T, MessageDirection DIR>
 using UnreliableMessage = std::conditional_t<DIR == MessageDirection::INPUT, //
-											 UnreliableInputMessage<T>,      //
-											 UnreliableOutputMessage<T>>;
+                                             UnreliableInputMessage<T>,      //
+                                             UnreliableOutputMessage<T>>;
 
 template <typename T, MessageDirection DIR>
 using ReliableMessage = std::conditional_t<DIR == MessageDirection::INPUT, //
-										   ReliableInputMessage<T>,        //
-										   ReliableOutputMessage<T>>;
+                                           ReliableInputMessage<T>,        //
+                                           ReliableOutputMessage<T>>;
 
 template <typename T, MessageDirection DIR>
 using SecretMessage = std::conditional_t<DIR == MessageDirection::INPUT, //
-										 SecretInputMessage<T>,          //
-										 SecretOutputMessage<T>>;
+                                         SecretInputMessage<T>,          //
+                                         SecretOutputMessage<T>>;
 
 template <typename T>
 struct is_unreliable_message
@@ -160,11 +160,11 @@ inline constexpr auto is_message_v = is_message<T>::value;
 template <typename Message>
 struct message_category_of
 	: std::integral_constant<MessageCategory,                       //
-							 (is_secret_message_v<Message>) ?       //
-								 MessageCategory::SECRET :          //
-								 (is_reliable_message_v<Message>) ? //
-									 MessageCategory::RELIABLE :    //
-									 MessageCategory::UNRELIABLE> {};
+                             (is_secret_message_v<Message>) ?       //
+                                 MessageCategory::SECRET :          //
+                                 (is_reliable_message_v<Message>) ? //
+                                     MessageCategory::RELIABLE :    //
+                                     MessageCategory::UNRELIABLE> {};
 
 template <typename Message>
 inline constexpr auto message_category_of_v = message_category_of<Message>::value;
@@ -172,9 +172,9 @@ inline constexpr auto message_category_of_v = message_category_of<Message>::valu
 template <typename Message>
 struct message_direction_of
 	: std::integral_constant<MessageDirection,               //
-							 (is_input_message_v<Message>) ? //
-								 MessageDirection::INPUT :   //
-								 MessageDirection::OUTPUT> {};
+                             (is_input_message_v<Message>) ? //
+                                 MessageDirection::INPUT :   //
+                                 MessageDirection::OUTPUT> {};
 
 template <typename Message>
 inline constexpr auto message_direction_of_v = message_direction_of<Message>::value;

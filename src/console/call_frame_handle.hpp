@@ -50,7 +50,7 @@ public:
 	[[nodiscard]] auto awaitUnlimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) const
 		-> cmd::Result;
 	[[nodiscard]] auto awaitLimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-									int limit) const -> cmd::Result;
+	                                int limit) const -> cmd::Result;
 
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, std::string_view script) const
 		-> std::optional<CallFrameHandle>;
@@ -62,10 +62,10 @@ public:
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, const Environment::Function& function) const
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, const Environment::Function& function,
-							util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle>;
+	                        util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, ConCommand& cmd) const -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, ConCommand& cmd,
-							util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle>;
+	                        util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, ConVar& cvar) const -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, ConVar& cvar, std::string value) const
 		-> std::optional<CallFrameHandle>;

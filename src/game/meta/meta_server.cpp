@@ -49,22 +49,22 @@ auto MetaServer::init() -> bool {
 
 	// Execute meta server config script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{meta_sv_config_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Meta server config failed.");
 		return false;
 	}
 
 	// Execute meta server autoexec script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{meta_sv_autoexec_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Meta server autoexec failed.");
 		return false;
 	}
 
 	INFO_MSG(Msg::SERVER,
-			 "Meta server: Started on \"{}:{}\".",
-			 std::string{net::IpAddress::getLocalAddress(ec)},
-			 m_socket.getLocalEndpoint(ec).getPort());
+	         "Meta server: Started on \"{}:{}\".",
+	         std::string{net::IpAddress::getLocalAddress(ec)},
+	         m_socket.getLocalEndpoint(ec).getPort());
 	m_game.println(fmt::format("Meta server started. Use \"{}\" or \"{}\" to stop.", GET_COMMAND(disconnect).getName(), GET_COMMAND(quit).getName()));
 	return true;
 }
@@ -247,8 +247,8 @@ auto MetaServer::handleMessage(msg::meta::sv::in::GameServerAddressListRequest&&
 	}
 
 	INFO_MSG(Msg::SERVER,
-			 "Meta server: Received game server address list request from client \"{}\".",
-			 std::string{m_currentClient->connection.getRemoteEndpoint()});
+	         "Meta server: Received game server address list request from client \"{}\".",
+	         std::string{m_currentClient->connection.getRemoteEndpoint()});
 
 	m_currentClient->afkTimer.reset();
 	if (!m_currentClient->connection.write<MetaClientOutputMessages>(msg::meta::cl::out::GameServerAddressList{{}, m_gameServerAddressList})) {
@@ -327,24 +327,24 @@ auto MetaServer::receivePackets() -> void {
 				static_cast<std::size_t>(meta_sv_max_connecting_clients));
 		} else if (m_clients.size() >= static_cast<std::size_t>(meta_sv_max_clients)) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED,
-					  "Meta server: Ignoring {} bytes from unconnected ip \"{}\" because the max client limit of {} has been reached!",
-					  receivedBytes,
-					  std::string{remoteEndpoint},
-					  static_cast<std::size_t>(meta_sv_max_clients));
+			          "Meta server: Ignoring {} bytes from unconnected ip \"{}\" because the max client limit of {} has been reached!",
+			          receivedBytes,
+			          std::string{remoteEndpoint},
+			          static_cast<std::size_t>(meta_sv_max_clients));
 		} else if (m_stopping) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED,
-					  "Meta server: Ignoring {} bytes from unconnected ip \"{}\" because the server is stopping!",
-					  receivedBytes,
-					  std::string{remoteEndpoint});
+			          "Meta server: Ignoring {} bytes from unconnected ip \"{}\" because the server is stopping!",
+			          receivedBytes,
+			          std::string{remoteEndpoint});
 		} else {
 			const auto timeout = std::chrono::duration_cast<net::Duration>(std::chrono::duration<float>{static_cast<float>(meta_sv_timeout)});
 			auto& client = m_clients.emplace_back(m_socket, timeout, meta_sv_throttle_limit, meta_sv_throttle_max_period, *this);
 			INFO_MSG_INDENT(Msg::SERVER, "Meta server: Client \"{}\" connecting...", std::string{remoteEndpoint}) {
 				if (!client.connection.accept(remoteEndpoint)) {
 					INFO_MSG(Msg::SERVER,
-							 "Meta server: Failed to intialize connection to \"{}\": {}",
-							 std::string{remoteEndpoint},
-							 client.connection.getDisconnectMessage());
+					         "Meta server: Failed to intialize connection to \"{}\": {}",
+					         std::string{remoteEndpoint},
+					         client.connection.getDisconnectMessage());
 					m_clients.pop_back();
 				} else {
 					++m_connectingClients;
@@ -356,14 +356,14 @@ auto MetaServer::receivePackets() -> void {
 						INFO_MSG(Msg::SERVER, "Meta server: This ip address is banned from the server. Kicking.");
 						this->disconnectClient(std::prev(m_clients.end()), "You are banned from this meta server.");
 					} else if (const auto maxClientsPerIp = static_cast<std::size_t>(meta_sv_max_connections_per_ip);
-							   maxClientsPerIp != 0 && !remoteEndpoint.getAddress().isLoopback() && !remoteEndpoint.getAddress().isPrivate() &&
-							   remoteEndpoint.getAddress() != net::IpAddress::getLocalAddress(ec) &&
-							   this->countClientsWithIp(remoteEndpoint.getAddress()) > maxClientsPerIp) {
+					           maxClientsPerIp != 0 && !remoteEndpoint.getAddress().isLoopback() && !remoteEndpoint.getAddress().isPrivate() &&
+					           remoteEndpoint.getAddress() != net::IpAddress::getLocalAddress(ec) &&
+					           this->countClientsWithIp(remoteEndpoint.getAddress()) > maxClientsPerIp) {
 						INFO_MSG(Msg::SERVER, "Meta server: Too many clients with the same ip address. Kicking.");
 						this->disconnectClient(std::prev(m_clients.end()),
-											   fmt::format("The server does not allow more than {} client{} from the same IP address.",
-														   maxClientsPerIp,
-														   (maxClientsPerIp == 1) ? "" : "s"));
+						                       fmt::format("The server does not allow more than {} client{} from the same IP address.",
+						                                   maxClientsPerIp,
+						                                   (maxClientsPerIp == 1) ? "" : "s"));
 					}
 				}
 			}
@@ -389,8 +389,8 @@ auto MetaServer::updateTicks(float deltaTime) -> void {
 		const auto timeSinceLastTick = static_cast<float>(ticks) * m_tickInterval;
 		if (ticks > meta_sv_max_ticks_per_frame) {
 			INFO_MSG(Msg::SERVER | Msg::SERVER_TICK,
-					 "Meta server: Framerate can't keep up with the tickrate! Skipping {} ms.",
-					 (ticks - meta_sv_max_ticks_per_frame) * m_tickInterval * 1000.0f);
+			         "Meta server: Framerate can't keep up with the tickrate! Skipping {} ms.",
+			         (ticks - meta_sv_max_ticks_per_frame) * m_tickInterval * 1000.0f);
 			ticks = meta_sv_max_ticks_per_frame;
 		}
 
@@ -466,9 +466,9 @@ auto MetaServer::dropClient(Clients::iterator it) -> void {
 	util::erase(m_gameServerAddressList, it->listedEndpoint);
 
 	INFO_MSG(Msg::SERVER,
-			 "Meta server: Client \"{}\" was dropped. Reason: \"{}\".",
-			 std::string{it->connection.getRemoteEndpoint()},
-			 it->connection.getDisconnectMessage());
+	         "Meta server: Client \"{}\" was dropped. Reason: \"{}\".",
+	         std::string{it->connection.getRemoteEndpoint()},
+	         it->connection.getDisconnectMessage());
 }
 
 auto MetaServer::countClientsWithIp(net::IpAddress ip) const noexcept -> std::size_t {

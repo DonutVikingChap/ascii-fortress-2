@@ -255,7 +255,7 @@ auto Dropdown::onDeactivate() -> void {
 
 auto Dropdown::getOptionScreenRect(std::size_t i, const CharWindow& charWindow) const -> Rect {
 	return Rect{charWindow.gridToScreenCoordinates(Vec2{m_position.x, static_cast<Vec2::Length>(m_position.y + m_size.y + i)}),
-				charWindow.gridToScreenSize(Vec2{m_size.x, 1})};
+	            charWindow.gridToScreenSize(Vec2{m_size.x, 1})};
 }
 
 } // namespace gui

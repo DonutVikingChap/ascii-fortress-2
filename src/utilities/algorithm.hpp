@@ -69,7 +69,7 @@ template <typename Range, typename Offset, typename Iterator = decltype(std::beg
 
 // Get a view of some elements in a range.
 template <typename Range, typename Offset, typename Count, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto subview(Range&& range, const Offset& offset, const Count& count) {
 	using Diff = typename std::iterator_traits<Iterator>::difference_type;
 	auto&& it = std::begin(range);
@@ -331,7 +331,7 @@ struct SplitViewProxy final {
 // Split a range into several views according to a certain delimiter value.
 // Example: split( "abc|def|ghi", '|' ) -> { "abc", "def", "ghi" }.
 template <typename Range, typename Delimiter, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto split(Range&& range, Delimiter&& delimiter) {
 	return detail::SplitView<Range, Delimiter, Iterator, Sentinel>{std::forward<Range>(range), std::forward<Delimiter>(delimiter)};
 }
@@ -344,7 +344,7 @@ template <typename Delimiter>
 } // namespace util
 
 template <typename Range, typename Delimiter, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto operator|(Range&& lhs, util::detail::SplitViewProxy<Delimiter>&& rhs) {
 	return util::split(std::forward<Range>(lhs), std::forward<Delimiter>(rhs.delimiter));
 }
@@ -427,7 +427,7 @@ struct TransformViewProxy final {
 
 // Transform a range to return the result of an adaptor function on iteration.
 template <typename Range, typename Function, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto transform(Range&& range, Function&& func) {
 	return detail::TransformView<Range, Function, Iterator, Sentinel>{std::forward<Range>(range), std::forward<Function>(func)};
 }
@@ -440,7 +440,7 @@ template <typename Function>
 } // namespace util
 
 template <typename Range, typename Function, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto operator|(Range&& lhs, util::detail::TransformViewProxy<Function>&& rhs) {
 	return util::transform(std::forward<Range>(lhs), std::forward<Function>(rhs.func));
 }
@@ -635,7 +635,7 @@ struct FilterViewProxy final {
 
 // Filter the elements of a range based on a predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto filter(Range&& range, Predicate&& pred) {
 	return detail::FilterView<Range, Predicate, Iterator, Sentinel>{std::forward<Range>(range), std::forward<Predicate>(pred)};
 }
@@ -648,7 +648,7 @@ template <typename Predicate>
 } // namespace util
 
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto operator|(Range&& lhs, util::detail::FilterViewProxy<Predicate>&& rhs) {
 	return util::filter(std::forward<Range>(lhs), std::forward<Predicate>(rhs.pred));
 }
@@ -763,7 +763,7 @@ struct ZipView final {
 		using reference = std::pair<decltype(*std::declval<const Iterator1>()), decltype(*std::declval<const Iterator2>())>;
 		using pointer = util::ArrowProxy<reference>;
 		using iterator_category = std::common_type_t<typename std::iterator_traits<Iterator1>::iterator_category,
-													 typename std::iterator_traits<Iterator2>::iterator_category, std::bidirectional_iterator_tag>;
+		                                             typename std::iterator_traits<Iterator2>::iterator_category, std::bidirectional_iterator_tag>;
 
 		constexpr iterator() = default;
 		constexpr explicit iterator(Iterator1 it1, Iterator2 it2)
@@ -840,8 +840,8 @@ struct ZipViewProxy final {
 
 // Iterate two ranges pairwise.
 template <typename Range1, typename Range2, typename Iterator1 = decltype(std::begin(std::declval<Range1>())),
-		  typename Iterator2 = decltype(std::begin(std::declval<Range2>())),
-		  typename Sentinel1 = decltype(std::end(std::declval<Range1>())), typename Sentinel2 = decltype(std::end(std::declval<Range2>()))>
+          typename Iterator2 = decltype(std::begin(std::declval<Range2>())),
+          typename Sentinel1 = decltype(std::end(std::declval<Range1>())), typename Sentinel2 = decltype(std::end(std::declval<Range2>()))>
 [[nodiscard]] constexpr auto zip(Range1&& range1, Range2&& range2) {
 	return detail::ZipView<Range1, Range2, Iterator1, Iterator2, Sentinel1, Sentinel2>{std::forward<Range1>(range1), std::forward<Range2>(range2)};
 }
@@ -854,8 +854,8 @@ template <typename Range2, typename Iterator2 = decltype(std::begin(std::declval
 } // namespace util
 
 template <typename Range1, typename Range2, typename Iterator1 = decltype(std::begin(std::declval<Range1>())),
-		  typename Iterator2 = decltype(std::begin(std::declval<Range2>())),
-		  typename Sentinel1 = decltype(std::end(std::declval<Range1>())), typename Sentinel2 = decltype(std::end(std::declval<Range2>()))>
+          typename Iterator2 = decltype(std::begin(std::declval<Range2>())),
+          typename Sentinel1 = decltype(std::end(std::declval<Range1>())), typename Sentinel2 = decltype(std::end(std::declval<Range2>()))>
 [[nodiscard]] constexpr auto operator|(Range1&& lhs, util::detail::ZipViewProxy<Range2>&& rhs) {
 	return util::zip(std::forward<Range1>(lhs), std::forward<Range2>(rhs.range2));
 }
@@ -1048,7 +1048,7 @@ inline constexpr auto has_reserve_v = has_reserve<T>::value;
 
 // Copy a range into an output iterator.
 template <typename Range, typename OutputIterator, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 constexpr auto copy(const Range& range, OutputIterator output) {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::copy(std::begin(range), std::end(range), std::move(output));
@@ -1062,7 +1062,7 @@ constexpr auto copy(const Range& range, OutputIterator output) {
 
 // Copy all elements in a range that match a predicate into an output iterator.
 template <typename Range, typename OutputIterator, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 constexpr auto copyIf(const Range& range, OutputIterator output, Predicate&& pred) {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::copy_if(std::begin(range), std::end(range), std::move(output), std::move(pred));
@@ -1078,7 +1078,7 @@ constexpr auto copyIf(const Range& range, OutputIterator output, Predicate&& pre
 
 // Move a range into an output iterator.
 template <typename Range, typename OutputIterator, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 constexpr auto move(Range&& range, OutputIterator output) {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::move(std::begin(range), std::end(range), std::move(output));
@@ -1092,7 +1092,7 @@ constexpr auto move(Range&& range, OutputIterator output) {
 
 // Move all elements in a range that match a predicate into an output iterator.
 template <typename Range, typename OutputIterator, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 constexpr auto moveIf(Range&& range, OutputIterator output, Predicate&& pred) {
 	for (auto&& elem : range) {
 		if (const auto& cElem = elem; pred(cElem)) {
@@ -1129,7 +1129,7 @@ struct CollectProxy {};
 
 // Collect a range into a given container.
 template <typename Container, typename Range, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto collect(Range&& range) {
 	auto container = Container{};
 
@@ -1154,7 +1154,7 @@ template <typename Container>
 } // namespace util
 
 template <typename Container, typename Range, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto operator|(Range&& lhs, util::detail::CollectProxy<Container>&&) {
 	return util::collect<Container>(std::forward<Range>(lhs));
 }
@@ -1230,7 +1230,7 @@ namespace util {
 
 // Append a range onto a given container.
 template <typename Container, typename Range, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 constexpr auto append(Container& container, Range&& range) -> void {
 	using IteratorCategory = typename std::iterator_traits<Iterator>::iterator_category;
 
@@ -1263,7 +1263,7 @@ template <typename Range, typename T, typename Iterator = decltype(std::begin(st
 
 // Find the first element in a range that satisfies a given predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto findIf(Range&& range, Predicate&& pred) {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::find_if(std::begin(range), std::end(range), std::move(pred));
@@ -1281,7 +1281,7 @@ template <typename Range, typename Predicate, typename Iterator = decltype(std::
 
 // Return true if every element in a range satisfies a predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto allOf(const Range& range, Predicate&& pred) -> bool {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::all_of(std::begin(range), std::end(range), std::move(pred));
@@ -1297,7 +1297,7 @@ template <typename Range, typename Predicate, typename Iterator = decltype(std::
 
 // Return true if no element in a range satisfies a predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto noneOf(const Range& range, Predicate&& pred) -> bool {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::none_of(std::begin(range), std::end(range), std::move(pred));
@@ -1313,7 +1313,7 @@ template <typename Range, typename Predicate, typename Iterator = decltype(std::
 
 // Return true if any element in a range satisfies a predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto anyOf(const Range& range, Predicate&& pred) -> bool {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::any_of(std::begin(range), std::end(range), std::move(pred));
@@ -1351,7 +1351,7 @@ template <typename Range, typename T, typename Iterator = decltype(std::begin(st
 
 // Return the number of elements in a range that match a predicate.
 template <typename Range, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Range>())),
-		  typename Sentinel = decltype(std::end(std::declval<Range>()))>
+          typename Sentinel = decltype(std::end(std::declval<Range>()))>
 [[nodiscard]] constexpr auto countIf(const Range& range, Predicate&& pred) -> std::size_t {
 	if constexpr (std::is_convertible_v<Sentinel, Iterator>) {
 		return std::count_if(std::begin(range), std::end(range), std::move(pred));
@@ -1432,7 +1432,7 @@ inline constexpr auto has_erase_v = has_erase<Container, T>::value;
 
 // Erase all of a certain value from a container.
 template <typename Container, typename T, typename Iterator = decltype(std::begin(std::declval<Container>())),
-		  typename Sentinel = decltype(std::end(std::declval<Container>()))>
+          typename Sentinel = decltype(std::end(std::declval<Container>()))>
 inline auto erase(Container& container, const T& value) -> void {
 	using IteratorCategory = typename std::iterator_traits<Iterator>::iterator_category;
 	if constexpr (detail::has_erase_v<Container, T>) {
@@ -1454,7 +1454,7 @@ inline auto erase(Container& container, const T& value) -> void {
 
 // Erase all values from a container that match a predicate.
 template <typename Container, typename Predicate, typename Iterator = decltype(std::begin(std::declval<Container>())),
-		  typename Sentinel = decltype(std::end(std::declval<Container>()))>
+          typename Sentinel = decltype(std::end(std::declval<Container>()))>
 inline auto eraseIf(Container& container, Predicate&& pred) -> void {
 	using IteratorCategory = typename std::iterator_traits<Iterator>::iterator_category;
 	if constexpr (std::is_convertible_v<IteratorCategory, std::random_access_iterator_tag>) {

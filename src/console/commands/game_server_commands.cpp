@@ -170,7 +170,7 @@ SUGGESTIONS(suggestBotName) {
 } // namespace
 
 CON_COMMAND(changelevel, "<map>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Change map while the server is running.", {},
-			Suggestions::suggestMap<1>) {
+            Suggestions::suggestMap<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -190,11 +190,11 @@ CON_COMMAND(changelevel, "<map>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "
 }
 
 CON_COMMAND(bot_add, "[options...]", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Add one or more computer-controlled clients.",
-			cmd::opts(cmd::opt('c', "count", "Number of bots to add.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('n', "name", "Bot name.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('t', "team", "Bot team.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('p', "class", "Bot class.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            cmd::opts(cmd::opt('c', "count", "Number of bots to add.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('n', "name", "Bot name.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('t', "team", "Bot team.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('p', "class", "Bot class.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (!args.empty()) {
 		return cmd::error(self.getUsage());
@@ -290,7 +290,7 @@ CON_COMMAND(sv_rtv, "<ip>", ConCommand::SERVER, "Have the client with a certain 
 }
 
 CON_COMMAND(sv_write_output, "<ip> <message>", ConCommand::SERVER, "Write a server command output message to the client with a certain ip.",
-			{}, cmd::suggestConnectedClientIp<1>) {
+            {}, cmd::suggestConnectedClientIp<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -311,7 +311,7 @@ CON_COMMAND(sv_write_output, "<ip> <message>", ConCommand::SERVER, "Write a serv
 }
 
 CON_COMMAND(sv_write_error, "<ip> <message>", ConCommand::SERVER, "Write a server command error message to the client with a certain ip.",
-			{}, cmd::suggestConnectedClientIp<1>) {
+            {}, cmd::suggestConnectedClientIp<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -345,7 +345,7 @@ CON_COMMAND(sv_kick, "<name/ip>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "
 }
 
 CON_COMMAND(sv_ban, "<name/ip> [username]", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Ban a player from the server.", {},
-			cmd::suggestPlayerName<1>) {
+            cmd::suggestPlayerName<1>) {
 	if (argv.size() != 2 && argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -359,7 +359,7 @@ CON_COMMAND(sv_ban, "<name/ip> [username]", ConCommand::SERVER | ConCommand::ADM
 }
 
 CON_COMMAND(sv_unban, "<ip>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Remove an ip address from the server's banned user list.", {},
-			cmd::suggestBannedPlayerIpAddress<1>) {
+            cmd::suggestBannedPlayerIpAddress<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -372,9 +372,9 @@ CON_COMMAND(sv_unban, "<ip>", ConCommand::SERVER | ConCommand::ADMIN_ONLY, "Remo
 	assert(server);
 	if (!server->unbanPlayer(ip)) {
 		return cmd::error("{}: Ip address \"{}\" is not banned. Use \"{}\" for a list of banned ips.",
-						  self.getName(),
-						  std::string{ip},
-						  GET_COMMAND(sv_ban_list).getName());
+		                  self.getName(),
+		                  std::string{ip},
+		                  GET_COMMAND(sv_ban_list).getName());
 	}
 
 	return cmd::done();
@@ -400,27 +400,27 @@ CON_COMMAND(sv_writeconfig, "", ConCommand::SERVER | ConCommand::ADMIN_ONLY | Co
 	static constexpr auto getBannedPlayerCommand = [](const auto& kv) {
 		const auto& [ip, bannedPlayer] = *kv;
 		return fmt::format("{} {} {}",
-						   GET_COMMAND(sv_ban).getName(),
-						   Script::escapedString(std::string{ip}),
-						   Script::escapedString(bannedPlayer.username));
+		                   GET_COMMAND(sv_ban).getName(),
+		                   Script::escapedString(std::string{ip}),
+		                   Script::escapedString(bannedPlayer.username));
 	};
 
 	assert(server);
 	if (!util::dumpFile(fmt::format("{}/{}/{}", data_dir, data_subdir_cfg, sv_config_file),
-						fmt::format("{}\n"
-									"\n"
-									"// Inventories:\n"
-									"{}\n"
-									"// Remote console:\n"
-									"{}\n"
-									"\n"
-									"// Banned IPs:\n"
-									"{}\n",
-									GameServer::getConfigHeader(),
-									server->getInventoryConfig(),
-									server->getRconConfig(),
-									server->getBannedPlayers() | util::collect<Refs>() | util::sort(compareBannedPlayerRefs) |
-										util::transform(getBannedPlayerCommand) | util::join('\n')))) {
+	                    fmt::format("{}\n"
+	                                "\n"
+	                                "// Inventories:\n"
+	                                "{}\n"
+	                                "// Remote console:\n"
+	                                "{}\n"
+	                                "\n"
+	                                "// Banned IPs:\n"
+	                                "{}\n",
+	                                GameServer::getConfigHeader(),
+	                                server->getInventoryConfig(),
+	                                server->getRconConfig(),
+	                                server->getBannedPlayers() | util::collect<Refs>() | util::sort(compareBannedPlayerRefs) |
+	                                    util::transform(getBannedPlayerCommand) | util::join('\n')))) {
 		return cmd::error("{}: Failed to save config file \"{}\"!", self.getName(), sv_config_file);
 	}
 	return cmd::done();

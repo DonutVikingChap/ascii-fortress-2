@@ -97,9 +97,9 @@ CON_COMMAND(concat, "<string> <strings...>", ConCommand::NO_FLAGS, "Concatenate 
 }
 
 CON_COMMAND(substr, "<string> <index> [count]", ConCommand::NO_FLAGS,
-			"Get a substring of a string, starting at index and ending at index + count (or at the end of the string, whichever comes "
-			"first).",
-			{}, nullptr) {
+            "Get a substring of a string, starting at index and ending at index + count (or at the end of the string, whichever comes "
+            "first).",
+            {}, nullptr) {
 	if (argv.size() != 3 && argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}

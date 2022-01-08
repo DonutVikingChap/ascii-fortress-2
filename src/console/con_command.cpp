@@ -21,7 +21,7 @@ auto ConCommand::find(std::string_view name) -> ConCommand* {
 }
 
 ConCommand::ConCommand(std::string name, std::string parameters, Flags flags, std::string description, std::vector<cmd::OptionSpec> options,
-					   Suggestions::Function suggestionFunc, Function function)
+                       Suggestions::Function suggestionFunc, Function function)
 	: m_name(std::move(name))
 	, m_parameters(std::move(parameters))
 	, m_flags(flags)
@@ -118,20 +118,20 @@ auto ConCommand::format(bool flags, bool description, bool options) const -> std
 	if (options && !m_options.empty()) {
 		str.append(
 			fmt::format("\n"
-						"Options:\n"
-						"{}",
-						this->formatOptions()));
+		                "Options:\n"
+		                "{}",
+		                this->formatOptions()));
 	}
 	return str;
 }
 
 auto ConCommand::getSuggestions(const Script::Command& command, std::size_t i, Game& game, GameServer* server, GameClient* client,
-								MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) const -> Suggestions {
+                                MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) const -> Suggestions {
 	return (m_suggestionFunc) ? m_suggestionFunc(*this, command, i, game, server, client, metaServer, metaClient, vm) : Suggestions{};
 }
 
 auto ConCommand::execute(cmd::CommandView argv, std::any& data, const CallFrameHandle& frame, Game& game, GameServer* server,
-						 GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) -> cmd::Result {
+                         GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) -> cmd::Result {
 	assert(m_function);
 	return m_function(*this, argv, data, frame, game, server, client, metaServer, metaClient, vm);
 }

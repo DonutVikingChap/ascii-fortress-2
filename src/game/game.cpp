@@ -57,7 +57,7 @@ namespace {
 
 #ifndef NDEBUG
 static void GLAPIENTRY debugOutputCallback(GLenum /*source*/, GLenum type, GLuint /*id*/, GLenum severity, GLsizei /*length*/,
-										   const GLchar* message, const void* /*userParam*/) {
+                                           const GLchar* message, const void* /*userParam*/) {
 	if (severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
 		if (type == GL_DEBUG_TYPE_ERROR) {
 			std::cerr << "OpenGL ERROR: " << message << std::endl;
@@ -82,7 +82,7 @@ Game::Game(int argc, char* argv[])
 	: m_filename(argv[0])
 	, m_console(Vec2{gui::CONSOLE_X, gui::CONSOLE_Y}, Vec2{gui::CONSOLE_W, gui::CONSOLE_H}, Color::white(), static_cast<std::size_t>(console_max_rows))
 	, m_consoleTextInput(Vec2{gui::CONSOLE_INPUT_X, gui::CONSOLE_INPUT_Y}, Vec2{gui::CONSOLE_INPUT_W, gui::CONSOLE_INPUT_H}, Color::white(),
-						 "", nullptr, nullptr, nullptr, nullptr) {
+                         "", nullptr, nullptr, nullptr, nullptr) {
 	if (!m_consoleProcess) {
 		this->fatalError("Failed to launch console process!");
 		return;
@@ -115,8 +115,8 @@ Game::Game(int argc, char* argv[])
 	// Execute init script.
 	if (auto buf = util::readFile("init.cfg")) {
 		if (const auto result = this->consoleCommand(GET_COMMAND(import),
-													 std::array{cmd::Value{GET_COMMAND(script).getName()}, cmd::Value{std::move(*buf)}});
-			result.status == cmd::Status::ERROR_MSG) {
+		                                             std::array{cmd::Value{GET_COMMAND(script).getName()}, cmd::Value{std::move(*buf)}});
+		    result.status == cmd::Status::ERROR_MSG) {
 			this->fatalError(fmt::format("Init script failed!\n{}", result.value));
 			return;
 		}
@@ -125,8 +125,8 @@ Game::Game(int argc, char* argv[])
 	// Execute game script.
 	if (auto buf = util::readFile(fmt::format("{}/game.cfg", data_dir))) {
 		if (const auto result = this->consoleCommand(GET_COMMAND(import),
-													 std::array{cmd::Value{GET_COMMAND(script).getName()}, cmd::Value{std::move(*buf)}});
-			result.status == cmd::Status::ERROR_MSG) {
+		                                             std::array{cmd::Value{GET_COMMAND(script).getName()}, cmd::Value{std::move(*buf)}});
+		    result.status == cmd::Status::ERROR_MSG) {
 			this->fatalError(fmt::format("Game script failed!\n{}", result.value));
 			return;
 		}
@@ -137,14 +137,14 @@ Game::Game(int argc, char* argv[])
 
 	// Execute config script.
 	if (const auto result = this->consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{host_config_file}});
-		result.status == cmd::Status::ERROR_MSG) {
+	    result.status == cmd::Status::ERROR_MSG) {
 		this->fatalError(fmt::format("Config failed!\n{}", result.value));
 		return;
 	}
 
 	// Execute autoexec script.
 	if (const auto result = this->consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{host_autoexec_file}});
-		result.status == cmd::Status::ERROR_MSG) {
+	    result.status == cmd::Status::ERROR_MSG) {
 		this->fatalError(fmt::format("Autoexec failed!\n{}", result.value));
 		return;
 	}
@@ -749,7 +749,7 @@ auto Game::autoComplete(gui::TextInput& textInput) -> void {
 			const auto& command = commands.back();
 			assert(!command.empty());
 			const auto i = (text.compare(text.size() - command.back().value.size(), command.back().value.size(), command.back().value) == 0) ?
-							   command.size() - 1 :
+			                   command.size() - 1 :
                                command.size();
 
 			const auto doAutoCompleteRaw = [&](std::string_view str) {
@@ -805,7 +805,7 @@ auto Game::autoComplete(gui::TextInput& textInput) -> void {
 									  [&, &name = name](const Environment::Table& table) {
 										  return fmt::format("table {} {{\n{}}}", name, Environment::tableString(table));
 									  }),
-								  Color::gray());
+					              Color::gray());
 					m_console.resetScroll();
 					return;
 				}
@@ -846,12 +846,12 @@ auto Game::autoComplete(gui::TextInput& textInput) -> void {
 			for (const auto& [name, cvar] : ConVar::all()) {
 				if (name == command.front().value) {
 					this->println(cvar.format((m_consoleProcess->getUserFlags() & Process::ADMIN) != 0,
-											  (m_consoleProcess->getUserFlags() & Process::REMOTE) != 0,
-											  false,
-											  false,
-											  false,
-											  false),
-								  Color::gray());
+					                          (m_consoleProcess->getUserFlags() & Process::REMOTE) != 0,
+					                          false,
+					                          false,
+					                          false,
+					                          false),
+					              Color::gray());
 					m_console.resetScroll();
 					return;
 				}
@@ -1386,10 +1386,10 @@ auto Game::runGraphical() -> void {
 
 		// Draw debug text.
 		m_charWindow->addText(Vec2{static_cast<int>(r_debug_text_offset_x), static_cast<int>(r_debug_text_offset_y)},
-							  r_debug_text_scale_x,
-							  r_debug_text_scale_y,
-							  std::move(m_debugText),
-							  r_debug_text_color);
+		                      r_debug_text_scale_x,
+		                      r_debug_text_scale_y,
+		                      std::move(m_debugText),
+		                      r_debug_text_color);
 		m_debugText.clear();
 
 		// Clear the framebuffer.

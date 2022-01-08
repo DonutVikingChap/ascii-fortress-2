@@ -82,7 +82,7 @@ struct Color final {
 
 	constexpr explicit operator std::uint32_t() const noexcept {
 		return (static_cast<std::uint32_t>(r) << 24) | (static_cast<std::uint32_t>(g) << 16) | (static_cast<std::uint32_t>(b) << 8) |
-			   static_cast<std::uint32_t>(a);
+		       static_cast<std::uint32_t>(a);
 	}
 
 	[[nodiscard]] friend constexpr auto operator==(Color lhs, Color rhs) noexcept -> bool {

@@ -146,4 +146,4 @@ TypenameMacros:
     - LIST
     - LIST_ENTRY
 
-UseTab: ForContinuationAndIndentation
+UseTab: AlignWithSpaces

@@ -62,14 +62,16 @@ auto InventoryServer::removeInventory(InventoryId id) -> bool {
 
 auto InventoryServer::getInventoryList() const -> std::string {
 	using InventoryRef = util::Reference<const Inventories::value_type>;
-	using Refs         = std::vector<InventoryRef>;
+	using Refs = std::vector<InventoryRef>;
 
 	static constexpr auto compareInventoryRefs = [](const auto& lhs, const auto& rhs) {
 		return lhs->template get<INVENTORY_ID>() < rhs->template get<INVENTORY_ID>();
 	};
 
 	static constexpr auto formatInventory = [](const auto& elem) {
-		static constexpr auto formatHat = [](const auto& hat) { return fmt::format("    {}", hat.getName()); };
+		static constexpr auto formatHat = [](const auto& hat) {
+			return fmt::format("    {}", hat.getName());
+		};
 
 		const auto& [inventory, inventoryId, inventoryAddress] = *elem;
 		return fmt::format(
@@ -91,7 +93,7 @@ auto InventoryServer::getInventoryList() const -> std::string {
 
 auto InventoryServer::getInventoryConfig() const -> std::string {
 	using InventoryRef = util::Reference<const Inventories::value_type>;
-	using Refs         = std::vector<InventoryRef>;
+	using Refs = std::vector<InventoryRef>;
 
 	static constexpr auto compareInventoryRefs = [](const auto& lhs, const auto& rhs) {
 		return lhs->template get<INVENTORY_ID>() < rhs->template get<INVENTORY_ID>();
@@ -100,9 +102,9 @@ auto InventoryServer::getInventoryConfig() const -> std::string {
 	static constexpr auto getInventoryCommands = [](const auto& elem) {
 		const auto getHatCommand = [&](const auto& hat) {
 			return fmt::format("{} {} {}",
-							   GET_COMMAND(sv_inventory_give_hat).getName(),
-							   elem->template get<INVENTORY_ID>(),
-							   Script::escapedString(hat.getName()));
+			                   GET_COMMAND(sv_inventory_give_hat).getName(),
+			                   elem->template get<INVENTORY_ID>(),
+			                   Script::escapedString(hat.getName()));
 		};
 
 		const auto& [inventory, inventoryId, inventoryAddress] = *elem;
@@ -129,7 +131,9 @@ auto InventoryServer::getInventoryConfig() const -> std::string {
 }
 
 auto InventoryServer::getInventoryIds() const -> std::vector<InventoryId> {
-	static constexpr auto getInventoryId = [](const auto& elem) { return elem.template get<INVENTORY_ID>(); };
+	static constexpr auto getInventoryId = [](const auto& elem) {
+		return elem.template get<INVENTORY_ID>();
+	};
 	return m_inventories | util::transform(getInventoryId) | util::collect<std::vector<InventoryId>>();
 }
 
@@ -159,10 +163,10 @@ auto InventoryServer::getEquippedInventoryHat(InventoryId id) const -> Hat {
 auto InventoryServer::giveInventoryHat(InventoryId id, Hat hat) -> bool {
 	if (const auto it = m_inventories.find<INVENTORY_ID>(id); it != m_inventories.end()) {
 		if (const auto hatIt = std::lower_bound((*it)->hats.begin(),
-												(*it)->hats.end(),
-												hat,
-												[](const auto& lhs, const auto& rhs) { return lhs.getName() < rhs.getName(); });
-			hatIt == (*it)->hats.end() || *hatIt != hat) {
+		                                        (*it)->hats.end(),
+		                                        hat,
+		                                        [](const auto& lhs, const auto& rhs) { return lhs.getName() < rhs.getName(); });
+		    hatIt == (*it)->hats.end() || *hatIt != hat) {
 			(*it)->hats.insert(hatIt, hat);
 		}
 		return true;

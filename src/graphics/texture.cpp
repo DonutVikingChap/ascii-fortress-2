@@ -58,7 +58,7 @@ auto Texture::getInternalPixelFormat8BitColor(std::size_t channelCount) -> Textu
 }
 
 Texture::Texture(TextureInternalFormat internalFormat, std::size_t width, std::size_t height, TextureFormat format,
-				 TextureComponentType type, const void* pixels, Flags flags)
+                 TextureComponentType type, const void* pixels, Flags flags)
 	: m_texture(Texture::makeTextureObject())
 	, m_internalFormat(internalFormat)
 	, m_width(width)
@@ -71,14 +71,14 @@ Texture::Texture(TextureInternalFormat internalFormat, std::size_t width, std::s
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glBindTexture(GL_TEXTURE_2D, m_texture.get());
 	glTexImage2D(GL_TEXTURE_2D,
-				 0,
-				 static_cast<GLint>(internalFormat),
-				 static_cast<GLsizei>(width),
-				 static_cast<GLsizei>(height),
-				 0,
-				 static_cast<GLenum>(format),
-				 static_cast<GLenum>(type),
-				 pixels);
+	             0,
+	             static_cast<GLint>(internalFormat),
+	             static_cast<GLsizei>(width),
+	             static_cast<GLsizei>(height),
+	             0,
+	             static_cast<GLenum>(format),
+	             static_cast<GLenum>(type),
+	             pixels);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, ((flags & REPEAT) != 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, ((flags & REPEAT) != 0) ? GL_REPEAT : GL_CLAMP_TO_EDGE);
@@ -95,7 +95,7 @@ Texture::Texture(TextureInternalFormat internalFormat, std::size_t width, std::s
 	: Texture(internalFormat, width, height, TextureFormat::R, TextureComponentType::BYTE, nullptr, flags) {}
 
 auto Texture::paste(std::size_t width, std::size_t height, TextureFormat format, TextureComponentType type, const void* pixels,
-					std::size_t x, std::size_t y) -> void {
+                    std::size_t x, std::size_t y) -> void {
 	GLint unpackAlignment = 0;
 	GLint textureBinding2D = 0;
 	glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpackAlignment);
@@ -104,14 +104,14 @@ auto Texture::paste(std::size_t width, std::size_t height, TextureFormat format,
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glBindTexture(GL_TEXTURE_2D, m_texture.get());
 	glTexSubImage2D(GL_TEXTURE_2D,
-					0,
-					static_cast<GLint>(x),
-					static_cast<GLint>(y),
-					static_cast<GLsizei>(width),
-					static_cast<GLsizei>(height),
-					static_cast<GLenum>(format),
-					static_cast<GLenum>(type),
-					pixels);
+	                0,
+	                static_cast<GLint>(x),
+	                static_cast<GLint>(y),
+	                static_cast<GLsizei>(width),
+	                static_cast<GLsizei>(height),
+	                static_cast<GLenum>(format),
+	                static_cast<GLenum>(type),
+	                pixels);
 
 	glBindTexture(GL_TEXTURE_2D, textureBinding2D);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, unpackAlignment);

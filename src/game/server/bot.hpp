@@ -33,7 +33,7 @@ public:
 	using CoordinateDistributionY = std::uniform_int_distribution<decltype(Vec2::y)>;
 
 	Bot(const Map& map, std::mt19937& rng, CoordinateDistributionX& xCoordinateDistribution,
-		CoordinateDistributionY& yCoordinateDistribution, PlayerId id, std::string name);
+	    CoordinateDistributionY& yCoordinateDistribution, PlayerId id, std::string name);
 
 	static auto updateHealthProbability() -> void;
 	static auto updateClassWeights() -> void;

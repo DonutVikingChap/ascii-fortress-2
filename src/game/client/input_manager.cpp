@@ -407,14 +407,14 @@ auto InputManager::bind(std::string input, std::string output) -> bool {
 				if (const auto& name = command.front().value; !name.empty()) {
 					if (name.front() == '+') {
 						if (const auto actionIt = InputManager::actionMap().find(std::string_view{name}.substr(1));
-							actionIt != InputManager::actionMap().end()) {
+						    actionIt != InputManager::actionMap().end()) {
 							out.actionsPressed |= actionIt->second;
 						}
 						out.onRelease.push_back(command);
 						out.onRelease.back().front().value.front() = '-';
 					} else if (name.front() == '-') {
 						if (const auto actionIt = InputManager::actionMap().find(std::string_view{name}.substr(1));
-							actionIt != InputManager::actionMap().end()) {
+						    actionIt != InputManager::actionMap().end()) {
 							out.actionsReleased |= actionIt->second;
 						}
 						out.onRelease.push_back(command);

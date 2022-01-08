@@ -20,7 +20,7 @@ public:
 	using Function = std::function<void(TextInput& textInput)>;
 
 	TextInput(Vec2 position, Vec2 size, Color color, std::string text, Function onSubmit, Function onDeactivate, Function onType, Function onAutoComplete,
-			  std::size_t maxLength = std::numeric_limits<std::size_t>::max(), bool isPrivate = false, bool replaceMode = false);
+	          std::size_t maxLength = std::numeric_limits<std::size_t>::max(), bool isPrivate = false, bool replaceMode = false);
 
 	~TextInput() override = default;
 

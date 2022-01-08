@@ -20,13 +20,13 @@ extern ConVarFloatMinMax mp_medkit_respawn_time;
 extern ConVarFloatMinMax mp_ammopack_respawn_time;
 
 CON_COMMAND(mp_create_projectile, "[options...] <x> <y> <dx> <dy> <team> <projectile_type_id> <damage>", ConCommand::SERVER,
-			"Add a projectile to the world. Returns the new id.",
-			cmd::opts(cmd::opt('m', "move-interval", "Projectile move interval (lower = faster).", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('t', "disappear-time", "How long until the projectile disappears.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('w', "weapon", "Projectile weapon id.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('o', "owner", "Projectile owner player id.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('s', "hurt-sound", "Hurt sound filename.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            "Add a projectile to the world. Returns the new id.",
+            cmd::opts(cmd::opt('m', "move-interval", "Projectile move interval (lower = faster).", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('t', "disappear-time", "How long until the projectile disappears.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('w', "weapon", "Projectile weapon id.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('o', "owner", "Projectile owner player id.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('s', "hurt-sound", "Hurt sound filename.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 7) {
 		return cmd::error(self.getUsage());
@@ -84,12 +84,12 @@ CON_COMMAND(mp_create_projectile, "[options...] <x> <y> <dx> <dy> <team> <projec
 }
 
 CON_COMMAND(mp_create_explosion, "[options...] <x> <y> <team> <damage>", ConCommand::SERVER,
-			"Add a projectile to the world. Returns the new id.",
-			cmd::opts(cmd::opt('t', "disappear-time", "How long until the explosion disappears.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('w', "weapon", "Explosion weapon id.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('o', "owner", "Explosion owner player id.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('s', "hurt-sound", "Hurt sound filename.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            "Add a projectile to the world. Returns the new id.",
+            cmd::opts(cmd::opt('t', "disappear-time", "How long until the explosion disappears.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('w', "weapon", "Explosion weapon id.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('o', "owner", "Explosion owner player id.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('s', "hurt-sound", "Hurt sound filename.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 4) {
 		return cmd::error(self.getUsage());
@@ -139,9 +139,9 @@ CON_COMMAND(mp_create_explosion, "[options...] <x> <y> <team> <damage>", ConComm
 }
 
 CON_COMMAND(mp_create_sentry, "[options...] <x> <y> <team>", ConCommand::SERVER, "Add a sentry gun to the world. Returns the new id.",
-			cmd::opts(cmd::opt('h', "health", "Sentry gun health.", cmd::OptionType::ARGUMENT_REQUIRED),
-					  cmd::opt('o', "owner", "Sentry gun owner player id.", cmd::OptionType::ARGUMENT_REQUIRED)),
-			nullptr) {
+            cmd::opts(cmd::opt('h', "health", "Sentry gun health.", cmd::OptionType::ARGUMENT_REQUIRED),
+                      cmd::opt('o', "owner", "Sentry gun owner player id.", cmd::OptionType::ARGUMENT_REQUIRED)),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 3) {
 		return cmd::error(self.getUsage());
@@ -362,7 +362,7 @@ CON_COMMAND(mp_kill_sentry, "<sentry_id> [killer_id]", ConCommand::SERVER, "Kill
 }
 
 CON_COMMAND(mp_kill_medkit, "[options...] <medkit_id>", ConCommand::SERVER, "Kill a medkit.",
-			cmd::opts(cmd::opt('r', "respawn-time", "Medkit respawn time.", cmd::OptionType::ARGUMENT_REQUIRED)), cmd::suggestMedkitId<1>) {
+            cmd::opts(cmd::opt('r', "respawn-time", "Medkit respawn time.", cmd::OptionType::ARGUMENT_REQUIRED)), cmd::suggestMedkitId<1>) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 1) {
 		return cmd::error(self.getUsage());
@@ -389,7 +389,7 @@ CON_COMMAND(mp_kill_medkit, "[options...] <medkit_id>", ConCommand::SERVER, "Kil
 }
 
 CON_COMMAND(mp_kill_ammopack, "[options...] <ammopack_id>", ConCommand::SERVER, "Kill an ammopack.",
-			cmd::opts(cmd::opt('r', "respawn-time", "Ammopack respawn time.", cmd::OptionType::ARGUMENT_REQUIRED)), cmd::suggestAmmopackId<1>) {
+            cmd::opts(cmd::opt('r', "respawn-time", "Ammopack respawn time.", cmd::OptionType::ARGUMENT_REQUIRED)), cmd::suggestAmmopackId<1>) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 1) {
 		return cmd::error(self.getUsage());
@@ -505,11 +505,11 @@ DEFINE_LIST_COMMAND(PayloadCart, cart, "a", "Payload cart", "payload cart")
 
 #define DEFINE_TELEPORT_COMMAND(Name, name, prefix, Str, str) \
 	CON_COMMAND(mp_teleport_##name, \
-				"<" #name "_id> <x> <y>", \
-				ConCommand::SERVER, \
-				"Instantly move " prefix " " str " to a certain destination.", \
-				{}, \
-				cmd::suggest##Name##Id<1>) { \
+	            "<" #name "_id> <x> <y>", \
+	            ConCommand::SERVER, \
+	            "Instantly move " prefix " " str " to a certain destination.", \
+	            {}, \
+	            cmd::suggest##Name##Id<1>) { \
 		if (argv.size() != 4) \
 			return cmd::error(self.getUsage()); \
 \
@@ -565,7 +565,7 @@ CON_COMMAND(mp_is_player_carrying_flag, "<player_id>", ConCommand::SERVER, "Chec
 }
 
 CON_COMMAND(mp_player_team_select, "<player_id> <team> <class>", ConCommand::SERVER, "Set the team and class of a player.", {},
-			cmd::suggestPlayerId<1>) {
+            cmd::suggestPlayerId<1>) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -762,7 +762,7 @@ CON_COMMAND(mp_set_player_aim, "<player_id> <dx> <dy>", ConCommand::SERVER, "Set
 }
 
 CON_COMMAND(mp_set_player_noclip, "<player_id> <value>", ConCommand::SERVER, "Set the noclip state of the player with a certain id.", {},
-			cmd::suggestPlayerId<1>) {
+            cmd::suggestPlayerId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -834,7 +834,7 @@ DEFINE_SET_COMMAND(Projectile, projectile, "a", "Projectile", "projectile", time
 DEFINE_SET_COMMAND(Projectile, projectile, "a", "Projectile", "projectile", move_interval, entity.setMoveInterval(value), Number<float>)
 
 CON_COMMAND(mp_set_projectile_move, "<projectile_id> <dx> <dy>", ConCommand::SERVER, "Set the movement vector of a projectile.", {},
-			cmd::suggestProjectileId<1>) {
+            cmd::suggestProjectileId<1>) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -949,7 +949,7 @@ DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", 
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", matrix, entity.matrix().getString())
 
 CON_COMMAND(mp_get_ent_matrix_at, "<ent_id> <matrix_x> <matrix_y>", ConCommand::SERVER,
-			"Get a character in the matrix of a generic entity.", {}, cmd::suggestGenericEntityId<1>) {
+            "Get a character in the matrix of a generic entity.", {}, cmd::suggestGenericEntityId<1>) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -979,53 +979,53 @@ CON_COMMAND(mp_get_ent_matrix_at, "<ent_id> <matrix_x> <matrix_y>", ConCommand::
 
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_world, (entity.getSolidFlags() & Solid::WORLD) == Solid::WORLD)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_environment,
-				   (entity.getSolidFlags() & Solid::RED_ENVIRONMENT) == Solid::RED_ENVIRONMENT)
+                   (entity.getSolidFlags() & Solid::RED_ENVIRONMENT) == Solid::RED_ENVIRONMENT)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_environment,
-				   (entity.getSolidFlags() & Solid::BLUE_ENVIRONMENT) == Solid::BLUE_ENVIRONMENT)
+                   (entity.getSolidFlags() & Solid::BLUE_ENVIRONMENT) == Solid::BLUE_ENVIRONMENT)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_player,
-				   (entity.getSolidFlags() & Solid::RED_PLAYERS) == Solid::RED_PLAYERS)
+                   (entity.getSolidFlags() & Solid::RED_PLAYERS) == Solid::RED_PLAYERS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_player,
-				   (entity.getSolidFlags() & Solid::BLUE_PLAYERS) == Solid::BLUE_PLAYERS)
+                   (entity.getSolidFlags() & Solid::BLUE_PLAYERS) == Solid::BLUE_PLAYERS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_projectile,
-				   (entity.getSolidFlags() & Solid::RED_PROJECTILES) == Solid::RED_PROJECTILES)
+                   (entity.getSolidFlags() & Solid::RED_PROJECTILES) == Solid::RED_PROJECTILES)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_projectile,
-				   (entity.getSolidFlags() & Solid::BLUE_PROJECTILES) == Solid::BLUE_PROJECTILES)
+                   (entity.getSolidFlags() & Solid::BLUE_PROJECTILES) == Solid::BLUE_PROJECTILES)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_explosion,
-				   (entity.getSolidFlags() & Solid::RED_EXPLOSIONS) == Solid::RED_EXPLOSIONS)
+                   (entity.getSolidFlags() & Solid::RED_EXPLOSIONS) == Solid::RED_EXPLOSIONS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_explosion,
-				   (entity.getSolidFlags() & Solid::BLUE_EXPLOSIONS) == Solid::BLUE_EXPLOSIONS)
+                   (entity.getSolidFlags() & Solid::BLUE_EXPLOSIONS) == Solid::BLUE_EXPLOSIONS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_sentry,
-				   (entity.getSolidFlags() & Solid::RED_SENTRY_GUNS) == Solid::RED_SENTRY_GUNS)
+                   (entity.getSolidFlags() & Solid::RED_SENTRY_GUNS) == Solid::RED_SENTRY_GUNS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_sentry,
-				   (entity.getSolidFlags() & Solid::BLUE_SENTRY_GUNS) == Solid::BLUE_SENTRY_GUNS)
+                   (entity.getSolidFlags() & Solid::BLUE_SENTRY_GUNS) == Solid::BLUE_SENTRY_GUNS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_medkit, (entity.getSolidFlags() & Solid::MEDKITS) == Solid::MEDKITS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_ammopack,
-				   (entity.getSolidFlags() & Solid::AMMOPACKS) == Solid::AMMOPACKS)
+                   (entity.getSolidFlags() & Solid::AMMOPACKS) == Solid::AMMOPACKS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_flag,
-				   (entity.getSolidFlags() & Solid::RED_FLAGS) == Solid::RED_FLAGS)
+                   (entity.getSolidFlags() & Solid::RED_FLAGS) == Solid::RED_FLAGS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_flag,
-				   (entity.getSolidFlags() & Solid::BLUE_FLAGS) == Solid::BLUE_FLAGS)
+                   (entity.getSolidFlags() & Solid::BLUE_FLAGS) == Solid::BLUE_FLAGS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_cart,
-				   (entity.getSolidFlags() & Solid::RED_PAYLOAD_CARTS) == Solid::RED_PAYLOAD_CARTS)
+                   (entity.getSolidFlags() & Solid::RED_PAYLOAD_CARTS) == Solid::RED_PAYLOAD_CARTS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_cart,
-				   (entity.getSolidFlags() & Solid::BLUE_PAYLOAD_CARTS) == Solid::BLUE_PAYLOAD_CARTS)
+                   (entity.getSolidFlags() & Solid::BLUE_PAYLOAD_CARTS) == Solid::BLUE_PAYLOAD_CARTS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_ent,
-				   (entity.getSolidFlags() & Solid::GENERIC_ENTITIES) == Solid::GENERIC_ENTITIES)
+                   (entity.getSolidFlags() & Solid::GENERIC_ENTITIES) == Solid::GENERIC_ENTITIES)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_environment,
-				   (entity.getSolidFlags() & Solid::ENVIRONMENT) == Solid::ENVIRONMENT)
+                   (entity.getSolidFlags() & Solid::ENVIRONMENT) == Solid::ENVIRONMENT)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_player, (entity.getSolidFlags() & Solid::PLAYERS) == Solid::PLAYERS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_projectile,
-				   (entity.getSolidFlags() & Solid::PROJECTILES) == Solid::PROJECTILES)
+                   (entity.getSolidFlags() & Solid::PROJECTILES) == Solid::PROJECTILES)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_explosion,
-				   (entity.getSolidFlags() & Solid::EXPLOSIONS) == Solid::EXPLOSIONS)
+                   (entity.getSolidFlags() & Solid::EXPLOSIONS) == Solid::EXPLOSIONS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_sentry,
-				   (entity.getSolidFlags() & Solid::SENTRY_GUNS) == Solid::SENTRY_GUNS)
+                   (entity.getSolidFlags() & Solid::SENTRY_GUNS) == Solid::SENTRY_GUNS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_flag, (entity.getSolidFlags() & Solid::FLAGS) == Solid::FLAGS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_cart,
-				   (entity.getSolidFlags() & Solid::PAYLOAD_CARTS) == Solid::PAYLOAD_CARTS)
+                   (entity.getSolidFlags() & Solid::PAYLOAD_CARTS) == Solid::PAYLOAD_CARTS)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_all, (entity.getSolidFlags() & Solid::RED_ALL) == Solid::RED_ALL)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_all,
-				   (entity.getSolidFlags() & Solid::BLUE_ALL) == Solid::BLUE_ALL)
+                   (entity.getSolidFlags() & Solid::BLUE_ALL) == Solid::BLUE_ALL)
 DEFINE_GET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_all, (entity.getSolidFlags() & Solid::ALL) == Solid::ALL)
 
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", color, entity.setColor(value), Color)
@@ -1033,7 +1033,7 @@ DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", 
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", visible, entity.setVisible(value), Bool)
 
 CON_COMMAND(mp_set_ent_move, "<ent_id> <dx> <dy>", ConCommand::SERVER, "Set the movement vector of a generic entity.", {},
-			cmd::suggestGenericEntityId<1>) {
+            cmd::suggestGenericEntityId<1>) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -1076,7 +1076,7 @@ CON_COMMAND(mp_set_ent_matrix, "<ent_id> <matrix>", ConCommand::SERVER, "Set the
 }
 
 CON_COMMAND(mp_set_ent_matrix_at, "<ent_id> <matrix_x> <matrix_y> <value>", ConCommand::SERVER,
-			"Set a character in the matrix of a generic entity.", {}, cmd::suggestGenericEntityId<1>) {
+            "Set a character in the matrix of a generic entity.", {}, cmd::suggestGenericEntityId<1>) {
 	if (argv.size() != 5) {
 		return cmd::error(self.getUsage());
 	}
@@ -1109,64 +1109,64 @@ CON_COMMAND(mp_set_ent_matrix_at, "<ent_id> <matrix_x> <matrix_y> <value>", ConC
 }
 
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_world,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::WORLD) : (entity.getSolidFlags() & ~Solid::WORLD)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::WORLD) : (entity.getSolidFlags() & ~Solid::WORLD)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_environment,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::RED_ENVIRONMENT)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::RED_ENVIRONMENT)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_environment,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::BLUE_ENVIRONMENT)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::BLUE_ENVIRONMENT)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_player,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PLAYERS) : (entity.getSolidFlags() & ~Solid::RED_PLAYERS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PLAYERS) : (entity.getSolidFlags() & ~Solid::RED_PLAYERS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_player,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PLAYERS) : (entity.getSolidFlags() & ~Solid::BLUE_PLAYERS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PLAYERS) : (entity.getSolidFlags() & ~Solid::BLUE_PLAYERS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_projectile,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PROJECTILES) : (entity.getSolidFlags() & ~Solid::RED_PROJECTILES)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PROJECTILES) : (entity.getSolidFlags() & ~Solid::RED_PROJECTILES)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_projectile,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PROJECTILES) : (entity.getSolidFlags() & ~Solid::BLUE_PROJECTILES)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PROJECTILES) : (entity.getSolidFlags() & ~Solid::BLUE_PROJECTILES)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_explosion,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::RED_EXPLOSIONS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::RED_EXPLOSIONS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_explosion,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::BLUE_EXPLOSIONS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::BLUE_EXPLOSIONS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_sentry,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::RED_SENTRY_GUNS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::RED_SENTRY_GUNS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_sentry,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::BLUE_SENTRY_GUNS)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::BLUE_SENTRY_GUNS)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_medkit,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::MEDKITS) : (entity.getSolidFlags() & ~Solid::MEDKITS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::MEDKITS) : (entity.getSolidFlags() & ~Solid::MEDKITS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_ammopack,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::AMMOPACKS) : (entity.getSolidFlags() & ~Solid::AMMOPACKS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::AMMOPACKS) : (entity.getSolidFlags() & ~Solid::AMMOPACKS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_flag,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_FLAGS) : (entity.getSolidFlags() & ~Solid::RED_FLAGS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_FLAGS) : (entity.getSolidFlags() & ~Solid::RED_FLAGS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_flag,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_FLAGS) : (entity.getSolidFlags() & ~Solid::BLUE_FLAGS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_FLAGS) : (entity.getSolidFlags() & ~Solid::BLUE_FLAGS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_cart,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::RED_PAYLOAD_CARTS)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::RED_PAYLOAD_CARTS)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_cart,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::BLUE_PAYLOAD_CARTS)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::BLUE_PAYLOAD_CARTS)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_ent,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::GENERIC_ENTITIES) : (entity.getSolidFlags() & ~Solid::GENERIC_ENTITIES)),
-				   Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::GENERIC_ENTITIES) : (entity.getSolidFlags() & ~Solid::GENERIC_ENTITIES)),
+                   Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_environment,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::ENVIRONMENT)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::ENVIRONMENT) : (entity.getSolidFlags() & ~Solid::ENVIRONMENT)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_player,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PLAYERS) : (entity.getSolidFlags() & ~Solid::PLAYERS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PLAYERS) : (entity.getSolidFlags() & ~Solid::PLAYERS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_projectile,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PROJECTILES) : (entity.getSolidFlags() & ~Solid::PROJECTILES)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PROJECTILES) : (entity.getSolidFlags() & ~Solid::PROJECTILES)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_explosion,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::EXPLOSIONS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::EXPLOSIONS) : (entity.getSolidFlags() & ~Solid::EXPLOSIONS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_sentry,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::SENTRY_GUNS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::SENTRY_GUNS) : (entity.getSolidFlags() & ~Solid::SENTRY_GUNS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_flag,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::FLAGS) : (entity.getSolidFlags() & ~Solid::FLAGS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::FLAGS) : (entity.getSolidFlags() & ~Solid::FLAGS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_cart,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::PAYLOAD_CARTS)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::PAYLOAD_CARTS) : (entity.getSolidFlags() & ~Solid::PAYLOAD_CARTS)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_red_all,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_ALL) : (entity.getSolidFlags() & ~Solid::RED_ALL)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::RED_ALL) : (entity.getSolidFlags() & ~Solid::RED_ALL)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_blue_all,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_ALL) : (entity.getSolidFlags() & ~Solid::BLUE_ALL)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::BLUE_ALL) : (entity.getSolidFlags() & ~Solid::BLUE_ALL)), Bool)
 DEFINE_SET_COMMAND(GenericEntity, ent, "a", "Generic entity", "generic entity", solid_to_all,
-				   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::ALL) : (entity.getSolidFlags() & ~Solid::ALL)), Bool)
+                   entity.setSolidFlags((value) ? (entity.getSolidFlags() | Solid::ALL) : (entity.getSolidFlags() & ~Solid::ALL)), Bool)

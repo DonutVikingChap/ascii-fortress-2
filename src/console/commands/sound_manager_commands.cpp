@@ -37,7 +37,7 @@ ConVarFloatMinMax	volume{					"volume",						25.0f,	ConVar::CLIENT_SETTING,	"Sou
 // clang-format on
 
 CON_COMMAND(play_music, "<filename> [volume]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Play a music file once.", {},
-			Suggestions::suggestSoundFile<1>) {
+            Suggestions::suggestSoundFile<1>) {
 	if (argv.size() < 2 || argv.size() > 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -62,7 +62,7 @@ CON_COMMAND(play_music, "<filename> [volume]", ConCommand::ADMIN_ONLY | ConComma
 }
 
 CON_COMMAND(loop_music, "<filename> [volume]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Play a music file in a loop.", {},
-			Suggestions::suggestSoundFile<1>) {
+            Suggestions::suggestSoundFile<1>) {
 	if (argv.size() < 2 || argv.size() > 3) {
 		return cmd::error(self.getUsage());
 	}

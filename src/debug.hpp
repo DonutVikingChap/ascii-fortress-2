@@ -34,7 +34,7 @@ struct Msg final {
 
 #ifndef NDEBUG
 	static constexpr auto ACTIVE_FILTER = Filter{GENERAL | CONNECTION_EVENT | INPUT_MANAGER | CHAT | CLIENT | SERVER | CONSOLE_EVENT |
-												 CONSOLE_OUTPUT | RCON};
+	                                             CONSOLE_OUTPUT | RCON};
 #else
 	static constexpr auto ACTIVE_FILTER = Filter{ALL};
 #endif
@@ -52,15 +52,15 @@ auto indent() noexcept -> std::size_t&;
 
 inline auto debugMsgImpl(const char* func, const char* file, int line, std::string_view format_str, fmt::format_args args) {
 	logger::logInfo(fmt::format("{:<40}: {:<{}}{}",
-								fmt::format("({}, {}:{})", func, std::filesystem::path{file}.filename().generic_string(), line),
-								"",
-								indent() * 4,
-								fmt::vformat(format_str, args)));
+	                            fmt::format("({}, {}:{})", func, std::filesystem::path{file}.filename().generic_string(), line),
+	                            "",
+	                            indent() * 4,
+	                            fmt::vformat(format_str, args)));
 }
 
 template <Msg::Filter MESSAGE_FILTER, std::size_t N, typename... Args>
 inline auto debugMsg([[maybe_unused]] const char* func, [[maybe_unused]] const char* file, [[maybe_unused]] int line,
-					 [[maybe_unused]] const char (&format_str)[N], [[maybe_unused]] Args&&... args) -> void {
+                     [[maybe_unused]] const char (&format_str)[N], [[maybe_unused]] Args&&... args) -> void {
 	if constexpr ((MESSAGE_FILTER & Msg::ACTIVE_FILTER) != Msg::NONE) {
 		debug::detail::debugMsgImpl(func, file, line, format_str, fmt::make_format_args(std::forward<Args>(args)...));
 	}
@@ -84,7 +84,7 @@ struct Indenter final {
 	Indenter(Indenter&&) = delete;
 
 	auto operator=(const Indenter&) -> Indenter& = delete;
-	auto operator=(Indenter &&) -> Indenter& = delete;
+	auto operator=(Indenter&&) -> Indenter& = delete;
 };
 
 } // namespace detail

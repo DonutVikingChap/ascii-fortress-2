@@ -16,8 +16,8 @@ const float warpedness = 0.05;
 
 void main() {
 	vec2 position = (offset + instanceOffset + inCoordinates * instanceScale) * scale;
-    float r = length(position);
-    float w = 1.0 - warpedness + r * warpedness;
+	float r = length(position);
+	float w = 1.0 - warpedness + r * warpedness;
 	ioTextureCoordinates = instanceTextureOffset + inCoordinates * instanceTextureScale;
 	ioColor = instanceColor;
 	gl_Position = vec4(position, 0.0, w);

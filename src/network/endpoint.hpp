@@ -88,11 +88,11 @@ public:
 
 	constexpr explicit IpAddress(std::uint32_t address) noexcept
 		: m_bytes({
-			static_cast<std::uint8_t>((address >> 24) & 0xFF),
-			static_cast<std::uint8_t>((address >> 16) & 0xFF),
-			static_cast<std::uint8_t>((address >> 8) & 0xFF),
-			static_cast<std::uint8_t>((address >> 0) & 0xFF),
-		}) {}
+			  static_cast<std::uint8_t>((address >> 24) & 0xFF),
+			  static_cast<std::uint8_t>((address >> 16) & 0xFF),
+			  static_cast<std::uint8_t>((address >> 8) & 0xFF),
+			  static_cast<std::uint8_t>((address >> 0) & 0xFF),
+		  }) {}
 
 	constexpr explicit operator std::uint32_t() const noexcept {
 		return (m_bytes[0] << 24) | (m_bytes[1] << 16) | (m_bytes[2] << 8) | (m_bytes[3] << 0);

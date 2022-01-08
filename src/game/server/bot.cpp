@@ -10,7 +10,7 @@
 #include <cmath> // std::sqrt
 
 Bot::Bot(const Map& map, std::mt19937& rng, CoordinateDistributionX& xCoordinateDistribution,
-		 CoordinateDistributionY& yCoordinateDistribution, PlayerId id, std::string name)
+         CoordinateDistributionY& yCoordinateDistribution, PlayerId id, std::string name)
 	: m_map(map)
 	, m_rng(rng)
 	, m_xCoordinateDistribution(xCoordinateDistribution)
@@ -24,20 +24,20 @@ auto Bot::updateHealthProbability() -> void {
 
 auto Bot::updateClassWeights() -> void {
 	Bot::classDistribution() = ClassDistribution{static_cast<double>(bot_class_weight_scout),
-												 static_cast<double>(bot_class_weight_soldier),
-												 static_cast<double>(bot_class_weight_pyro),
-												 static_cast<double>(bot_class_weight_demoman),
-												 static_cast<double>(bot_class_weight_heavy),
-												 static_cast<double>(bot_class_weight_engineer),
-												 static_cast<double>(bot_class_weight_medic),
-												 static_cast<double>(bot_class_weight_sniper),
-												 static_cast<double>(bot_class_weight_spy)};
+	                                             static_cast<double>(bot_class_weight_soldier),
+	                                             static_cast<double>(bot_class_weight_pyro),
+	                                             static_cast<double>(bot_class_weight_demoman),
+	                                             static_cast<double>(bot_class_weight_heavy),
+	                                             static_cast<double>(bot_class_weight_engineer),
+	                                             static_cast<double>(bot_class_weight_medic),
+	                                             static_cast<double>(bot_class_weight_sniper),
+	                                             static_cast<double>(bot_class_weight_spy)};
 }
 
 auto Bot::updateGoalWeights() -> void {
 	Bot::goalDistribution() = GoalDistribution{static_cast<double>(bot_decision_weight_do_objective),
-											   static_cast<double>(bot_decision_weight_roam),
-											   static_cast<double>(bot_decision_weight_defend)};
+	                                           static_cast<double>(bot_decision_weight_roam),
+	                                           static_cast<double>(bot_decision_weight_defend)};
 }
 
 auto Bot::updateSpyCheckProbability() -> void {
@@ -66,9 +66,9 @@ auto Bot::think(float deltaTime) -> void {
 					if (m_currentNode > 0) {
 						if (m_currentGoal == Goal::GET_OBJECTIVE) {
 							const auto area = Rect{static_cast<Rect::Length>(m_snapshot.selfPlayer.position.x - 1),
-												   static_cast<Rect::Length>(m_snapshot.selfPlayer.position.y - 1),
-												   3,
-												   3};
+							                       static_cast<Rect::Length>(m_snapshot.selfPlayer.position.y - 1),
+							                       3,
+							                       3};
 							for (const auto& cart : m_snapshot.carts) {
 								if (area.contains(cart.position)) {
 									m_actions = Action::NONE;
@@ -91,7 +91,7 @@ auto Bot::think(float deltaTime) -> void {
 
 						m_actions = Action::NONE;
 						if (m_snapshot.selfPlayer.playerClass == PlayerClass::spy() &&
-							m_snapshot.selfPlayer.skinTeam == m_snapshot.selfPlayer.team) {
+						    m_snapshot.selfPlayer.skinTeam == m_snapshot.selfPlayer.team) {
 							m_actions |= Action::ATTACK2;
 						}
 						this->moveTowards(currentDestination);
@@ -199,7 +199,7 @@ auto Bot::setRandomGoal() -> void {
 	};
 	const auto otherTeamFlags = m_snapshot.flags | util::filter(isEnemyFlag);
 	if (const auto closestFlag = ent::findClosestDistanceSquared(otherTeamFlags, m_snapshot.selfPlayer.position);
-		closestFlag.first != otherTeamFlags.end()) {
+	    closestFlag.first != otherTeamFlags.end()) {
 		if (const auto range = static_cast<int>(bot_range); closestFlag.second < range * range && this->findPath(closestFlag.first->position)) {
 			m_currentGoal = Goal::GET_OBJECTIVE;
 			m_currentState = State::GOING;
@@ -236,7 +236,7 @@ auto Bot::setGoalToGetObjective() -> void {
 	};
 	const auto otherTeamFlags = m_snapshot.flags | util::filter(isEnemyFlag);
 	if (const auto closestFlag = ent::findClosestDistanceSquared(otherTeamFlags, m_snapshot.selfPlayer.position);
-		closestFlag.first != otherTeamFlags.end() && this->findPath(closestFlag.first->position)) {
+	    closestFlag.first != otherTeamFlags.end() && this->findPath(closestFlag.first->position)) {
 		m_currentGoal = Goal::GET_OBJECTIVE;
 		m_currentState = State::GOING;
 	} else {
@@ -278,11 +278,11 @@ auto Bot::setGoalToCaptureObjective() -> void {
 	}
 
 	const auto& flagSpawns = (m_snapshot.selfPlayer.team == Team::red())  ? m_map->getRedFlagSpawns() :
-							 (m_snapshot.selfPlayer.team == Team::blue()) ? m_map->getBlueFlagSpawns() :
+	                         (m_snapshot.selfPlayer.team == Team::blue()) ? m_map->getBlueFlagSpawns() :
                                                                             decltype(m_map->getBlueFlagSpawns()){};
 
 	if (const auto it = util::findClosestDistanceSquared(flagSpawns, m_snapshot.selfPlayer.position).first;
-		it != flagSpawns.end() && this->findPath(*it)) {
+	    it != flagSpawns.end() && this->findPath(*it)) {
 		m_currentGoal = Goal::CAPTURE_OBJECTIVE;
 		m_currentState = State::GOING;
 	} else {
@@ -292,7 +292,7 @@ auto Bot::setGoalToCaptureObjective() -> void {
 
 auto Bot::setGoalToGetHealth() -> void {
 	if (const auto closestMedkit = ent::findClosestDistanceSquared(m_snapshot.medkits, m_snapshot.selfPlayer.position);
-		closestMedkit.first != m_snapshot.medkits.end()) {
+	    closestMedkit.first != m_snapshot.medkits.end()) {
 		if (this->findPath(closestMedkit.first->position)) {
 			m_currentGoal = Goal::GET_HEALTH;
 			m_currentState = State::GOING;
@@ -393,10 +393,10 @@ auto Bot::tryFight(float deltaTime) -> bool {
 
 	if (enemy) {
 		this->fight(enemy->player.position,
-					enemy->distance,
-					m_currentGoal != Goal::DEFEND && enemy->player.team != m_snapshot.selfPlayer.team,
-					enemy->player.playerClass,
-					false);
+		            enemy->distance,
+		            m_currentGoal != Goal::DEFEND && enemy->player.team != m_snapshot.selfPlayer.team,
+		            enemy->player.playerClass,
+		            false);
 		m_currentState = State::FIGHTING;
 		return true;
 	}
@@ -563,13 +563,13 @@ auto Bot::shouldReload() -> bool {
 
 auto Bot::shouldGetHealth() -> bool {
 	return m_currentGoal != Goal::CAPTURE_OBJECTIVE && m_snapshot.selfPlayer.health < m_snapshot.selfPlayer.playerClass.getHealth() &&
-		   Bot::healthDistribution()(*m_rng);
+	       Bot::healthDistribution()(*m_rng);
 }
 
 auto Bot::shouldFlee() -> bool {
 	return m_currentGoal != Goal::CAPTURE_OBJECTIVE &&
-		   (m_snapshot.selfPlayer.playerClass == PlayerClass::medic() || m_snapshot.selfPlayer.playerClass == PlayerClass::spy() ||
-			m_snapshot.selfPlayer.playerClass == PlayerClass::demoman() || this->shouldReload());
+	       (m_snapshot.selfPlayer.playerClass == PlayerClass::medic() || m_snapshot.selfPlayer.playerClass == PlayerClass::spy() ||
+	        m_snapshot.selfPlayer.playerClass == PlayerClass::demoman() || this->shouldReload());
 }
 
 auto Bot::onStopFighting() -> void {
@@ -715,7 +715,7 @@ auto Bot::moveRandomlyAwayFrom(Vec2 position) -> void {
 
 auto Bot::isPotentialEnemy(const ent::sh::Player& player, bool requireLineOfSight) const -> bool {
 	if (player.team != m_snapshot.selfPlayer.team ||
-		(player.playerClass == PlayerClass::spy() && m_snapshot.selfPlayer.playerClass != PlayerClass::spy() && m_spyCheckState == SpyCheckState::ALERT)) {
+	    (player.playerClass == PlayerClass::spy() && m_snapshot.selfPlayer.playerClass != PlayerClass::spy() && m_spyCheckState == SpyCheckState::ALERT)) {
 		return !requireLineOfSight || m_map->lineOfSight(m_snapshot.selfPlayer.position, player.position);
 	}
 	return false;
@@ -723,7 +723,7 @@ auto Bot::isPotentialEnemy(const ent::sh::Player& player, bool requireLineOfSigh
 
 auto Bot::isPotentiallyHealable(const ent::sh::Player& player) const -> bool {
 	return player.team == m_snapshot.selfPlayer.team && (player.playerClass != PlayerClass::spy() || m_spyCheckState != SpyCheckState::ALERT) &&
-		   m_map->lineOfSight(m_snapshot.selfPlayer.position, player.position);
+	       m_map->lineOfSight(m_snapshot.selfPlayer.position, player.position);
 }
 
 auto Bot::findEnemyPlayer(bool requireLineOfSight) const -> std::optional<Bot::FoundPlayer> {
@@ -732,7 +732,7 @@ auto Bot::findEnemyPlayer(bool requireLineOfSight) const -> std::optional<Bot::F
 	};
 	const auto potentialEnemies = m_snapshot.players | util::filter(isPotentialEnemy);
 	if (const auto closestEnemy = ent::findClosestDistanceSquared(potentialEnemies, m_snapshot.selfPlayer.position);
-		closestEnemy.first != potentialEnemies.end()) {
+	    closestEnemy.first != potentialEnemies.end()) {
 		if (const auto range = static_cast<int>(bot_range); closestEnemy.second <= range * range) {
 			return FoundPlayer{*closestEnemy.first, std::sqrt(static_cast<float>(closestEnemy.second)) / static_cast<float>(range)};
 		}
@@ -746,7 +746,7 @@ auto Bot::findHealablePlayer() const -> const ent::sh::Player* {
 	};
 	const auto healableTeammates = util::filter(m_snapshot.players, isPotentiallyHealable);
 	if (const auto closestTeammate = ent::findClosestDistanceSquared(healableTeammates, m_snapshot.selfPlayer.position);
-		closestTeammate.first != healableTeammates.end()) {
+	    closestTeammate.first != healableTeammates.end()) {
 		const auto speed = 1.0f / ProjectileType::heal_beam().getMoveInterval();
 		const auto time = ProjectileType::heal_beam().getDisappearTime();
 		if (const auto range = static_cast<int>(speed * time); closestTeammate.second <= range * range) {
@@ -764,20 +764,20 @@ auto Bot::findSpy() const -> const ent::sh::Player* {
 			}
 
 			if (const auto inFrontX = (player.position.x <= m_snapshot.selfPlayer.position.x && m_snapshot.selfPlayer.aimDirection.hasLeft()) ||
-									  (player.position.x >= m_snapshot.selfPlayer.position.x && m_snapshot.selfPlayer.aimDirection.hasRight());
-				!inFrontX) {
+		                              (player.position.x >= m_snapshot.selfPlayer.position.x && m_snapshot.selfPlayer.aimDirection.hasRight());
+		        !inFrontX) {
 				return false;
 			}
 			if (const auto inFrontY = (player.position.y <= m_snapshot.selfPlayer.position.y && m_snapshot.selfPlayer.aimDirection.hasUp()) ||
-									  (player.position.y >= m_snapshot.selfPlayer.position.y && m_snapshot.selfPlayer.aimDirection.hasDown());
-				!inFrontY) {
+		                              (player.position.y >= m_snapshot.selfPlayer.position.y && m_snapshot.selfPlayer.aimDirection.hasDown());
+		        !inFrontY) {
 				return false;
 			}
 			return m_map->lineOfSight(m_snapshot.selfPlayer.position, player.position);
 		});
 
 	if (const auto closestSpy = ent::findClosestDistanceSquared(visibleSpies, m_snapshot.selfPlayer.position);
-		closestSpy.first != visibleSpies.end() && closestSpy.second <= this->getRangeSquared()) {
+	    closestSpy.first != visibleSpies.end() && closestSpy.second <= this->getRangeSquared()) {
 		return &*closestSpy.first;
 	}
 	return nullptr;
@@ -786,11 +786,11 @@ auto Bot::findSpy() const -> const ent::sh::Player* {
 auto Bot::findEnemySentryGun() const -> const ent::sh::SentryGun* {
 	const auto visibleSentryGuns = m_snapshot.sentryGuns | util::filter([&](const auto& sentryGun) {
 									   return sentryGun.team != m_snapshot.selfPlayer.team &&
-											  m_map->lineOfSight(m_snapshot.selfPlayer.position, sentryGun.position);
+		                                      m_map->lineOfSight(m_snapshot.selfPlayer.position, sentryGun.position);
 								   });
 
 	if (const auto& closestSentry = ent::findClosestDistanceSquared(visibleSentryGuns, m_snapshot.selfPlayer.position);
-		closestSentry.first != visibleSentryGuns.end() && closestSentry.second <= this->getRangeSquared()) {
+	    closestSentry.first != visibleSentryGuns.end() && closestSentry.second <= this->getRangeSquared()) {
 		return &*closestSentry.first;
 	}
 	return nullptr;
@@ -809,9 +809,9 @@ auto Bot::isNearbySticky(Vec2 position) const -> bool {
 
 auto Bot::findPath(Vec2 destination) -> bool {
 	m_currentPath = m_map->findPath(m_snapshot.selfPlayer.position,
-									destination,
-									m_snapshot.selfPlayer.team == Team::red(),
-									m_snapshot.selfPlayer.team == Team::blue());
+	                                destination,
+	                                m_snapshot.selfPlayer.team == Team::red(),
+	                                m_snapshot.selfPlayer.team == Team::blue());
 	m_currentNode = m_currentPath.size();
 	return !m_currentPath.empty();
 }

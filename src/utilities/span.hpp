@@ -147,7 +147,7 @@ public:
 		: detail::SpanBase<T, SIZE>(data, size) {}
 
 	template <typename U, std::size_t N, typename = std::enable_if_t<detail::is_allowed_size_conversion_v<N, SIZE>>,
-			  typename = std::enable_if_t<detail::is_allowed_element_type_conversion_v<U, T>>>
+	          typename = std::enable_if_t<detail::is_allowed_element_type_conversion_v<U, T>>>
 	constexpr Span(const Span<U, N>& other)
 		: Span(other.data(), other.size()) {}
 
@@ -173,17 +173,17 @@ public:
 		: Span() {}
 
 	template <typename Container, typename = std::enable_if_t<!detail::is_span_v<Container>>, typename = std::enable_if_t<!detail::is_std_array_v<Container>>,
-			  typename = decltype(std::data(std::declval<Container>())), typename = decltype(std::size(std::declval<Container>())),
-			  typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, pointer>>,
-			  typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, decltype(std::data(std::declval<Container>()))>>>
+	          typename = decltype(std::data(std::declval<Container>())), typename = decltype(std::size(std::declval<Container>())),
+	          typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, pointer>>,
+	          typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, decltype(std::data(std::declval<Container>()))>>>
 	constexpr Span(Container& container)
 		: Span(std::data(container), std::size(container)) {}
 
 	template <typename Container, typename Element = element_type, typename = std::enable_if_t<std::is_const_v<Element>>,
-			  typename = std::enable_if_t<!detail::is_span_v<Container>>, typename = std::enable_if_t<!detail::is_std_array_v<Container>>,
-			  typename = decltype(std::data(std::declval<Container>())), typename = decltype(std::size(std::declval<Container>())),
-			  typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, pointer>>,
-			  typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, decltype(std::data(std::declval<Container>()))>>>
+	          typename = std::enable_if_t<!detail::is_span_v<Container>>, typename = std::enable_if_t<!detail::is_std_array_v<Container>>,
+	          typename = decltype(std::data(std::declval<Container>())), typename = decltype(std::size(std::declval<Container>())),
+	          typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, pointer>>,
+	          typename = std::enable_if_t<std::is_convertible_v<typename Container::pointer, decltype(std::data(std::declval<Container>()))>>>
 	constexpr Span(const Container& container)
 		: Span(std::data(container), std::size(container)) {}
 

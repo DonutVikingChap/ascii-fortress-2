@@ -118,7 +118,7 @@ auto CallFrameHandle::awaitUnlimited(Game& game, GameServer* server, GameClient*
 }
 
 auto CallFrameHandle::awaitLimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-								   int limit) const -> cmd::Result {
+                                   int limit) const -> cmd::Result {
 	assert(m_process);
 	assert(m_frameIndex < m_process->m_callStack.size());
 	return m_process->awaitLimited(game, server, client, metaServer, metaClient, limit, this->index());
@@ -159,7 +159,7 @@ auto CallFrameHandle::call(std::size_t returnArgumentIndex, std::shared_ptr<Envi
 }
 
 auto CallFrameHandle::call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, const Environment::Function& function,
-						   util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle> {
+                           util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle> {
 	assert(m_process);
 	assert(m_frameIndex < m_process->m_callStack.size());
 	return m_process->call(std::move(env), function, args, this->index(), returnArgumentIndex, this->getExportTarget());
@@ -172,7 +172,7 @@ auto CallFrameHandle::call(std::size_t returnArgumentIndex, std::shared_ptr<Envi
 }
 
 auto CallFrameHandle::call(std::size_t returnArgumentIndex, std::shared_ptr<Environment> env, ConCommand& cmd,
-						   util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle> {
+                           util::Span<const cmd::Value> args) const -> std::optional<CallFrameHandle> {
 	assert(m_process);
 	assert(m_frameIndex < m_process->m_callStack.size());
 	return m_process->call(std::move(env), cmd, args, this->index(), returnArgumentIndex, this->getExportTarget());

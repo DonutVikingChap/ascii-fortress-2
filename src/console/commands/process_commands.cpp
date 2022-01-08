@@ -74,7 +74,7 @@ CON_COMMAND(if, "<condition> <script>", ConCommand::NO_FLAGS, "Conditionally exe
 }
 
 CON_COMMAND(elif, "<condition> <script>", ConCommand::NO_FLAGS,
-			"Conditionally execute script if the previous condition failed (see also: if, else).", {}, nullptr) {
+            "Conditionally execute script if the previous condition failed (see also: if, else).", {}, nullptr) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -389,7 +389,7 @@ CON_COMMAND(error_clear, "", ConCommand::NO_FLAGS, "Clear the last error message
 }
 
 CON_COMMAND(try, "<script>", ConCommand::NO_FLAGS,
-			"Execute a script in its own environment, but don't end the process if there is an error.", {}, nullptr) {
+            "Execute a script in its own environment, but don't end the process if there is an error.", {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

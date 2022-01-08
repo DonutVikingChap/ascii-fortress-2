@@ -42,10 +42,10 @@ public:
 		META_CLIENT = 1 << 6, // Command can only be used if the host is running a meta client.
 	};
 	using Function = cmd::Result (*)(ConCommand& self, cmd::CommandView argv, std::any& data, const CallFrameHandle& frame, Game& game,
-									 GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm);
+	                                 GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm);
 
 	ConCommand(std::string name, std::string parameters, Flags flags, std::string description, std::vector<cmd::OptionSpec> options,
-			   Suggestions::Function suggestionFunc, Function function);
+	           Suggestions::Function suggestionFunc, Function function);
 
 	~ConCommand();
 
@@ -53,7 +53,7 @@ public:
 	ConCommand(ConCommand&&) = delete;
 
 	auto operator=(const ConCommand&) -> ConCommand& = delete;
-	auto operator=(ConCommand &&) -> ConCommand& = delete;
+	auto operator=(ConCommand&&) -> ConCommand& = delete;
 
 	[[nodiscard]] auto getName() const noexcept -> std::string_view;
 	[[nodiscard]] auto getParameters() const noexcept -> std::string_view;
@@ -68,12 +68,12 @@ public:
 	[[nodiscard]] auto format(bool flags, bool description, bool options) const -> std::string;
 
 	[[nodiscard]] auto getSuggestions(const Script::Command& command, std::size_t i, Game& game, GameServer* server, GameClient* client,
-									  MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) const -> Suggestions;
+	                                  MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) const -> Suggestions;
 
 private:
 	friend Process;
 	[[nodiscard]] auto execute(cmd::CommandView argv, std::any& data, const CallFrameHandle& frame, Game& game, GameServer* server,
-							   GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) -> cmd::Result;
+	                           GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm) -> cmd::Result;
 
 	std::string m_name;
 	std::string m_parameters;
@@ -86,27 +86,27 @@ private:
 
 #define CON_COMMAND(name, params, flags, description, options, suggestions) \
 	auto cmd_##name##_f(ConCommand& self, \
-						cmd::CommandView argv, \
-						std::any& data, \
-						const CallFrameHandle& frame, \
-						Game& game, \
-						GameServer* server, \
-						GameClient* client, \
-						MetaServer* metaServer, \
-						MetaClient* metaClient, \
-						VirtualMachine& vm) \
+	                    cmd::CommandView argv, \
+	                    std::any& data, \
+	                    const CallFrameHandle& frame, \
+	                    Game& game, \
+	                    GameServer* server, \
+	                    GameClient* client, \
+	                    MetaServer* metaServer, \
+	                    MetaClient* metaClient, \
+	                    VirtualMachine& vm) \
 		->cmd::Result; \
 	ConCommand cmd_##name{#name, params, flags, description, options, suggestions, cmd_##name##_f}; \
 	auto cmd_##name##_f([[maybe_unused]] ConCommand& self, \
-						[[maybe_unused]] cmd::CommandView argv, \
-						[[maybe_unused]] std::any& data, \
-						[[maybe_unused]] const CallFrameHandle& frame, \
-						[[maybe_unused]] Game& game, \
-						[[maybe_unused]] GameServer* server, \
-						[[maybe_unused]] GameClient* client, \
-						[[maybe_unused]] MetaServer* metaServer, \
-						[[maybe_unused]] MetaClient* metaClient, \
-						[[maybe_unused]] VirtualMachine& vm) \
+	                    [[maybe_unused]] cmd::CommandView argv, \
+	                    [[maybe_unused]] std::any& data, \
+	                    [[maybe_unused]] const CallFrameHandle& frame, \
+	                    [[maybe_unused]] Game& game, \
+	                    [[maybe_unused]] GameServer* server, \
+	                    [[maybe_unused]] GameClient* client, \
+	                    [[maybe_unused]] MetaServer* metaServer, \
+	                    [[maybe_unused]] MetaClient* metaClient, \
+	                    [[maybe_unused]] VirtualMachine& vm) \
 		->cmd::Result
 
 #define CON_COMMAND_EXTERN(name) extern ConCommand cmd_##name

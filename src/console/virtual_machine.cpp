@@ -105,7 +105,7 @@ auto VirtualMachine::run(float deltaTime, Game& game, GameServer* server, GameCl
 }
 
 auto VirtualMachine::runProcesses(std::vector<std::shared_ptr<Process>>& processes, Game& game, GameServer* server, GameClient* client,
-								  MetaServer* metaServer, MetaClient* metaClient) -> void {
+                                  MetaServer* metaServer, MetaClient* metaClient) -> void {
 	const auto end = processes.size();
 	for (auto i = std::size_t{0}; i < end; ++i) {
 		auto& process = processes[i];

@@ -10,7 +10,7 @@
 namespace gui {
 
 CmdInput::CmdInput(Vec2 position, Vec2 size, Color color, std::string text, Game& game, VirtualMachine& vm, std::shared_ptr<Environment> env,
-				   std::shared_ptr<Process> process, std::string_view command, std::size_t maxLength, bool isPrivate, bool replaceMode)
+                   std::shared_ptr<Process> process, std::string_view command, std::size_t maxLength, bool isPrivate, bool replaceMode)
 	: TextInput(
 		  position, size, color, std::move(text),
 		  [&game, &vm, env = std::move(env), process = std::move(process), script = Script::parse(command)](TextInput&) {

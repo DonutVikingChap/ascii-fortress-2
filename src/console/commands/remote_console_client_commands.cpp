@@ -17,7 +17,7 @@
 #include <utility>     // std::move
 
 CON_COMMAND(rcon_login, "<username> [password]", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Login to the server's remote console.", {}, nullptr) {
+            "Login to the server's remote console.", {}, nullptr) {
 	assert(client);
 	switch (frame.progress()) {
 		case 0:
@@ -29,8 +29,8 @@ CON_COMMAND(rcon_login, "<username> [password]", ConCommand::CLIENT | ConCommand
 			if (argv.size() == 3 && (frame.process()->getUserFlags() & Process::CONSOLE) != 0) {
 				game.warning(
 					fmt::format("{0}: Warning: The password you just typed may have been logged to the console. Check any log files if "
-								"this was a mistake. Console users are advised to use {0} <username> to avoid this.",
-								self.getName()));
+				                "this was a mistake. Console users are advised to use {0} <username> to avoid this.",
+				                self.getName()));
 			}
 
 			if (client->getRconState() != RemoteConsoleClient::State::NONE) {
@@ -145,7 +145,7 @@ CON_COMMAND(rcon_abort, "", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCom
 }
 
 CON_COMMAND(rcon, "[args...]", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Execute a console command on the remote server.", {}, nullptr) {
+            "Execute a console command on the remote server.", {}, nullptr) {
 	assert(client);
 	if (frame.progress() == 0) {
 		if (client->getRconState() == RemoteConsoleClient::State::NONE) {
@@ -187,7 +187,7 @@ CON_COMMAND(rcon, "[args...]", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | Con
 }
 
 CON_COMMAND(rcon_ready, "", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Check if the remote console is ready to receive commands.", {}, nullptr) {
+            "Check if the remote console is ready to receive commands.", {}, nullptr) {
 	if (argv.size() != 1) {
 		return cmd::error(self.getUsage());
 	}
@@ -197,7 +197,7 @@ CON_COMMAND(rcon_ready, "", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCom
 }
 
 CON_COMMAND(rcon_status, "", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Check the current status of the remote console client.", {}, nullptr) {
+            "Check the current status of the remote console client.", {}, nullptr) {
 	if (argv.size() != 1) {
 		return cmd::error(self.getUsage());
 	}

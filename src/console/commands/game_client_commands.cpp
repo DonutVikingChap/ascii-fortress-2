@@ -147,7 +147,7 @@ auto getValidClasses() -> std::vector<std::string> {
 	};
 
 	auto playerClasses = PlayerClass::getAll() | util::filter(isValidClass) | util::transform(formatClass) |
-						 util::collect<std::vector<std::string>>();
+	                     util::collect<std::vector<std::string>>();
 	playerClasses.emplace_back("auto");
 	playerClasses.emplace_back("random");
 	return playerClasses;
@@ -257,13 +257,13 @@ CON_COMMAND(class, "<name>", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCo
 	};
 
 	return cmd::error("{}: Invalid class \"{}\". Valid classes are:{}",
-					  self.getName(),
-					  argv[1],
-					  getValidClasses() | util::transform(formatPlayerClass) | util::concat());
+	                  self.getName(),
+	                  argv[1],
+	                  getValidClasses() | util::transform(formatPlayerClass) | util::concat());
 }
 
 CON_COMMAND(fwd, "<command...>", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Forward an arbitrary command to the server.", {}, nullptr) {
+            "Forward an arbitrary command to the server.", {}, nullptr) {
 	if (argv.size() < 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -292,12 +292,12 @@ CON_COMMAND(cl_writeconfig, "", ConCommand::CLIENT | ConCommand::ADMIN_ONLY | Co
 	}
 	assert(client);
 	if (!util::dumpFile(fmt::format("{}/{}/{}", data_dir, data_subdir_cfg, cl_config_file),
-						fmt::format("{}\n"
-									"\n"
-									"// Inventories:\n"
-									"{}\n",
-									GameClient::getConfigHeader(),
-									client->getInventoryConfig()))) {
+	                    fmt::format("{}\n"
+	                                "\n"
+	                                "// Inventories:\n"
+	                                "{}\n",
+	                                GameClient::getConfigHeader(),
+	                                client->getInventoryConfig()))) {
 		return cmd::error("{}: Failed to save config file \"{}\"!", self.getName(), cl_config_file);
 	}
 	return cmd::done();

@@ -26,31 +26,31 @@ auto Canvas::isClear() const noexcept -> bool {
 }
 
 auto Canvas::addButton(Id id, Vec2 position, Vec2 size, Color color, std::string text, std::shared_ptr<Environment> env,
-					   std::shared_ptr<Process> process, std::string_view command) -> bool {
+                       std::shared_ptr<Process> process, std::string_view command) -> bool {
 	return this->addItem<Button>(
 		id,
 		std::make_unique<CmdButton>(position, size, color, std::move(text), m_game, m_vm, std::move(env), std::move(process), command));
 }
 
 auto Canvas::addInput(Id id, Vec2 position, Vec2 size, Color color, std::string text, std::shared_ptr<Environment> env,
-					  std::shared_ptr<Process> process, std::string_view command, std::size_t maxLength, bool isPrivate, bool replaceMode) -> bool {
+                      std::shared_ptr<Process> process, std::string_view command, std::size_t maxLength, bool isPrivate, bool replaceMode) -> bool {
 	return this->addItem<Input>(
 		id,
 		std::make_unique<CmdInput>(position, size, color, std::move(text), m_game, m_vm, std::move(env), std::move(process), command, maxLength, isPrivate, replaceMode));
 }
 
 auto Canvas::addSlider(Id id, Vec2 position, Vec2 size, Color color, float value, float delta, std::shared_ptr<Environment> env,
-					   std::shared_ptr<Process> process, std::string_view command) -> bool {
+                       std::shared_ptr<Process> process, std::string_view command) -> bool {
 	return this->addItem<Slider>(id, std::make_unique<CmdSlider>(position, size, color, value, delta, m_game, m_vm, std::move(env), std::move(process), command));
 }
 
 auto Canvas::addCheckbox(Id id, Vec2 position, Vec2 size, Color color, bool value, std::shared_ptr<Environment> env,
-						 std::shared_ptr<Process> process, std::string_view command) -> bool {
+                         std::shared_ptr<Process> process, std::string_view command) -> bool {
 	return this->addItem<Checkbox>(id, std::make_unique<CmdCheckbox>(position, size, color, value, m_game, m_vm, std::move(env), std::move(process), command));
 }
 
 auto Canvas::addDropdown(Id id, Vec2 position, Vec2 size, Color color, std::vector<std::string> options, std::size_t selectedOptionIndex,
-						 std::shared_ptr<Environment> env, std::shared_ptr<Process> process, std::string_view command) -> bool {
+                         std::shared_ptr<Environment> env, std::shared_ptr<Process> process, std::string_view command) -> bool {
 	return this->addItem<Dropdown>(
 		id,
 		std::make_unique<CmdDropdown>(position, size, color, std::move(options), selectedOptionIndex, m_game, m_vm, std::move(env), std::move(process), command));
@@ -65,8 +65,8 @@ auto Canvas::addText(Id id, Vec2 position, Color color, std::string text) -> boo
 }
 
 auto Canvas::pushMenu(util::Span<const Id> ids, const std::shared_ptr<Environment>& env, const std::shared_ptr<Process>& process,
-					  std::string_view selectNoneCommand, std::string_view escapeCommand, std::string_view directionCommand,
-					  std::string_view clickCommand, std::string_view scrollCommand, std::string_view hoverCommand) -> bool {
+                      std::string_view selectNoneCommand, std::string_view escapeCommand, std::string_view directionCommand,
+                      std::string_view clickCommand, std::string_view scrollCommand, std::string_view hoverCommand) -> bool {
 	if (ids.empty()) {
 		return false;
 	}
@@ -157,12 +157,12 @@ auto Canvas::pushMenu(util::Span<const Id> ids, const std::shared_ptr<Environmen
 	}
 
 	m_menuStack.emplace_back(std::move(elements),
-							 std::move(onSelectNone),
-							 std::move(onEscape),
-							 std::move(onDirection),
-							 std::move(onClick),
-							 std::move(onScroll),
-							 std::move(onHover));
+	                         std::move(onSelectNone),
+	                         std::move(onEscape),
+	                         std::move(onDirection),
+	                         std::move(onClick),
+	                         std::move(onScroll),
+	                         std::move(onHover));
 	return true;
 }
 
@@ -252,16 +252,16 @@ auto Canvas::update(float deltaTime) -> void {
 auto Canvas::draw(CharWindow& charWindow) -> void {
 	for (const auto& item : m_items) {
 		util::match(item.item)([&](const auto& elem) { elem->draw(charWindow); },
-							   [&](const Screen& screen) { charWindow.draw(screen.position, screen.screen, screen.color); },
-							   [&](const Text& text) { charWindow.draw(text.position, text.text, text.color); });
+		                       [&](const Screen& screen) { charWindow.draw(screen.position, screen.screen, screen.color); },
+		                       [&](const Text& text) { charWindow.draw(text.position, text.text, text.color); });
 	}
 }
 
 auto Canvas::isElementActivated(Id id) const -> bool {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](const auto& elem) { return elem->isActivated(); },
-									 [](const Screen&) { return false; },
-									 [](const Text&) { return false; });
+		                             [](const Screen&) { return false; },
+		                             [](const Text&) { return false; });
 	}
 	return false;
 }
@@ -318,10 +318,10 @@ auto Canvas::deactivate() -> void {
 auto Canvas::getElementText(Id id) const -> std::optional<std::string> {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](const Button& button) -> std::optional<std::string> { return std::string{button->getText()}; },
-									 [](const Input& input) -> std::optional<std::string> { return std::string{input->getText()}; },
-									 [](const Slider&) -> std::optional<std::string> { return std::nullopt; },
-									 [](const Checkbox&) -> std::optional<std::string> { return std::nullopt; },
-									 [](const Dropdown& dropdown) -> std::optional<std::string> {
+		                             [](const Input& input) -> std::optional<std::string> { return std::string{input->getText()}; },
+		                             [](const Slider&) -> std::optional<std::string> { return std::nullopt; },
+		                             [](const Checkbox&) -> std::optional<std::string> { return std::nullopt; },
+		                             [](const Dropdown& dropdown) -> std::optional<std::string> {
 										 auto result = std::string{};
 										 if (dropdown->getOptionCount() > 0) {
 											 result = dropdown->getOption(0);
@@ -331,8 +331,8 @@ auto Canvas::getElementText(Id id) const -> std::optional<std::string> {
 										 }
 										 return result;
 									 },
-									 [](const Screen&) -> std::optional<std::string> { return std::nullopt; },
-									 [](const Text& text) -> std::optional<std::string> { return text.text; });
+		                             [](const Screen&) -> std::optional<std::string> { return std::nullopt; },
+		                             [](const Text& text) -> std::optional<std::string> { return text.text; });
 	}
 	return std::nullopt;
 }
@@ -340,8 +340,8 @@ auto Canvas::getElementText(Id id) const -> std::optional<std::string> {
 auto Canvas::getElementColor(Id id) const -> std::optional<Color> {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](const auto& elem) -> std::optional<Color> { return elem->getColor(); },
-									 [](const Screen& screen) -> std::optional<Color> { return screen.color; },
-									 [](const Text& text) -> std::optional<Color> { return text.color; });
+		                             [](const Screen& screen) -> std::optional<Color> { return screen.color; },
+		                             [](const Text& text) -> std::optional<Color> { return text.color; });
 	}
 	return std::nullopt;
 }
@@ -405,21 +405,21 @@ auto Canvas::setElementColor(Id id, Color color) -> bool {
 auto Canvas::setElementValue(Id id, float value) -> bool {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](Button&) { return false; },
-									 [](Input&) { return false; },
-									 [&](Slider& slider) {
+		                             [](Input&) { return false; },
+		                             [&](Slider& slider) {
 										 slider->setValue(value);
 										 return true;
 									 },
-									 [&](Checkbox& checkbox) {
+		                             [&](Checkbox& checkbox) {
 										 checkbox->setValue(value != 0.0f);
 										 return true;
 									 },
-									 [&](Dropdown& dropdown) {
+		                             [&](Dropdown& dropdown) {
 										 dropdown->setSelectedOptionIndex(static_cast<std::size_t>(value));
 										 return true;
 									 },
-									 [](Screen&) { return false; },
-									 [](Text&) { return false; });
+		                             [](Screen&) { return false; },
+		                             [](Text&) { return false; });
 	}
 	return false;
 }
@@ -427,12 +427,12 @@ auto Canvas::setElementValue(Id id, float value) -> bool {
 auto Canvas::getScreenChar(Id id, std::size_t x, std::size_t y, char defaultVal) const -> std::optional<char> {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](const Button&) -> std::optional<char> { return std::nullopt; },
-									 [](const Input&) -> std::optional<char> { return std::nullopt; },
-									 [](const Slider&) -> std::optional<char> { return std::nullopt; },
-									 [](const Checkbox&) -> std::optional<char> { return std::nullopt; },
-									 [](const Dropdown&) -> std::optional<char> { return std::nullopt; },
-									 [&](const Screen& screen) -> std::optional<char> { return screen.screen.get(x, y, defaultVal); },
-									 [](const Text&) -> std::optional<char> { return std::nullopt; });
+		                             [](const Input&) -> std::optional<char> { return std::nullopt; },
+		                             [](const Slider&) -> std::optional<char> { return std::nullopt; },
+		                             [](const Checkbox&) -> std::optional<char> { return std::nullopt; },
+		                             [](const Dropdown&) -> std::optional<char> { return std::nullopt; },
+		                             [&](const Screen& screen) -> std::optional<char> { return screen.screen.get(x, y, defaultVal); },
+		                             [](const Text&) -> std::optional<char> { return std::nullopt; });
 	}
 	return std::nullopt;
 }
@@ -440,15 +440,15 @@ auto Canvas::getScreenChar(Id id, std::size_t x, std::size_t y, char defaultVal)
 auto Canvas::setScreenChar(Id id, std::size_t x, std::size_t y, char ch) -> bool {
 	if (const auto it = this->findItem(id); it != m_items.end()) {
 		return util::match(it->item)([](Button&) { return false; },
-									 [](Input&) { return false; },
-									 [](Slider&) { return false; },
-									 [](Checkbox&) { return false; },
-									 [](Dropdown&) { return false; },
-									 [&](Screen& screen) {
+		                             [](Input&) { return false; },
+		                             [](Slider&) { return false; },
+		                             [](Checkbox&) { return false; },
+		                             [](Dropdown&) { return false; },
+		                             [&](Screen& screen) {
 										 screen.screen.set(x, y, ch);
 										 return true;
 									 },
-									 [](Text&) { return false; });
+		                             [](Text&) { return false; });
 	}
 	return false;
 }
@@ -473,9 +473,9 @@ auto Canvas::getElementInfo() const -> std::vector<Canvas::ElementInfoView> {
 			},
 			[&](const Screen& screen) -> ElementInfoView {
 				return ScreenInfoView{item.id,
-									  screen.position,
-									  Vec2{static_cast<Vec2::Length>(screen.screen.getWidth()), static_cast<Vec2::Length>(screen.screen.getHeight())},
-									  screen.color};
+			                          screen.position,
+			                          Vec2{static_cast<Vec2::Length>(screen.screen.getWidth()), static_cast<Vec2::Length>(screen.screen.getHeight())},
+			                          screen.color};
 			},
 			[&](const Text& text) -> ElementInfoView {
 				return TextInfoView{item.id, text.position, text.color, text.text};
@@ -517,12 +517,12 @@ auto Canvas::findItem(Id id) const -> std::vector<Canvas::Item>::const_iterator 
 
 auto Canvas::findId(const Element& element) const -> std::optional<Canvas::Id> {
 	if (const auto it = util::findIf(m_items,
-									 [&](const auto& item) {
+	                                 [&](const auto& item) {
 										 return util::match(item.item)([&](const auto& elem) { return elem.get() == &element; },
-																	   [](const Screen&) { return false; },
-																	   [](const Text&) { return false; });
+		                                                               [](const Screen&) { return false; },
+		                                                               [](const Text&) { return false; });
 									 });
-		it != m_items.end()) {
+	    it != m_items.end()) {
 		return it->id;
 	}
 	return std::nullopt;

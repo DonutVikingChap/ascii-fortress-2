@@ -25,7 +25,7 @@ public:
 	using HoverFunction = std::function<void(Menu& menu, Vec2 position)>;
 
 	explicit Menu(std::vector<Element*> elements, Function onSelectNone = nullptr, Function onEscape = nullptr, DirectionFunction onDirection = nullptr,
-				  ClickFunction onClick = nullptr, ScrollFunction onScroll = nullptr, HoverFunction onHover = nullptr);
+	              ClickFunction onClick = nullptr, ScrollFunction onScroll = nullptr, HoverFunction onHover = nullptr);
 
 	[[nodiscard]] auto elements() -> util::Span<Element* const>;
 	[[nodiscard]] auto elements() const -> util::Span<const Element* const>;

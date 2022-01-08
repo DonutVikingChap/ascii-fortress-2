@@ -116,23 +116,23 @@ public:
 	[[nodiscard]] auto isClear() const noexcept -> bool;
 
 	[[nodiscard]] auto addButton(Id id, Vec2 position, Vec2 size, Color color, std::string text, std::shared_ptr<Environment> env,
-								 std::shared_ptr<Process> process, std::string_view command) -> bool;
+	                             std::shared_ptr<Process> process, std::string_view command) -> bool;
 	[[nodiscard]] auto addInput(Id id, Vec2 position, Vec2 size, Color color, std::string text, std::shared_ptr<Environment> env,
-								std::shared_ptr<Process> process, std::string_view command,
-								std::size_t maxLength = std::numeric_limits<std::size_t>::max(), bool isPrivate = false,
-								bool replaceMode = false) -> bool;
+	                            std::shared_ptr<Process> process, std::string_view command,
+	                            std::size_t maxLength = std::numeric_limits<std::size_t>::max(), bool isPrivate = false,
+	                            bool replaceMode = false) -> bool;
 	[[nodiscard]] auto addSlider(Id id, Vec2 position, Vec2 size, Color color, float value, float delta, std::shared_ptr<Environment> env,
-								 std::shared_ptr<Process> process, std::string_view command) -> bool;
+	                             std::shared_ptr<Process> process, std::string_view command) -> bool;
 	[[nodiscard]] auto addCheckbox(Id id, Vec2 position, Vec2 size, Color color, bool value, std::shared_ptr<Environment> env,
-								   std::shared_ptr<Process> process, std::string_view command) -> bool;
+	                               std::shared_ptr<Process> process, std::string_view command) -> bool;
 	[[nodiscard]] auto addDropdown(Id id, Vec2 position, Vec2 size, Color color, std::vector<std::string> options, std::size_t selectedOptionIndex,
-								   std::shared_ptr<Environment> env, std::shared_ptr<Process> process, std::string_view command) -> bool;
+	                               std::shared_ptr<Environment> env, std::shared_ptr<Process> process, std::string_view command) -> bool;
 	[[nodiscard]] auto addScreen(Id id, Vec2 position, Color color, util::TileMatrix<char> screen) -> bool;
 	[[nodiscard]] auto addText(Id id, Vec2 position, Color color, std::string text) -> bool;
 
 	[[nodiscard]] auto pushMenu(util::Span<const Id> ids, const std::shared_ptr<Environment>& env, const std::shared_ptr<Process>& process,
-								std::string_view selectNoneCommand, std::string_view escapeCommand, std::string_view directionCommand,
-								std::string_view clickCommand, std::string_view scrollCommand, std::string_view hoverCommand) -> bool;
+	                            std::string_view selectNoneCommand, std::string_view escapeCommand, std::string_view directionCommand,
+	                            std::string_view clickCommand, std::string_view scrollCommand, std::string_view hoverCommand) -> bool;
 
 	[[nodiscard]] auto hasMenu() const noexcept -> bool;
 

@@ -25,7 +25,7 @@ auto formatElem(const ConCommand& cmd, bool flags, bool description, bool option
 
 template <typename T>
 auto makeList(const std::vector<std::string_view>& args, bool nameOnly, bool all, bool flags, bool description, bool options, bool limits,
-			  bool includeHidden, std::string_view countText, bool admin, bool rcon) -> std::string {
+              bool includeHidden, std::string_view countText, bool admin, bool rcon) -> std::string {
 	flags = all || flags;
 	description = all || description;
 	options = all || options;
@@ -102,11 +102,11 @@ SUGGESTIONS(suggestCvarsAndCommands) {
 } // namespace
 
 CON_COMMAND(cmdlist, "[options...] [query...]", ConCommand::NO_FLAGS, "List commands.",
-			cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
-					  cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
-					  cmd::opt('o', "options", "Show options."),
-					  cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
-			nullptr) {
+            cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
+                      cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
+                      cmd::opt('o', "options", "Show options."),
+                      cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (const auto& error = options.error()) {
 		return cmd::error("{}: {}", self.getName(), *error);
@@ -116,24 +116,24 @@ CON_COMMAND(cmdlist, "[options...] [query...]", ConCommand::NO_FLAGS, "List comm
 		"{}\n"
 		"Use \"help <name>\" for more info.",
 		makeList<ConCommand>(args,
-							 options['n'],
-							 options['a'],
-							 options['f'],
-							 options['d'],
-							 options['o'],
-							 false,
-							 options['i'],
-							 "commands",
-							 (frame.process()->getUserFlags() & Process::ADMIN) != 0,
-							 (frame.process()->getUserFlags() & Process::REMOTE) != 0));
+	                         options['n'],
+	                         options['a'],
+	                         options['f'],
+	                         options['d'],
+	                         options['o'],
+	                         false,
+	                         options['i'],
+	                         "commands",
+	                         (frame.process()->getUserFlags() & Process::ADMIN) != 0,
+	                         (frame.process()->getUserFlags() & Process::REMOTE) != 0));
 }
 
 CON_COMMAND(cvarlist, "[options...] [query...]", ConCommand::NO_FLAGS, "List cvars.",
-			cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
-					  cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
-					  cmd::opt('l', "limits", "Show default and min/max values."),
-					  cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
-			nullptr) {
+            cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
+                      cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
+                      cmd::opt('l', "limits", "Show default and min/max values."),
+                      cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (const auto& error = options.error()) {
 		return cmd::error("{}: {}", self.getName(), *error);
@@ -143,24 +143,24 @@ CON_COMMAND(cvarlist, "[options...] [query...]", ConCommand::NO_FLAGS, "List cva
 		"{}\n"
 		"Use \"help <name>\" for more info.",
 		makeList<ConVar>(args,
-						 options['n'],
-						 options['a'],
-						 options['f'],
-						 options['d'],
-						 false,
-						 options['l'],
-						 options['i'],
-						 "cvars",
-						 (frame.process()->getUserFlags() & Process::ADMIN) != 0,
-						 (frame.process()->getUserFlags() & Process::REMOTE) != 0));
+	                     options['n'],
+	                     options['a'],
+	                     options['f'],
+	                     options['d'],
+	                     false,
+	                     options['l'],
+	                     options['i'],
+	                     "cvars",
+	                     (frame.process()->getUserFlags() & Process::ADMIN) != 0,
+	                     (frame.process()->getUserFlags() & Process::REMOTE) != 0));
 }
 
 CON_COMMAND(find, "[options...] <query...>", ConCommand::NO_FLAGS, "Find commands/cvars that match a search string.",
-			cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
-					  cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
-					  cmd::opt('o', "options", "Show options."), cmd::opt('l', "limits", "Show default and min/max values."),
-					  cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
-			nullptr) {
+            cmd::opts(cmd::opt('n', "name-only", "Don't search descriptions."), cmd::opt('a', "all", "Show all info."),
+                      cmd::opt('f', "flags", "Show flags."), cmd::opt('d', "description", "Show description."),
+                      cmd::opt('o', "options", "Show options."), cmd::opt('l', "limits", "Show default and min/max values."),
+                      cmd::opt('i', "include-hidden", "Include names beginning with an underscore.")),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.empty()) {
 		return cmd::error(self.getUsage());
@@ -181,31 +181,31 @@ CON_COMMAND(find, "[options...] <query...>", ConCommand::NO_FLAGS, "Find command
 		"{}\n"
 		"Use \"help <name>\" for more info.",
 		makeList<ConCommand>(args,
-							 nameOnly,
-							 all,
-							 flags,
-							 description,
-							 options['o'],
-							 false,
-							 includeHidden,
-							 "commands",
-							 (frame.process()->getUserFlags() & Process::ADMIN) != 0,
-							 (frame.process()->getUserFlags() & Process::REMOTE) != 0),
+	                         nameOnly,
+	                         all,
+	                         flags,
+	                         description,
+	                         options['o'],
+	                         false,
+	                         includeHidden,
+	                         "commands",
+	                         (frame.process()->getUserFlags() & Process::ADMIN) != 0,
+	                         (frame.process()->getUserFlags() & Process::REMOTE) != 0),
 		makeList<ConVar>(args,
-						 nameOnly,
-						 all,
-						 flags,
-						 description,
-						 false,
-						 options['l'],
-						 includeHidden,
-						 "cvars",
-						 (frame.process()->getUserFlags() & Process::ADMIN) != 0,
-						 (frame.process()->getUserFlags() & Process::REMOTE) != 0));
+	                     nameOnly,
+	                     all,
+	                     flags,
+	                     description,
+	                     false,
+	                     options['l'],
+	                     includeHidden,
+	                     "cvars",
+	                     (frame.process()->getUserFlags() & Process::ADMIN) != 0,
+	                     (frame.process()->getUserFlags() & Process::REMOTE) != 0));
 }
 
 CON_COMMAND(help, "[options...] [name]", ConCommand::NO_FLAGS, "Learn about the console or a command/cvar.",
-			cmd::opts(cmd::opt('a', "all", "Show all info."), cmd::opt('f', "flags", "Show flags.")), suggestCvarsAndCommands) {
+            cmd::opts(cmd::opt('a', "all", "Show all info."), cmd::opt('f', "flags", "Show flags.")), suggestCvarsAndCommands) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (const auto& error = options.error()) {
 		return cmd::error("{}: {}", self.getName(), *error);
@@ -221,11 +221,11 @@ CON_COMMAND(help, "[options...] [name]", ConCommand::NO_FLAGS, "Learn about the 
 
 		if (const auto* const cvar = ConVar::find(args[0])) {
 			return cmd::done(cvar->format((frame.process()->getUserFlags() & Process::ADMIN) != 0,
-										  (frame.process()->getUserFlags() & Process::REMOTE) != 0,
-										  true,
-										  true,
-										  all || flags,
-										  true));
+			                              (frame.process()->getUserFlags() & Process::REMOTE) != 0,
+			                              true,
+			                              true,
+			                              all || flags,
+			                              true));
 		}
 
 		if (!frame.tailCall(frame.env(), GET_COMMAND(find), std::array{cmd::Value{args[0]}})) {
@@ -363,7 +363,7 @@ CON_COMMAND(cvar_max, "<cvar>", ConCommand::NO_FLAGS, "Get the maximum value of 
 }
 
 CON_COMMAND(get_raw, "<cvar>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Get the raw value of a secret cvar (admin only).", {},
-			Suggestions::suggestCvar<1>) {
+            Suggestions::suggestCvar<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

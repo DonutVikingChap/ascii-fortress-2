@@ -10,7 +10,7 @@
 namespace gui {
 
 TextInput::TextInput(Vec2 position, Vec2 size, Color color, std::string text, Function onSubmit, Function onDeactivate, Function onType,
-					 Function onAutoComplete, std::size_t maxLength, bool isPrivate, bool replaceMode)
+                     Function onAutoComplete, std::size_t maxLength, bool isPrivate, bool replaceMode)
 	: Element(position, size)
 	, m_color(color)
 	, m_text(std::move(text))
@@ -157,16 +157,16 @@ auto TextInput::draw(CharWindow& charWindow) const -> void {
 						const auto selectionEndX = std::min(selectionEnd - m_horizontalScroll, width);
 						const auto selectionW = selectionEndX - selectionBeginX;
 						charWindow.fillRect(Rect{static_cast<Rect::Length>(m_position.x + 2 + static_cast<Rect::Length>(selectionBeginX)),
-												 static_cast<Rect::Length>(m_position.y + m_size.y / 2),
-												 static_cast<Rect::Length>(selectionW),
-												 1},
-											Color::blue());
+						                         static_cast<Rect::Length>(m_position.y + m_size.y / 2),
+						                         static_cast<Rect::Length>(selectionW),
+						                         1},
+						                    Color::blue());
 					}
 				}
 
 				// Draw cursor.
 				charWindow.draw(Vec2{m_position.x + 2 + static_cast<Vec2::Length>(m_cursorPosition - m_horizontalScroll), m_position.y + m_size.y / 2},
-								(m_replaceMode) ? Color::dark_gray() : Color::white());
+				                (m_replaceMode) ? Color::dark_gray() : Color::white());
 			}
 		}
 	}

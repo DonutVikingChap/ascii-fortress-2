@@ -260,11 +260,11 @@ auto Socket::receiveFrom(IpEndpoint& endpoint, util::Span<std::byte> buffer, int
 	}
 	auto size = static_cast<socklen_t>(sizeof(endpoint.get()));
 	const auto bytesReceived = recvfrom(m_socket.get(),
-										reinterpret_cast<char*>(buffer.data()),
-										static_cast<int>(buffer.size()),
-										flags,
-										reinterpret_cast<sockaddr*>(&endpoint.get()),
-										&size);
+	                                    reinterpret_cast<char*>(buffer.data()),
+	                                    static_cast<int>(buffer.size()),
+	                                    flags,
+	                                    reinterpret_cast<sockaddr*>(&endpoint.get()),
+	                                    &size);
 	if (bytesReceived < 0) {
 		ec = getErrorStatus();
 		return util::Span<std::byte>{};
@@ -293,11 +293,11 @@ auto Socket::sendTo(IpEndpoint endpoint, util::Span<const std::byte> bytes, int 
 		return 0;
 	}
 	if (sendto(m_socket.get(),
-			   reinterpret_cast<const char*>(bytes.data()),
-			   static_cast<int>(bytes.size()),
-			   flags,
-			   reinterpret_cast<sockaddr*>(&endpoint.get()),
-			   static_cast<socklen_t>(sizeof(endpoint.get()))) < 0) {
+	           reinterpret_cast<const char*>(bytes.data()),
+	           static_cast<int>(bytes.size()),
+	           flags,
+	           reinterpret_cast<sockaddr*>(&endpoint.get()),
+	           static_cast<socklen_t>(sizeof(endpoint.get()))) < 0) {
 		ec = getErrorStatus();
 		return 0;
 	}

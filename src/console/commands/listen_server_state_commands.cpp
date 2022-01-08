@@ -17,7 +17,7 @@
 #include <string>     // std::string
 
 CON_COMMAND(start, "[map]", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "Start a listen server running the specified map.", {},
-			Suggestions::suggestMap<1>) {
+            Suggestions::suggestMap<1>) {
 	if (frame.progress() == 0) {
 		return cmd::deferToNextFrame(1);
 	}

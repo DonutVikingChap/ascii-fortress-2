@@ -158,9 +158,9 @@ private:
 		[[nodiscard]] friend constexpr auto operator==(const StableIterator& lhs, const StableIterator& rhs) noexcept -> bool {
 			assert(lhs.m_container == rhs.m_container);
 			assert((lhs.m_index == 0 && lhs.m_container == nullptr) ||
-				   (lhs.m_container != nullptr && lhs.m_index > 0 && lhs.m_index < lhs.m_container->size()));
+			       (lhs.m_container != nullptr && lhs.m_index > 0 && lhs.m_index < lhs.m_container->size()));
 			assert((rhs.m_index == 0 && rhs.m_container == nullptr) ||
-				   (rhs.m_container != nullptr && rhs.m_index > 0 && rhs.m_index < rhs.m_container->size()));
+			       (rhs.m_container != nullptr && rhs.m_index > 0 && rhs.m_index < rhs.m_container->size()));
 			return lhs.m_index == rhs.m_index;
 		}
 
@@ -632,7 +632,7 @@ public:
 			const auto begin = m_container.begin() + 1 + m_begin;
 			const auto end = m_container.begin() + 1 + m_rbegin;
 			if (const auto it = std::lower_bound(begin, end, id, [](const auto& lhs, const auto& rhs) { return lhs.id < rhs; });
-				it != end && it->id == id && it->storage.has_value()) {
+			    it != end && it->id == id && it->storage.has_value()) {
 				return stable_iterator{&m_container, static_cast<size_type>(std::distance(m_container.begin(), it))};
 			}
 		}
@@ -654,7 +654,7 @@ public:
 			const auto begin = m_container.begin() + 1 + m_begin;
 			const auto end = m_container.begin() + 1 + m_rbegin;
 			if (const auto it = std::lower_bound(begin, end, id, [](const auto& lhs, const auto& rhs) { return lhs.id < rhs; });
-				it != end && it->id == id && it->storage.has_value()) {
+			    it != end && it->id == id && it->storage.has_value()) {
 				return const_stable_iterator{&m_container, static_cast<size_type>(std::distance(m_container.begin(), it))};
 			}
 		}

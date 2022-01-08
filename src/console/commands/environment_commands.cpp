@@ -47,10 +47,10 @@ CON_COMMAND(type, "<name>", ConCommand::NO_FLAGS, "Get the type of an object (va
 
 	if (const auto* const obj = frame.process()->findObject(frame.env(), argv[1])) {
 		return util::match(*obj)([&](const Environment::Variable&) { return cmd::done("var"); },
-								 [&](const Environment::Constant&) { return cmd::done("const"); },
-								 [&](const Environment::Function&) { return cmd::done("function"); },
-								 [&](const Environment::Array&) { return cmd::done("array"); },
-								 [&](const Environment::Table&) { return cmd::done("table"); });
+		                         [&](const Environment::Constant&) { return cmd::done("const"); },
+		                         [&](const Environment::Function&) { return cmd::done("function"); },
+		                         [&](const Environment::Array&) { return cmd::done("array"); },
+		                         [&](const Environment::Table&) { return cmd::done("table"); });
 	}
 	return cmd::error("{}: Couldn't find \"{}\".", self.getName(), argv[1]);
 }
@@ -65,7 +65,7 @@ CON_COMMAND(var, "<name> [value]", ConCommand::NO_FLAGS, "Create a local variabl
 	}
 
 	if (const auto [it, inserted] = frame.env()->objects.try_emplace(argv[1], Environment::Variable{(argv.size() == 3) ? argv[2] : std::string{}});
-		!inserted) {
+	    !inserted) {
 		return util::match(it->second)(
 			[&](const Environment::Variable&) { return cmd::error("{}: A variable named {} already exists.", self.getName(), argv[1]); },
 			[&](const Environment::Constant&) { return cmd::error("{}: A constant named {} already exists.", self.getName(), argv[1]); },
@@ -86,7 +86,7 @@ CON_COMMAND(const, "<name> [value]", ConCommand::NO_FLAGS, "Create a local const
 	}
 
 	if (const auto [it, inserted] = frame.env()->objects.try_emplace(argv[1], Environment::Constant{(argv.size() == 3) ? argv[2] : std::string{}});
-		!inserted) {
+	    !inserted) {
 		return util::match(it->second)(
 			[&](const Environment::Variable&) { return cmd::error("{}: A variable named {} already exists.", self.getName(), argv[1]); },
 			[&](const Environment::Constant&) { return cmd::error("{}: A constant named {} already exists.", self.getName(), argv[1]); },
@@ -98,7 +98,7 @@ CON_COMMAND(const, "<name> [value]", ConCommand::NO_FLAGS, "Create a local const
 }
 
 CON_COMMAND(enum, "<names>", ConCommand::NO_FLAGS,
-			"Create an enumeration of local constants with values starting at 0 and increasing by 1 for each variable.", {}, nullptr) {
+            "Create an enumeration of local constants with values starting at 0 and increasing by 1 for each variable.", {}, nullptr) {
 	struct State final {
 		Script commands;
 		int value = 0;
@@ -173,7 +173,7 @@ CON_COMMAND(enum, "<names>", ConCommand::NO_FLAGS,
 }
 
 CON_COMMAND(set, "<name> <value>", ConCommand::NO_FLAGS,
-			"Create a local variable or overwrite if a local object with the same name already exists.", {}, nullptr) {
+            "Create a local variable or overwrite if a local object with the same name already exists.", {}, nullptr) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -188,7 +188,7 @@ CON_COMMAND(set, "<name> <value>", ConCommand::NO_FLAGS,
 }
 
 CON_COMMAND(function, "<name> [arguments...] <script>", ConCommand::NO_FLAGS,
-			"Create a local function. Overwrites if a local function with the same name already exists.", {}, nullptr) {
+            "Create a local function. Overwrites if a local function with the same name already exists.", {}, nullptr) {
 	if (argv.size() < 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -301,9 +301,9 @@ CON_COMMAND(invoke, "<name> <args>", ConCommand::NO_FLAGS, "Invoke a command usi
 }
 
 CON_COMMAND(sort, "<name>", ConCommand::NO_FLAGS, "Sort an array.",
-			cmd::opts(cmd::opt('a', "ascending", "Sort in ascending order."),
-					  cmd::opt('n', "numeric", "Sort numerically rather than alphabetically.")),
-			nullptr) {
+            cmd::opts(cmd::opt('a', "ascending", "Sort in ascending order."),
+                      cmd::opt('n', "numeric", "Sort numerically rather than alphabetically.")),
+            nullptr) {
 	const auto [args, options] = cmd::parse(argv, self.getOptions());
 	if (args.size() != 1) {
 		return cmd::error(self.getUsage());
@@ -428,7 +428,7 @@ CON_COMMAND(foreach, "<parameter> <name> <script>", ConCommand::NO_FLAGS, "Execu
 }
 
 CON_COMMAND(find_index, "<name> <x>", ConCommand::NO_FLAGS,
-			"Get the array index of x. Returns the size of the array if the value is not found.", {}, nullptr) {
+            "Get the array index of x. Returns the size of the array if the value is not found.", {}, nullptr) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}

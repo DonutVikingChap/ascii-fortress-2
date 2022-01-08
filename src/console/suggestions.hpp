@@ -20,14 +20,14 @@ class VirtualMachine;
 
 #define SUGGESTIONS(name) \
 	auto name([[maybe_unused]] const ConCommand& self, \
-			  [[maybe_unused]] const Script::Command& command, \
-			  [[maybe_unused]] std::size_t i, \
-			  [[maybe_unused]] Game& game, \
-			  [[maybe_unused]] GameServer* server, \
-			  [[maybe_unused]] GameClient* client, \
-			  [[maybe_unused]] MetaServer* metaServer, \
-			  [[maybe_unused]] MetaClient* metaClient, \
-			  [[maybe_unused]] VirtualMachine& vm) \
+	          [[maybe_unused]] const Script::Command& command, \
+	          [[maybe_unused]] std::size_t i, \
+	          [[maybe_unused]] Game& game, \
+	          [[maybe_unused]] GameServer* server, \
+	          [[maybe_unused]] GameClient* client, \
+	          [[maybe_unused]] MetaServer* metaServer, \
+	          [[maybe_unused]] MetaClient* metaClient, \
+	          [[maybe_unused]] VirtualMachine& vm) \
 		->Suggestions
 #define SUGGEST(...) (Suggestions::combine<__VA_ARGS__>())
 
@@ -51,7 +51,7 @@ public:
 	using const_reverse_iterator = Container::const_reverse_iterator;
 
 	using Function = Suggestions (*)(const ConCommand& self, const Script::Command& command, std::size_t i, Game& game, GameServer* server,
-									 GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm);
+	                                 GameClient* client, MetaServer* metaServer, MetaClient* metaClient, VirtualMachine& vm);
 
 	Suggestions() noexcept = default;
 
@@ -204,8 +204,8 @@ public:
 	[[nodiscard]] static constexpr auto combine() noexcept -> Function {
 		struct Combination final {
 			[[nodiscard]] static auto suggestCombined(const ConCommand& self, const Script::Command& command, std::size_t i, Game& game,
-													  GameServer* server, GameClient* client, MetaServer* metaServer,
-													  MetaClient* metaClient, VirtualMachine& vm) -> Suggestions {
+			                                          GameServer* server, GameClient* client, MetaServer* metaServer,
+			                                          MetaClient* metaClient, VirtualMachine& vm) -> Suggestions {
 				auto result = Suggestions{};
 				util::forEach(util::ctie(FUNCS...), [&](Function func, std::size_t) {
 					if (result.empty()) {

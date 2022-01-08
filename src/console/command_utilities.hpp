@@ -55,9 +55,9 @@ enum class NumberConstraint : std::uint8_t { NONE, NON_ZERO, POSITIVE, NEGATIVE,
 template <typename T, NumberConstraint CONSTRAINT = NumberConstraint::NONE>
 [[nodiscard]] inline auto parseNumber(ParseError& parseError, std::string_view str, std::string_view name) -> T {
 	static_assert(!(std::is_unsigned_v<T> && (CONSTRAINT == NumberConstraint::NEGATIVE || CONSTRAINT == NumberConstraint::NON_POSITIVE)),
-				  "These constraints do not make sense for an unsigned type.");
+	              "These constraints do not make sense for an unsigned type.");
 	static_assert(!(std::is_unsigned_v<T> && (CONSTRAINT == NumberConstraint::NON_ZERO)),
-				  "Use POSITIVE instead of NON_ZERO for unsigned types.");
+	              "Use POSITIVE instead of NON_ZERO for unsigned types.");
 
 	if (parseError) {
 		return T{};
@@ -438,7 +438,7 @@ template <std::size_t INDEX>
 inline SUGGESTIONS(suggestValidPlayerClassId) {
 	if (i == INDEX) {
 		return PlayerClass::getAll() | util::filter(cmd::isValidPlayerClass) | util::transform(cmd::formatPlayerClassId) |
-			   util::collect<Suggestions>();
+		       util::collect<Suggestions>();
 	}
 	return Suggestions{};
 }
@@ -455,7 +455,7 @@ template <std::size_t INDEX>
 inline SUGGESTIONS(suggestValidProjectileType) {
 	if (i == INDEX) {
 		return ProjectileType::getAll() | util::filter(cmd::isValidProjectileType) | util::transform(cmd::formatProjectileType) |
-			   util::collect<Suggestions>();
+		       util::collect<Suggestions>();
 	}
 	return Suggestions{};
 }
@@ -472,7 +472,7 @@ template <std::size_t INDEX>
 inline SUGGESTIONS(suggestValidProjectileTypeId) {
 	if (i == INDEX) {
 		return ProjectileType::getAll() | util::filter(cmd::isValidProjectileType) | util::transform(cmd::formatProjectileTypeId) |
-			   util::collect<Suggestions>();
+		       util::collect<Suggestions>();
 	}
 	return Suggestions{};
 }

@@ -197,14 +197,14 @@ struct PlayerHandle : ConstPlayerHandle {
 
 	auto setActions(Actions actions) const noexcept -> void {
 		const auto newMoveDirection = Direction{(actions & Action::MOVE_LEFT) != 0,
-												(actions & Action::MOVE_RIGHT) != 0,
-												(actions & Action::MOVE_UP) != 0,
-												(actions & Action::MOVE_DOWN) != 0};
+		                                        (actions & Action::MOVE_RIGHT) != 0,
+		                                        (actions & Action::MOVE_UP) != 0,
+		                                        (actions & Action::MOVE_DOWN) != 0};
 
 		const auto newAimDirection = Direction{(actions & Action::AIM_LEFT) != 0,
-											   (actions & Action::AIM_RIGHT) != 0,
-											   (actions & Action::AIM_UP) != 0,
-											   (actions & Action::AIM_DOWN) != 0};
+		                                       (actions & Action::AIM_RIGHT) != 0,
+		                                       (actions & Action::AIM_UP) != 0,
+		                                       (actions & Action::AIM_DOWN) != 0};
 
 		const auto newAttack1 = (actions & Action::ATTACK1) != 0;
 		const auto newAttack2 = (actions & Action::ATTACK2) != 0;

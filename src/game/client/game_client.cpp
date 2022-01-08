@@ -114,14 +114,14 @@ auto GameClient::init() -> bool {
 
 	// Execute client config script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{cl_config_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Client config failed.");
 		return false;
 	}
 
 	// Execute client autoexec script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{cl_autoexec_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Client autoexec failed.");
 		return false;
 	}
@@ -142,10 +142,10 @@ auto GameClient::init() -> bool {
 	this->loadScreen(m_scoreboardScreen, "scoreboard.txt");
 
 	INFO_MSG(Msg::CLIENT,
-			 "Game client: \"{}\" connecting to \"{}\" using port {}...",
-			 username,
-			 std::string{m_connection.getRemoteEndpoint()},
-			 m_socket.getLocalEndpoint(ec).getPort());
+	         "Game client: \"{}\" connecting to \"{}\" using port {}...",
+	         username,
+	         std::string{m_connection.getRemoteEndpoint()},
+	         m_socket.getLocalEndpoint(ec).getPort());
 	return true;
 }
 
@@ -238,9 +238,9 @@ auto GameClient::update(float deltaTime) -> bool {
 		}
 
 		m_soundManager.update(deltaTime,
-							  static_cast<float>(m_snapshot.selfPlayer.position.x) * snd_attenuation,
-							  static_cast<float>(m_snapshot.selfPlayer.position.y) * snd_attenuation,
-							  0.0f);
+		                      static_cast<float>(m_snapshot.selfPlayer.position.x) * snd_attenuation,
+		                      static_cast<float>(m_snapshot.selfPlayer.position.y) * snd_attenuation,
+		                      0.0f);
 
 		// Update mouselook.
 		if (cl_mouselook) {
@@ -308,18 +308,18 @@ auto GameClient::draw() const -> void {
 
 	// Map.
 	m_charWindow.draw(m_viewport.getPosition(),
-					  m_game.map(),
-					  {m_viewPosition.x, m_viewPosition.y, m_viewport.w, m_viewport.h},
-					  cl_color_world,
-					  cl_color_non_solid,
-					  self.team == Team::red(),
-					  self.team == Team::blue(),
-					  cl_char_track,
-					  cl_color_track,
-					  cl_char_respawnvis,
-					  cl_color_respawnvis,
-					  cl_char_resupply,
-					  cl_color_resupply);
+	                  m_game.map(),
+	                  {m_viewPosition.x, m_viewPosition.y, m_viewport.w, m_viewport.h},
+	                  cl_color_world,
+	                  cl_color_non_solid,
+	                  self.team == Team::red(),
+	                  self.team == Team::blue(),
+	                  cl_char_track,
+	                  cl_color_track,
+	                  cl_char_respawnvis,
+	                  cl_color_respawnvis,
+	                  cl_char_resupply,
+	                  cl_color_resupply);
 
 	// Generic entities.
 	for (const auto& genericEntity : m_snapshot.genericEntities) {
@@ -346,7 +346,7 @@ auto GameClient::draw() const -> void {
 	for (const auto& ply : m_snapshot.players) {
 		// Target id.
 		if ((self.team == Team::spectators() && cl_draw_playernames_spectator) || (self.team == ply.team && cl_draw_playernames_friendly) ||
-			(self.team != ply.team && cl_draw_playernames_enemy)) {
+		    (self.team != ply.team && cl_draw_playernames_enemy)) {
 			if (Rect{ply.position.x - 2, ply.position.y - 2, 5, 5}.contains(mouseWorldPosition)) {
 				this->drawChar(Vec2{ply.position.x, ply.position.y - 1}, cl_color_name, 'v');
 				this->drawString(Vec2{ply.position.x - static_cast<Vec2::Length>(ply.name.size()) / 2, ply.position.y - 2}, cl_color_name, ply.name);
@@ -400,9 +400,9 @@ auto GameClient::draw() const -> void {
 		m_charWindow.drawLineHorizontal(Vec2{scoreX + 1, scoreY}, static_cast<Vec2::Length>(cartOffset), '=', color);
 		m_charWindow.draw(Vec2{scoreX + 1 + cartOffset, scoreY}, 'P', color);
 		m_charWindow.drawLineHorizontal(Vec2{scoreX + 2 + cartOffset, scoreY},
-										static_cast<Vec2::Length>(CART_PROGRESS_WIDTH - 1 - cartOffset),
-										'=',
-										Color::gray());
+		                                static_cast<Vec2::Length>(CART_PROGRESS_WIDTH - 1 - cartOffset),
+		                                '=',
+		                                Color::gray());
 		++scoreY;
 	}
 	for (const auto& flagInfo : m_snapshot.flagInfo) {
@@ -425,8 +425,8 @@ auto GameClient::draw() const -> void {
 
 					if (cl_crosshair_min_distance <= cl_crosshair_max_distance) {
 						const auto distance = std::clamp(static_cast<float>(projectedVector.length()),
-														 static_cast<float>(cl_crosshair_min_distance),
-														 static_cast<float>(cl_crosshair_max_distance));
+						                                 static_cast<float>(cl_crosshair_min_distance),
+						                                 static_cast<float>(cl_crosshair_max_distance));
 
 						const auto offset = static_cast<Vec2::Length>(std::round(distance / aimLength)) * aimVector;
 						return self.position + offset;
@@ -441,17 +441,17 @@ auto GameClient::draw() const -> void {
 			const auto crosshairPosition = [&] {
 				if (cl_crosshair_collide_world || cl_crosshair_collide_viewport) {
 					const auto crosshairViewport = Rect{m_viewport.x + static_cast<Vec2::Length>(cl_crosshair_viewport_border),
-														m_viewport.y + static_cast<Vec2::Length>(cl_crosshair_viewport_border),
-														m_viewport.w - static_cast<Vec2::Length>(cl_crosshair_viewport_border) * 2,
-														m_viewport.h - static_cast<Vec2::Length>(cl_crosshair_viewport_border) * 2};
+					                                    m_viewport.y + static_cast<Vec2::Length>(cl_crosshair_viewport_border),
+					                                    m_viewport.w - static_cast<Vec2::Length>(cl_crosshair_viewport_border) * 2,
+					                                    m_viewport.h - static_cast<Vec2::Length>(cl_crosshair_viewport_border) * 2};
 
 					const auto testCollision = [&](Vec2 position) {
 						if (cl_crosshair_collide_world && m_game.map().isSolid(position, self.team == Team::red(), self.team == Team::blue())) {
 							return true;
 						}
 						if (cl_crosshair_collide_viewport && !crosshairViewport.contains(this->worldToGridCoordinates(position)) &&
-							crosshairViewport.contains(this->worldToGridCoordinates(self.position)) &&
-							static_cast<float>(Vec2::distance(position, self.position)) > cl_crosshair_min_distance) {
+						    crosshairViewport.contains(this->worldToGridCoordinates(self.position)) &&
+						    static_cast<float>(Vec2::distance(position, self.position)) > cl_crosshair_min_distance) {
 							return true;
 						}
 						return false;
@@ -498,8 +498,8 @@ auto GameClient::draw() const -> void {
 		const auto healthPosition = Vec2{m_viewport.x + m_viewport.w / 2 - 11, m_viewport.y + m_viewport.h - 1};
 		m_charWindow.draw(healthPosition, "Health: ", teamColor);
 		m_charWindow.draw(Vec2{healthPosition.x + 8, healthPosition.y},
-						  util::toString(self.health),
-						  (self.health < self.playerClass.getHealth() / 2) ? cl_color_low_health : cl_color_health);
+		                  util::toString(self.health),
+		                  (self.health < self.playerClass.getHealth() / 2) ? cl_color_low_health : cl_color_health);
 	}
 
 	// Timer.
@@ -879,8 +879,8 @@ auto GameClient::handleMessage(msg::cl::in::ServerInfo&& msg) -> void {
 
 		if (cl_max_resource_total_download_size != 0 && totalDownloadSize > static_cast<std::size_t>(cl_max_resource_total_download_size)) {
 			m_connection.disconnect(fmt::format("Total resources size exceeds the maximum total download size ({}/{}).",
-												totalDownloadSize,
-												cl_max_resource_total_download_size));
+			                                    totalDownloadSize,
+			                                    cl_max_resource_total_download_size));
 			return;
 		}
 
@@ -933,7 +933,7 @@ auto GameClient::handleMessage(msg::cl::in::CvarMod&& msg) -> void {
 			if (auto&& cvar = ConVar::find(std::move(modifiedCvar.name))) {
 				if ((cvar->getFlags() & ConVar::REPLICATED) != 0) {
 					if (const auto result = cvar->overrideLocalValue(modifiedCvar.newValue, m_game, nullptr, this, nullptr, nullptr);
-						result.status == cmd::Status::ERROR_MSG) {
+					    result.status == cmd::Status::ERROR_MSG) {
 						m_game.warning(fmt::format("Failed to override local value: {}", result.value));
 					}
 				} else {
@@ -990,10 +990,10 @@ auto GameClient::handleMessage(msg::cl::in::PlaySoundReliable&& msg) -> void {
 
 auto GameClient::handleMessage(msg::cl::in::PlaySoundPositionalUnreliable&& msg) -> void {
 	m_soundManager.playSoundAtPosition(msg.id,
-									   static_cast<float>(msg.position.x) * snd_attenuation,
-									   static_cast<float>(msg.position.y) * snd_attenuation,
-									   -snd_distance,
-									   1.0f);
+	                                   static_cast<float>(msg.position.x) * snd_attenuation,
+	                                   static_cast<float>(msg.position.y) * snd_attenuation,
+	                                   -snd_distance,
+	                                   1.0f);
 }
 
 auto GameClient::handleMessage(msg::cl::in::PlaySoundPositionalReliable&& msg) -> void {
@@ -1163,13 +1163,13 @@ auto GameClient::joinGame() -> void {
 	if (auto passwordKey = crypto::pw::Key{}; crypto::pw::deriveKey(passwordKey, m_serverPasswordSalt, password, m_serverPasswordHashType)) {
 		const auto& inventory = this->getInventory(m_connection.getRemoteEndpoint());
 		if (!this->writeToGameServer(msg::sv::out::JoinRequest{{},
-															   m_game.map().getHash(),
-															   game_version,
-															   username,
-															   static_cast<Tickrate>(cl_updaterate),
-															   passwordKey,
-															   inventory.id,
-															   inventory.token})) {
+		                                                       m_game.map().getHash(),
+		                                                       game_version,
+		                                                       username,
+		                                                       static_cast<Tickrate>(cl_updaterate),
+		                                                       passwordKey,
+		                                                       inventory.id,
+		                                                       inventory.token})) {
 			m_connection.close("Failed to write join request.");
 		}
 	} else {
@@ -1216,7 +1216,7 @@ auto GameClient::drawChar(Vec2 position, Color color, char ch) const -> void {
 
 auto GameClient::drawString(Vec2 position, Color color, std::string_view str) const -> void {
 	if (auto tilePosition = this->worldToGridCoordinates(position);
-		tilePosition.y >= m_viewport.y && tilePosition.y < m_viewport.y + m_viewport.h) {
+	    tilePosition.y >= m_viewport.y && tilePosition.y < m_viewport.y + m_viewport.h) {
 		for (const auto ch : str) {
 			if (tilePosition.x < m_viewport.x || tilePosition.x >= m_viewport.x + m_viewport.w) {
 				break;

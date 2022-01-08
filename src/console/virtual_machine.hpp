@@ -62,7 +62,7 @@ public:
 
 	auto run(float deltaTime, Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> void;
 	auto runProcesses(std::vector<std::shared_ptr<Process>>& processes, Game& game, GameServer* server, GameClient* client,
-					  MetaServer* metaServer, MetaClient* metaClient) -> void;
+	                  MetaServer* metaServer, MetaClient* metaClient) -> void;
 
 	auto endAllProcesses() -> void;
 

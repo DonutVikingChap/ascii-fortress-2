@@ -94,8 +94,8 @@ CON_COMMAND(sleep, "<milliseconds>", ConCommand::NO_FLAGS, "Delay remaining comm
 		auto parseError = cmd::ParseError{};
 
 		const auto milliseconds = cmd::parseNumber<float, cmd::NumberConstraint::NON_NEGATIVE>(parseError,
-																							   argv[1],
-																							   "number of milliseconds");
+		                                                                                       argv[1],
+		                                                                                       "number of milliseconds");
 		if (parseError) {
 			return cmd::error("{}: {}", self.getName(), *parseError);
 		}
@@ -236,7 +236,7 @@ CON_COMMAND(global, "<command...>", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON
 }
 
 CON_COMMAND(parent_id, "[process]", ConCommand::NO_FLAGS,
-			"Get the parent id of this or another process. Returns an empty string if there is no parent.", {}, VirtualMachine::suggestProcessId<1>) {
+            "Get the parent id of this or another process. Returns an empty string if there is no parent.", {}, VirtualMachine::suggestProcessId<1>) {
 	if (argv.size() != 1 && argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -309,7 +309,7 @@ CON_COMMAND(ps, "", ConCommand::ADMIN_ONLY | ConCommand::NO_RCON, "List all curr
 }
 
 CON_COMMAND(release, "<process>", ConCommand::ADMIN_ONLY, "Release a process and have it run independently in the background.", {},
-			VirtualMachine::suggestProcessId<1>) {
+            VirtualMachine::suggestProcessId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

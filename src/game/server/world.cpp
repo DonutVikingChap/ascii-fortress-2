@@ -118,7 +118,7 @@ auto World::win(Team team) -> void {
 	}
 	this->resetRound();
 	if ((mp_winlimit != 0 && wins >= mp_winlimit) || (mp_roundlimit != 0 && rounds >= mp_roundlimit) ||
-		(mp_timelimit != 0.0f && m_mapTime >= mp_timelimit)) {
+	    (mp_timelimit != 0.0f && m_mapTime >= mp_timelimit)) {
 		m_levelChangeCountdown.start(mp_round_end_time);
 		m_awaitingLevelChange = true;
 	}
@@ -394,7 +394,7 @@ auto World::createPlayer(Vec2 position, std::string name) -> PlayerId {
 }
 
 auto World::createProjectile(Vec2 position, Direction moveDirection, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-							 Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> World::ProjectileId {
+                             Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> World::ProjectileId {
 	const auto it = m_projectiles.stable_emplace_back();
 
 	it->second->position = position;
@@ -1064,7 +1064,7 @@ auto World::getTeamWins(Team team) const -> Score {
 auto World::updateCollisionMap() -> void {
 	m_collisionMap.clear();
 	m_collisionMap.reserve(m_players.size() + m_projectiles.size() + m_explosions.size() * 9 + m_sentryGuns.size() + m_medkits.size() +
-						   m_ammopacks.size() + m_genericEntities.size() + m_flags.size() + m_carts.size());
+	                       m_ammopacks.size() + m_genericEntities.size() + m_flags.size() + m_carts.size());
 
 	for (auto it = m_players.stable_begin(); it != m_players.stable_end(); ++it) {
 		if (it->second->team != Team::spectators() && it->second->alive) {
@@ -1165,27 +1165,27 @@ auto World::updatePlayer(PlayerIterator it, float deltaTime) -> PlayerIterator {
 	}
 
 	this->updatePlayerWeapon(it,
-							 deltaTime,
-							 it->second->playerClass.getPrimaryWeapon(),
-							 it->second->playerClass.getSecondaryWeapon(),
-							 it->second->attack1Timer,
-							 it->second->attack2Timer,
-							 it->second->primaryAmmo,
-							 it->second->attack1,
-							 it->second->primaryReloadTimer);
+	                         deltaTime,
+	                         it->second->playerClass.getPrimaryWeapon(),
+	                         it->second->playerClass.getSecondaryWeapon(),
+	                         it->second->attack1Timer,
+	                         it->second->attack2Timer,
+	                         it->second->primaryAmmo,
+	                         it->second->attack1,
+	                         it->second->primaryReloadTimer);
 	if (!it->second || !it->second->alive) {
 		return ++it;
 	}
 
 	this->updatePlayerWeapon(it,
-							 deltaTime,
-							 it->second->playerClass.getSecondaryWeapon(),
-							 it->second->playerClass.getPrimaryWeapon(),
-							 it->second->attack2Timer,
-							 it->second->attack1Timer,
-							 it->second->secondaryAmmo,
-							 it->second->attack2,
-							 it->second->secondaryReloadTimer);
+	                         deltaTime,
+	                         it->second->playerClass.getSecondaryWeapon(),
+	                         it->second->playerClass.getPrimaryWeapon(),
+	                         it->second->attack2Timer,
+	                         it->second->attack1Timer,
+	                         it->second->secondaryAmmo,
+	                         it->second->attack2,
+	                         it->second->secondaryReloadTimer);
 	return ++it;
 }
 
@@ -1208,10 +1208,10 @@ auto World::updateSentryGun(SentryGunIterator it, float deltaTime) -> World::Sen
 
 	const auto isPotentialSentryGunTarget = [&](const auto& kv) {
 		return kv.second->alive && kv.second->team != it->second->team && !kv.second->disguised &&
-			   m_map.lineOfSight(it->second->position, kv.second->position);
+		       m_map.lineOfSight(it->second->position, kv.second->position);
 	};
 	const auto visibleEnemies = m_players.stable() | util::filter(isPotentialSentryGunTarget) |
-								util::transform([](const auto& kv) { return *kv.second; });
+	                            util::transform([](const auto& kv) { return *kv.second; });
 	const auto closestEnemy = ent::findClosestDistanceSquared(visibleEnemies, it->second->position);
 	const auto shouldShoot = [&] {
 		if (closestEnemy.first != visibleEnemies.end()) {
@@ -1226,21 +1226,21 @@ auto World::updateSentryGun(SentryGunIterator it, float deltaTime) -> World::Sen
 	}();
 
 	for (auto ticks = it->second->shootTimer.advance(deltaTime, Weapon::sentry_gun().getShootInterval(), shouldShoot, sv_max_shots_per_frame);
-		 ticks > 0;
-		 --ticks) {
+	     ticks > 0;
+	     --ticks) {
 		constexpr auto weapon = Weapon::sentry_gun();
 		constexpr auto projectileType = weapon.getProjectileType();
 		m_server.playWorldSound(weapon.getShootSound(), it->second->position);
 		this->createProjectile(it->second->position + it->second->aimDirection.getVector(),
-							   it->second->aimDirection,
-							   projectileType,
-							   it->second->team,
-							   it->second->owner,
-							   weapon,
-							   weapon.getDamage(),
-							   weapon.getHurtSound(),
-							   projectileType.getDisappearTime(),
-							   projectileType.getMoveInterval());
+		                       it->second->aimDirection,
+		                       projectileType,
+		                       it->second->team,
+		                       it->second->owner,
+		                       weapon,
+		                       weapon.getDamage(),
+		                       weapon.getHurtSound(),
+		                       projectileType.getDisappearTime(),
+		                       projectileType.getMoveInterval());
 		if (!it->second || !it->second->alive) {
 			return ++it;
 		}
@@ -1266,8 +1266,8 @@ auto World::updateProjectile(ProjectileIterator it, float deltaTime) -> World::P
 	}
 
 	for (auto ticks = it->second->moveTimer.advance(deltaTime, it->second->moveInterval, !it->second->stickyAttached, sv_max_move_steps_per_frame);
-		 ticks > 0;
-		 --ticks) {
+	     ticks > 0;
+	     --ticks) {
 		this->stepProjectile(it, it->second->moveDirection);
 		if (!it->second) {
 			return ++it;
@@ -1331,8 +1331,8 @@ auto World::updateGenericEntity(GenericEntityIterator it, float deltaTime) -> Wo
 	assert(it != m_genericEntities.stable_end());
 	assert(it->second);
 	for (auto loops = it->second->moveTimer.advance(deltaTime, it->second->moveInterval, it->second->velocity != Vec2{}, sv_max_move_steps_per_frame);
-		 loops > 0;
-		 --loops) {
+	     loops > 0;
+	     --loops) {
 		this->stepGenericEntity(it);
 		if (!it->second) {
 			return ++it;
@@ -1363,10 +1363,10 @@ auto World::updateFlag(FlagIterator it, float deltaTime) -> World::FlagIterator 
 			for (auto itOtherFlag = m_flags.stable_begin(); itOtherFlag != m_flags.stable_end(); ++itOtherFlag) {
 				if (itOtherFlag->first != it->first && itOtherFlag->second->team == itCarrier->second->team) {
 					if (Rect{static_cast<Rect::Length>(itOtherFlag->second->spawnPosition.x - 1),
-							 static_cast<Rect::Length>(itOtherFlag->second->spawnPosition.y - 1),
-							 3,
-							 3}
-							.contains(itCarrier->second->position)) {
+					         static_cast<Rect::Length>(itOtherFlag->second->spawnPosition.y - 1),
+					         3,
+					         3}
+					        .contains(itCarrier->second->position)) {
 						this->captureFlag(it, itCarrier);
 						if (!it->second) {
 							return ++it;
@@ -1397,11 +1397,11 @@ auto World::updatePayloadCart(PayloadCartIterator it, float deltaTime) -> World:
 
 	const auto pushingPlayers = this->getPlayersPushingCart(it);
 	const auto scaledDeltaTime = deltaTime + ((pushingPlayers.empty()) ?
-												  0.0f :
+	                                              0.0f :
                                                   (deltaTime * static_cast<float>(std::min(pushingPlayers.size() - 1, std::size_t{2})) * 0.25f));
 	for (auto loops = it->second->pushTimer.advance(scaledDeltaTime, mp_payload_cart_push_time, !pushingPlayers.empty(), sv_max_move_steps_per_frame);
-		 loops > 0;
-		 --loops) {
+	     loops > 0;
+	     --loops) {
 		m_server.playWorldSound(SoundId::push_cart(), it->second->track[it->second->currentTrackIndex]);
 		m_server.callIfDefined(Script::command({"on_push_cart", cmd::formatPayloadCartId(it->first)}));
 		if (!it->second) {
@@ -1596,12 +1596,12 @@ auto World::checkCollisions(ProjectileIterator it) -> void {
 				const auto explosionPosition = it->second->position - it->second->moveDirection.getVector();
 				m_server.playWorldSound(SoundId::explosion(), explosionPosition);
 				this->createExplosion(explosionPosition,
-									  it->second->team,
-									  it->second->owner,
-									  it->second->weapon,
-									  it->second->damage,
-									  it->second->hurtSound,
-									  mp_explosion_disappear_time);
+				                      it->second->team,
+				                      it->second->owner,
+				                      it->second->weapon,
+				                      it->second->damage,
+				                      it->second->hurtSound,
+				                      mp_explosion_disappear_time);
 				if (!it->second) {
 					return;
 				}
@@ -2101,14 +2101,14 @@ auto World::isCollideable(PayloadCartIterator it) const -> bool { // NOLINT(read
 
 auto World::canCollide(PlayerIterator itPlayer, ProjectileIterator itProjectile) const -> bool {
 	return this->isCollideable(itPlayer) && this->isCollideable(itProjectile) && itProjectile->second->type != ProjectileType::sticky() &&
-		   ((itProjectile->second->type == ProjectileType::heal_beam() && itPlayer->second->team == itProjectile->second->team &&
-			 itPlayer->first != itProjectile->second->owner) ||
-			(itProjectile->second->type != ProjectileType::heal_beam() && itPlayer->second->team != itProjectile->second->team));
+	       ((itProjectile->second->type == ProjectileType::heal_beam() && itPlayer->second->team == itProjectile->second->team &&
+	         itPlayer->first != itProjectile->second->owner) ||
+	        (itProjectile->second->type != ProjectileType::heal_beam() && itPlayer->second->team != itProjectile->second->team));
 }
 
 auto World::canCollide(PlayerIterator itPlayer, ExplosionIterator itExplosion) const -> bool {
 	return this->isCollideable(itPlayer) && this->isCollideable(itExplosion) &&
-		   (itPlayer->second->team != itExplosion->second->team || itPlayer->first == itExplosion->second->owner);
+	       (itPlayer->second->team != itExplosion->second->team || itPlayer->first == itExplosion->second->owner);
 }
 
 auto World::canCollide(PlayerIterator itPlayer, MedkitIterator itMedkit) const -> bool {
@@ -2133,12 +2133,12 @@ auto World::canCollide(ProjectileIterator itProjectile, PlayerIterator itPlayer)
 
 auto World::canCollide(ProjectileIterator itProjectileA, ProjectileIterator itProjectileB) const -> bool {
 	return this->isCollideable(itProjectileA) && this->isCollideable(itProjectileB) && itProjectileA->second->team != itProjectileB->second->team &&
-		   ((itProjectileA->second->stickyAttached &&
-			 (itProjectileB->second->type == ProjectileType::bullet() || itProjectileB->second->type == ProjectileType::syringe() ||
-			  itProjectileB->second->type == ProjectileType::sniper_trail())) ||
-			(itProjectileB->second->stickyAttached &&
-			 (itProjectileA->second->type == ProjectileType::bullet() || itProjectileA->second->type == ProjectileType::syringe() ||
-			  itProjectileA->second->type == ProjectileType::sniper_trail())));
+	       ((itProjectileA->second->stickyAttached &&
+	         (itProjectileB->second->type == ProjectileType::bullet() || itProjectileB->second->type == ProjectileType::syringe() ||
+	          itProjectileB->second->type == ProjectileType::sniper_trail())) ||
+	        (itProjectileB->second->stickyAttached &&
+	         (itProjectileA->second->type == ProjectileType::bullet() || itProjectileA->second->type == ProjectileType::syringe() ||
+	          itProjectileA->second->type == ProjectileType::sniper_trail())));
 }
 
 auto World::canCollide(ProjectileIterator itProjectile, SentryGunIterator itSentryGun) const -> bool {
@@ -2163,7 +2163,7 @@ auto World::canCollide(ExplosionIterator itExplosion, GenericEntityIterator itGe
 
 auto World::canCollide(SentryGunIterator itSentryGun, ProjectileIterator itProjectile) const -> bool {
 	return this->isCollideable(itSentryGun) && this->isCollideable(itProjectile) && itSentryGun->second->team != itProjectile->second->team &&
-		   itProjectile->second->type != ProjectileType::sticky() && itProjectile->second->type != ProjectileType::heal_beam();
+	       itProjectile->second->type != ProjectileType::sticky() && itProjectile->second->type != ProjectileType::heal_beam();
 }
 
 auto World::canCollide(SentryGunIterator itSentryGun, ExplosionIterator itExplosion) const -> bool {
@@ -2192,29 +2192,29 @@ auto World::canCollide(AmmopackIterator itAmmopack, GenericEntityIterator itGene
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, PlayerIterator itPlayer) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itPlayer) && (itGenericEntity->second->solidFlags & Solid::PLAYERS) != 0 &&
-		   !(itPlayer->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PLAYERS) == 0) &&
-		   !(itPlayer->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PLAYERS) == 0);
+	       !(itPlayer->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PLAYERS) == 0) &&
+	       !(itPlayer->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PLAYERS) == 0);
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, ProjectileIterator itProjectile) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itProjectile) &&
-		   (itGenericEntity->second->solidFlags & Solid::PROJECTILES) != 0 &&
-		   !(itProjectile->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PROJECTILES) == 0) &&
-		   !(itProjectile->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PROJECTILES) == 0);
+	       (itGenericEntity->second->solidFlags & Solid::PROJECTILES) != 0 &&
+	       !(itProjectile->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PROJECTILES) == 0) &&
+	       !(itProjectile->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PROJECTILES) == 0);
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, ExplosionIterator itExplosion) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itExplosion) &&
-		   (itGenericEntity->second->solidFlags & Solid::EXPLOSIONS) != 0 &&
-		   !(itExplosion->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_EXPLOSIONS) == 0) &&
-		   !(itExplosion->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_EXPLOSIONS) == 0);
+	       (itGenericEntity->second->solidFlags & Solid::EXPLOSIONS) != 0 &&
+	       !(itExplosion->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_EXPLOSIONS) == 0) &&
+	       !(itExplosion->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_EXPLOSIONS) == 0);
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, SentryGunIterator itSentryGun) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itSentryGun) &&
-		   (itGenericEntity->second->solidFlags & Solid::SENTRY_GUNS) != 0 &&
-		   !(itSentryGun->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_SENTRY_GUNS) == 0) &&
-		   !(itSentryGun->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_SENTRY_GUNS) == 0);
+	       (itGenericEntity->second->solidFlags & Solid::SENTRY_GUNS) != 0 &&
+	       !(itSentryGun->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_SENTRY_GUNS) == 0) &&
+	       !(itSentryGun->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_SENTRY_GUNS) == 0);
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, MedkitIterator itMedkit) const -> bool {
@@ -2227,20 +2227,20 @@ auto World::canCollide(GenericEntityIterator itGenericEntity, AmmopackIterator i
 
 auto World::canCollide(GenericEntityIterator itGenericEntityA, GenericEntityIterator itGenericEntityB) const -> bool {
 	return this->isCollideable(itGenericEntityA) && this->isCollideable(itGenericEntityB) &&
-		   (itGenericEntityA->second->solidFlags & Solid::GENERIC_ENTITIES) != 0 &&
-		   (itGenericEntityB->second->solidFlags & Solid::GENERIC_ENTITIES) != 0;
+	       (itGenericEntityA->second->solidFlags & Solid::GENERIC_ENTITIES) != 0 &&
+	       (itGenericEntityB->second->solidFlags & Solid::GENERIC_ENTITIES) != 0;
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, FlagIterator itFlag) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itFlag) && (itGenericEntity->second->solidFlags & Solid::FLAGS) != 0 &&
-		   !(itFlag->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_FLAGS) == 0) &&
-		   !(itFlag->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_FLAGS) == 0);
+	       !(itFlag->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_FLAGS) == 0) &&
+	       !(itFlag->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_FLAGS) == 0);
 }
 
 auto World::canCollide(GenericEntityIterator itGenericEntity, PayloadCartIterator itCart) const -> bool {
 	return this->isCollideable(itGenericEntity) && this->isCollideable(itCart) && (itGenericEntity->second->solidFlags & Solid::PAYLOAD_CARTS) != 0 &&
-		   !(itCart->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PAYLOAD_CARTS) == 0) &&
-		   !(itCart->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PAYLOAD_CARTS) == 0);
+	       !(itCart->second->team == Team::red() && (itGenericEntity->second->solidFlags & Solid::RED_PAYLOAD_CARTS) == 0) &&
+	       !(itCart->second->team == Team::blue() && (itGenericEntity->second->solidFlags & Solid::BLUE_PAYLOAD_CARTS) == 0);
 }
 
 auto World::canCollide(FlagIterator itFlag, PlayerIterator itPlayer) const -> bool {
@@ -2260,19 +2260,19 @@ auto World::collide(PlayerIterator itPlayer, ProjectileIterator itProjectile) ->
 	if (itProjectile->second->type == ProjectileType::rocket()) {
 		m_server.playWorldSound(SoundId::explosion(), itProjectile->second->position);
 		this->createExplosion(itProjectile->second->position,
-							  itProjectile->second->team,
-							  itProjectile->second->owner,
-							  itProjectile->second->weapon,
-							  itProjectile->second->damage,
-							  itProjectile->second->hurtSound,
-							  mp_explosion_disappear_time);
+		                      itProjectile->second->team,
+		                      itProjectile->second->owner,
+		                      itProjectile->second->weapon,
+		                      itProjectile->second->damage,
+		                      itProjectile->second->hurtSound,
+		                      mp_explosion_disappear_time);
 	} else {
 		this->applyDamageToPlayer(itPlayer,
-								  itProjectile->second->damage,
-								  itProjectile->second->hurtSound,
-								  false,
-								  m_players.stable_find(itProjectile->second->owner),
-								  itProjectile->second->weapon);
+		                          itProjectile->second->damage,
+		                          itProjectile->second->hurtSound,
+		                          false,
+		                          m_players.stable_find(itProjectile->second->owner),
+		                          itProjectile->second->weapon);
 	}
 	if (!itProjectile->second) {
 		return;
@@ -2291,10 +2291,10 @@ auto World::collide(PlayerIterator itPlayer, ExplosionIterator itExplosion) -> v
 		if (itPlayer->first == itExplosion->second->owner) {
 			if (itPlayer->second->position == itExplosion->second->position) {
 				const auto blastJumpOffset = this->getClippedMovementOffset(itPlayer->second->position,
-																			itPlayer->second->team == Team::red(),
-																			itPlayer->second->team == Team::blue(),
-																			itPlayer->second->noclip,
-																			itPlayer->second->moveDirection);
+				                                                            itPlayer->second->team == Team::red(),
+				                                                            itPlayer->second->team == Team::blue(),
+				                                                            itPlayer->second->noclip,
+				                                                            itPlayer->second->moveDirection);
 				auto blastJumpVector = itPlayer->second->blastJumpDirection.getVector();
 				if (blastJumpOffset.x != -blastJumpVector.x) {
 					blastJumpVector.x = blastJumpOffset.x;
@@ -2306,7 +2306,7 @@ auto World::collide(PlayerIterator itPlayer, ExplosionIterator itExplosion) -> v
 					itPlayer->second->blastJumpDirection = itPlayer->second->aimDirection.getOpposite();
 				} else {
 					itPlayer->second->blastJumpDirection = Direction{blastJumpVector.x<0, blastJumpVector.x> 0,
-																	 blastJumpVector.y<0, blastJumpVector.y> 0};
+					                                                 blastJumpVector.y<0, blastJumpVector.y> 0};
 				}
 			} else {
 				itPlayer->second->blastJumpDirection |= Direction{itPlayer->second->position - itExplosion->second->position};
@@ -2322,11 +2322,11 @@ auto World::collide(PlayerIterator itPlayer, ExplosionIterator itExplosion) -> v
 			}
 		}
 		this->applyDamageToPlayer(itPlayer,
-								  itExplosion->second->damage,
-								  itExplosion->second->hurtSound,
-								  false,
-								  m_players.stable_find(itExplosion->second->owner),
-								  itExplosion->second->weapon);
+		                          itExplosion->second->damage,
+		                          itExplosion->second->hurtSound,
+		                          false,
+		                          m_players.stable_find(itExplosion->second->owner),
+		                          itExplosion->second->weapon);
 	}
 }
 
@@ -2420,18 +2420,18 @@ auto World::collide(SentryGunIterator itSentryGun, ProjectileIterator itProjecti
 	if (itProjectile->second->type == ProjectileType::rocket()) {
 		m_server.playWorldSound(SoundId::explosion(), itProjectile->second->position);
 		this->createExplosion(itProjectile->second->position,
-							  itProjectile->second->team,
-							  itProjectile->second->owner,
-							  itProjectile->second->weapon,
-							  itProjectile->second->damage,
-							  itProjectile->second->hurtSound,
-							  mp_explosion_disappear_time);
+		                      itProjectile->second->team,
+		                      itProjectile->second->owner,
+		                      itProjectile->second->weapon,
+		                      itProjectile->second->damage,
+		                      itProjectile->second->hurtSound,
+		                      mp_explosion_disappear_time);
 	} else {
 		this->applyDamageToSentryGun(itSentryGun,
-									 itProjectile->second->damage,
-									 SoundId::sentry_hurt(),
-									 false,
-									 m_players.stable_find(itProjectile->second->owner));
+		                             itProjectile->second->damage,
+		                             SoundId::sentry_hurt(),
+		                             false,
+		                             m_players.stable_find(itProjectile->second->owner));
 	}
 	if (!itProjectile->second) {
 		return;
@@ -2448,10 +2448,10 @@ auto World::collide(SentryGunIterator itSentryGun, ExplosionIterator itExplosion
 	assert(this->canCollide(itSentryGun, itExplosion));
 	if (itExplosion->second->damagedSentryGuns.insert(itSentryGun->second->owner).second) {
 		this->applyDamageToSentryGun(itSentryGun,
-									 itExplosion->second->damage,
-									 SoundId::sentry_hurt(),
-									 false,
-									 m_players.stable_find(itExplosion->second->owner));
+		                             itExplosion->second->damage,
+		                             SoundId::sentry_hurt(),
+		                             false,
+		                             m_players.stable_find(itExplosion->second->owner));
 	}
 }
 
@@ -2661,7 +2661,7 @@ auto World::teleportFlag(FlagIterator it, Vec2 destination) -> bool {
 	assert(it != m_flags.stable_end());
 	assert(it->second);
 	if (it->second->carrier == PlayerRegistry::INVALID_KEY &&
-		this->canTeleport(it->second->team == Team::red(), it->second->team == Team::blue(), false, destination)) {
+	    this->canTeleport(it->second->team == Team::red(), it->second->team == Team::blue(), false, destination)) {
 		if (it->second->position != destination) {
 			it->second->position = destination;
 			this->checkCollisions(it);
@@ -2783,7 +2783,7 @@ auto World::killPlayer(PlayerIterator it, bool announce, PlayerIterator killer, 
 					if (it->second) {
 						if (weapon == Weapon::none()) {
 							m_server.writeServerEventMessage(fmt::format("{} killed {}.", killer->second->name, it->second->name),
-															 std::array{killer->first, it->first});
+							                                 std::array{killer->first, it->first});
 						} else {
 							m_server.writeServerEventMessage(
 								fmt::format("{} killed {} with {}.", killer->second->name, it->second->name, weapon.getName()),
@@ -2809,7 +2809,7 @@ auto World::killPlayer(PlayerIterator it, bool announce, PlayerIterator killer, 
 			auto respawnTime = static_cast<float>(mp_player_respawn_time);
 			for (const auto& [id, cart] : m_carts) {
 				if (cart.team != it->second->team && static_cast<float>(cart.currentTrackIndex) / static_cast<float>(cart.track.size()) >=
-														 mp_payload_defense_respawn_time_threshold) {
+				                                         mp_payload_defense_respawn_time_threshold) {
 					respawnTime *= mp_payload_defense_respawn_time_coefficient;
 				}
 			}
@@ -2847,8 +2847,8 @@ auto World::updatePlayerSpectatorMovement(PlayerIterator it, float deltaTime) ->
 	assert(it->second);
 	const auto moveVector = it->second->moveDirection.getVector();
 	for (auto loops = it->second->moveTimer.advance(deltaTime, PlayerClass::spectator().getMoveInterval(), moveVector != Vec2{}, sv_max_move_steps_per_frame);
-		 loops > 0;
-		 --loops) {
+	     loops > 0;
+	     --loops) {
 		it->second->position += moveVector;
 		const auto xMin = static_cast<Vec2::Length>(gui::VIEWPORT_W / 2);
 		const auto xMax = static_cast<Vec2::Length>(m_map.getWidth() - 1 - gui::VIEWPORT_W / 2);
@@ -2873,8 +2873,8 @@ auto World::updatePlayerMovement(PlayerIterator it, float deltaTime) -> void {
 	assert(it->second);
 	assert(it->second->alive);
 	for (auto loops = it->second->blastJumpTimer.advance(deltaTime, it->second->blastJumpInterval, it->second->blastJumping, sv_max_move_steps_per_frame);
-		 loops > 0;
-		 --loops) {
+	     loops > 0;
+	     --loops) {
 		if (it->second->blastJumpCountdown.advance(it->second->blastJumpInterval, it->second->blastJumping).first) {
 			it->second->blastJumpDirection = Direction::none();
 			it->second->blastJumpInterval = 0.0f;
@@ -2888,11 +2888,11 @@ auto World::updatePlayerMovement(PlayerIterator it, float deltaTime) -> void {
 	}
 
 	for (auto loops = it->second->moveTimer.advance(deltaTime,
-													it->second->playerClass.getMoveInterval(),
-													!it->second->blastJumping && it->second->moveDirection.isAny(),
-													sv_max_move_steps_per_frame);
-		 loops > 0;
-		 --loops) {
+	                                                it->second->playerClass.getMoveInterval(),
+	                                                !it->second->blastJumping && it->second->moveDirection.isAny(),
+	                                                sv_max_move_steps_per_frame);
+	     loops > 0;
+	     --loops) {
 		this->stepPlayer(it, it->second->moveDirection);
 		if (!it->second || !it->second->alive) {
 			return;
@@ -2901,8 +2901,8 @@ auto World::updatePlayerMovement(PlayerIterator it, float deltaTime) -> void {
 }
 
 auto World::updatePlayerWeapon(PlayerIterator it, float deltaTime, Weapon weapon, Weapon otherWeapon,
-							   util::CountdownLoop<float>& shootTimer, util::CountdownLoop<float>& secondaryShootTimer, Ammo& ammo,
-							   bool shooting, util::CountdownLoop<float>& reloadTimer) -> void {
+                               util::CountdownLoop<float>& shootTimer, util::CountdownLoop<float>& secondaryShootTimer, Ammo& ammo,
+                               bool shooting, util::CountdownLoop<float>& reloadTimer) -> void {
 	assert(it != m_players.stable_end());
 	assert(it->second);
 	assert(it->second->alive);
@@ -2933,9 +2933,9 @@ auto World::updatePlayerWeapon(PlayerIterator it, float deltaTime, Weapon weapon
 
 	auto shots = 0;
 	for (auto loops = shootTimer.advance(deltaTime,
-										 shootInterval,
-										 shooting && ammo >= ammoPerShot,
-										 [&] {
+	                                     shootInterval,
+	                                     shooting && ammo >= ammoPerShot,
+	                                     [&] {
 											 if (shots >= sv_max_shots_per_frame) {
 												 return false;
 											 }
@@ -2946,8 +2946,8 @@ auto World::updatePlayerWeapon(PlayerIterator it, float deltaTime, Weapon weapon
 											 }
 											 return false;
 										 });
-		 loops > 0;
-		 --loops) {
+	     loops > 0;
+	     --loops) {
 		reloadTimer.setTimeLeft(shootInterval + reloadDelay - deltaTime);
 		this->shootPlayerWeapon(it, weapon, otherWeapon, secondaryShootTimer);
 		if (!it->second || !it->second->alive) {
@@ -2979,15 +2979,15 @@ auto World::shootPlayerWeapon(PlayerIterator it, Weapon weapon, Weapon otherWeap
 			if (const auto projectileType = weapon.getProjectileType(); projectileType != ProjectileType::none()) {
 				secondaryShootTimer.addTimeLeft(weapon.getShootInterval());
 				this->createShotgunSpread(it->second->position,
-										  it->second->aimDirection,
-										  projectileType,
-										  it->second->team,
-										  it->first,
-										  weapon,
-										  weapon.getDamage(),
-										  weapon.getHurtSound(),
-										  projectileType.getDisappearTime(),
-										  projectileType.getMoveInterval());
+				                          it->second->aimDirection,
+				                          projectileType,
+				                          it->second->team,
+				                          it->first,
+				                          weapon,
+				                          weapon.getDamage(),
+				                          weapon.getHurtSound(),
+				                          projectileType.getDisappearTime(),
+				                          projectileType.getMoveInterval());
 			}
 			break;
 		case Weapon::stickybomb_launcher(): {
@@ -3007,15 +3007,15 @@ auto World::shootPlayerWeapon(PlayerIterator it, Weapon weapon, Weapon otherWeap
 				const auto moveVectorNormalized = (moveVector == Vec2{}) ? Vector2<float>{} : static_cast<Vector2<float>>(moveVector).normalized();
 				const auto moveIntervalCoefficient = 1.0f - 0.4f * Vector2<float>::dotProduct(aimVectorNormalized, moveVectorNormalized);
 				this->createProjectile(it->second->position + aimVector,
-									   it->second->aimDirection,
-									   projectileType,
-									   it->second->team,
-									   it->first,
-									   weapon,
-									   weapon.getDamage(),
-									   weapon.getHurtSound(),
-									   projectileType.getDisappearTime(),
-									   projectileType.getMoveInterval() * moveIntervalCoefficient);
+				                       it->second->aimDirection,
+				                       projectileType,
+				                       it->second->team,
+				                       it->first,
+				                       weapon,
+				                       weapon.getDamage(),
+				                       weapon.getHurtSound(),
+				                       projectileType.getDisappearTime(),
+				                       projectileType.getMoveInterval() * moveIntervalCoefficient);
 			}
 			break;
 		}
@@ -3024,30 +3024,30 @@ auto World::shootPlayerWeapon(PlayerIterator it, Weapon weapon, Weapon otherWeap
 			if (const auto projectileType = weapon.getProjectileType(); projectileType != ProjectileType::none()) {
 				secondaryShootTimer.addTimeLeft(weapon.getShootInterval());
 				this->createProjectile(it->second->position + it->second->aimDirection.getVector(),
-									   it->second->aimDirection,
-									   projectileType,
-									   it->second->team,
-									   it->first,
-									   weapon,
-									   weapon.getDamage(),
-									   weapon.getHurtSound(),
-									   projectileType.getDisappearTime(),
-									   projectileType.getMoveInterval());
+				                       it->second->aimDirection,
+				                       projectileType,
+				                       it->second->team,
+				                       it->first,
+				                       weapon,
+				                       weapon.getDamage(),
+				                       weapon.getHurtSound(),
+				                       projectileType.getDisappearTime(),
+				                       projectileType.getMoveInterval());
 			}
 			break;
 		case Weapon::sniper_rifle():
 			if (const auto projectileType = weapon.getProjectileType(); projectileType != ProjectileType::none()) {
 				secondaryShootTimer.addTimeLeft(weapon.getShootInterval());
 				this->createSniperRifleTrail(it->second->position + it->second->aimDirection.getVector(),
-											 it->second->aimDirection,
-											 projectileType,
-											 it->second->team,
-											 it->first,
-											 weapon,
-											 weapon.getDamage(),
-											 weapon.getHurtSound(),
-											 projectileType.getDisappearTime(),
-											 projectileType.getMoveInterval());
+				                             it->second->aimDirection,
+				                             projectileType,
+				                             it->second->team,
+				                             it->first,
+				                             weapon,
+				                             weapon.getDamage(),
+				                             weapon.getHurtSound(),
+				                             projectileType.getDisappearTime(),
+				                             projectileType.getMoveInterval());
 			}
 			break;
 		case Weapon::build_tool():
@@ -3088,15 +3088,15 @@ auto World::shootPlayerWeapon(PlayerIterator it, Weapon weapon, Weapon otherWeap
 			if (const auto projectileType = weapon.getProjectileType(); projectileType != ProjectileType::none()) {
 				secondaryShootTimer.addTimeLeft(weapon.getShootInterval());
 				this->createProjectile(it->second->position + it->second->aimDirection.getVector(),
-									   it->second->aimDirection,
-									   projectileType,
-									   it->second->team,
-									   it->first,
-									   weapon,
-									   weapon.getDamage(),
-									   weapon.getHurtSound(),
-									   projectileType.getDisappearTime(),
-									   projectileType.getMoveInterval());
+				                       it->second->aimDirection,
+				                       projectileType,
+				                       it->second->team,
+				                       it->first,
+				                       weapon,
+				                       weapon.getDamage(),
+				                       weapon.getHurtSound(),
+				                       projectileType.getDisappearTime(),
+				                       projectileType.getMoveInterval());
 			}
 			break;
 	}
@@ -3106,10 +3106,10 @@ auto World::stepPlayer(PlayerIterator it, Direction direction) -> void {
 	assert(it != m_players.stable_end());
 	assert(it->second);
 	const auto destination = this->getClippedMovementDestination(it->second->position,
-																 it->second->team == Team::red(),
-																 it->second->team == Team::blue(),
-																 it->second->noclip,
-																 direction);
+	                                                             it->second->team == Team::red(),
+	                                                             it->second->team == Team::blue(),
+	                                                             it->second->noclip,
+	                                                             direction);
 	if (it->second->position != destination) {
 		it->second->position = destination;
 		this->checkCollisions(it);
@@ -3228,7 +3228,7 @@ auto World::playerTeamSelect(PlayerIterator it, Team team, PlayerClass playerCla
 					return lhs.second < rhs.second;
 				});
 				if (itCount != playerCounts.end() &&
-					static_cast<std::size_t>(playerCounts.at(it->second->team) - itCount->second) > static_cast<std::size_t>(mp_limitteams)) {
+				    static_cast<std::size_t>(playerCounts.at(it->second->team) - itCount->second) > static_cast<std::size_t>(mp_limitteams)) {
 					it->second->team = itCount->first;
 					m_server.writeServerChatMessage(
 						fmt::format("{} was moved to team {} for game balance.", it->second->name, it->second->team.getName()));
@@ -3249,15 +3249,15 @@ auto World::playerTeamSelect(PlayerIterator it, Team team, PlayerClass playerCla
 
 		auto i = std::size_t{0};
 		while (i < playerClasses.size() && (playerClass == PlayerClass::none() || playerClass == PlayerClass::spectator() ||
-											this->getPlayerClassCount(it->second->team, playerClass) >= playerClass.getLimit())) {
+		                                    this->getPlayerClassCount(it->second->team, playerClass) >= playerClass.getLimit())) {
 			const auto newPlayerClass = playerClasses[i];
 			if (newPlayerClass != PlayerClass::none() && newPlayerClass != PlayerClass::spectator() && newPlayerClass != playerClass) {
 				m_server.writeServerChatMessage(fmt::format("{} switched class to {}. ({} is full at {} players.)",
-															it->second->name,
-															newPlayerClass.getName(),
-															playerClass.getName(),
-															playerClass.getLimit()),
-												it->second->team);
+				                                            it->second->name,
+				                                            newPlayerClass.getName(),
+				                                            playerClass.getName(),
+				                                            playerClass.getLimit()),
+				                                it->second->team);
 				playerClass = newPlayerClass;
 			}
 			++i;
@@ -3268,7 +3268,7 @@ auto World::playerTeamSelect(PlayerIterator it, Team team, PlayerClass playerCla
 			it->second->playerClass = playerClass;
 			if (playerClass == desiredClass) {
 				m_server.writeServerChatMessage(fmt::format("{} switched class to {}.", it->second->name, it->second->playerClass.getName()),
-												it->second->team);
+				                                it->second->team);
 			}
 		}
 	}
@@ -3285,8 +3285,8 @@ auto World::playerTeamSelect(PlayerIterator it, Team team, PlayerClass playerCla
 	}
 
 	if (it->second->alive && !switchedTeam &&
-		this->containsSpawnPoint(Rect{static_cast<Rect::Length>(it->second->position.x - 2), static_cast<Rect::Length>(it->second->position.y - 2), 5, 5},
-								 it->second->team)) {
+	    this->containsSpawnPoint(Rect{static_cast<Rect::Length>(it->second->position.x - 2), static_cast<Rect::Length>(it->second->position.y - 2), 5, 5},
+	                             it->second->team)) {
 		this->spawnPlayer(it);
 	} else {
 		this->killPlayer(it, true, it);
@@ -3360,15 +3360,15 @@ auto World::detonatePlayerStickiesUntil(PlayerIterator it, int maxRemaining) -> 
 	assert(it->second);
 	for (auto itProjectile = m_projectiles.stable_begin(); itProjectile != m_projectiles.stable_end() && it->second->nStickies > maxRemaining;) {
 		if (itProjectile->second->type == ProjectileType::sticky() && itProjectile->second->stickyAttached &&
-			itProjectile->second->disappearTimer.getTimeLeft() <= 0.0f && itProjectile->second->owner == it->first) {
+		    itProjectile->second->disappearTimer.getTimeLeft() <= 0.0f && itProjectile->second->owner == it->first) {
 			m_server.playWorldSound(SoundId::explosion(), itProjectile->second->position);
 			this->createExplosion(itProjectile->second->position,
-								  itProjectile->second->team,
-								  itProjectile->second->owner,
-								  itProjectile->second->weapon,
-								  itProjectile->second->damage,
-								  itProjectile->second->hurtSound,
-								  mp_explosion_disappear_time);
+			                      itProjectile->second->team,
+			                      itProjectile->second->owner,
+			                      itProjectile->second->weapon,
+			                      itProjectile->second->damage,
+			                      itProjectile->second->hurtSound,
+			                      mp_explosion_disappear_time);
 			if (!it->second || !it->second->alive) {
 				return;
 			}
@@ -3493,7 +3493,7 @@ auto World::captureFlag(FlagIterator it, PlayerIterator carrier) -> void {
 	}
 
 	if (const auto itFlag = util::findIf(m_flags.stable(), [&](const auto& kv) { return kv.second->team == carrier->second->team; });
-		itFlag != m_flags.stable_end()) {
+	    itFlag != m_flags.stable_end()) {
 		const auto points = static_cast<Score>(mp_score_objective);
 		carrier->second->score += points;
 		++itFlag->second->score;
@@ -3517,7 +3517,7 @@ auto World::captureFlag(FlagIterator it, PlayerIterator carrier) -> void {
 }
 
 auto World::createShotgunSpread(Vec2 position, Direction direction, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-								Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void {
+                                Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void {
 	const auto bulletPositions = [position, direction]() -> std::pair<Vec2, Vec2> {
 		if (mp_shotgun_use_legacy_spread) {
 			if (direction.isRight()) {
@@ -3567,7 +3567,7 @@ auto World::createShotgunSpread(Vec2 position, Direction direction, ProjectileTy
 }
 
 auto World::createSniperRifleTrail(Vec2 position, Direction direction, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-								   Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void {
+                                   Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void {
 	if (direction.isAny()) {
 		const auto aim = direction.getVector();
 		const auto red = team == Team::red();
@@ -3610,12 +3610,12 @@ auto World::cleanupProjectiles(PlayerId id) -> void {
 
 auto World::canTeleport(bool red, bool blue, bool noclip, Vec2 destination) const -> bool {
 	return (noclip && destination.x >= 0 && destination.x < m_map.getWidth() && destination.y >= 0 && destination.y < m_map.getHeight()) ||
-		   !m_map.isSolid(destination, red, blue);
+	       !m_map.isSolid(destination, red, blue);
 }
 
 auto World::canMove(bool red, bool blue, bool noclip, Vec2 destination, Direction moveDirection) const -> bool {
 	return (noclip && destination.x >= 0 && destination.x < m_map.getWidth() && destination.y >= 0 && destination.y < m_map.getHeight()) ||
-		   !m_map.isSolid(destination, red, blue, moveDirection);
+	       !m_map.isSolid(destination, red, blue, moveDirection);
 }
 
 auto World::canMove(Vec2 position, bool red, bool blue, bool noclip, Direction moveDirection) const -> bool {
@@ -3625,8 +3625,8 @@ auto World::canMove(Vec2 position, bool red, bool blue, bool noclip, Direction m
 	}
 	const auto destination = position + moveVector;
 	return this->canMove(red, blue, noclip, destination, moveDirection) ||
-		   this->canMove(red, blue, noclip, {destination.x, position.y}, moveDirection.getHorizontal()) ||
-		   this->canMove(red, blue, noclip, {position.x, destination.y}, moveDirection.getVertical());
+	       this->canMove(red, blue, noclip, {destination.x, position.y}, moveDirection.getHorizontal()) ||
+	       this->canMove(red, blue, noclip, {position.x, destination.y}, moveDirection.getVertical());
 }
 
 auto World::getClippedMovementDestination(Vec2 position, bool red, bool blue, bool noclip, Direction moveDirection) const -> Vec2 {

@@ -77,7 +77,7 @@ CON_COMMAND(mp_get_class_id_by_name, "<name>", ConCommand::NO_FLAGS, "Get the id
 }
 
 CON_COMMAND(mp_get_projectile_type_id_by_name, "<name>", ConCommand::NO_FLAGS, "Get the id of the projectile type with a certain name.", {},
-			cmd::suggestProjectileType<1>) {
+            cmd::suggestProjectileType<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -124,7 +124,7 @@ CON_COMMAND(mp_get_class_name, "<class_id>", ConCommand::NO_FLAGS, "Get the name
 }
 
 CON_COMMAND(mp_get_projectile_type_name, "<projectile_type_id>", ConCommand::NO_FLAGS,
-			"Get the name of the projectile type with a certain id.", {}, cmd::suggestProjectileTypeId<1>) {
+            "Get the name of the projectile type with a certain id.", {}, cmd::suggestProjectileTypeId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -140,7 +140,7 @@ CON_COMMAND(mp_get_projectile_type_name, "<projectile_type_id>", ConCommand::NO_
 }
 
 CON_COMMAND(mp_get_weapon_name, "<weapon_id>", ConCommand::NO_FLAGS, "Get the name of the weapon type with a certain id.", {},
-			cmd::suggestWeaponId<1>) {
+            cmd::suggestWeaponId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -156,7 +156,7 @@ CON_COMMAND(mp_get_weapon_name, "<weapon_id>", ConCommand::NO_FLAGS, "Get the na
 }
 
 CON_COMMAND(mp_get_player_id_by_ip, "<ip>", ConCommand::SERVER, "Get the id of the player with a certain ip address.", {},
-			cmd::suggestConnectedClientIp<1>) {
+            cmd::suggestConnectedClientIp<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -195,7 +195,7 @@ CON_COMMAND(mp_get_player_ip, "<player_id>", ConCommand::SERVER, "Get the ip add
 }
 
 CON_COMMAND(mp_get_player_inventory_id, "<player_id>", ConCommand::SERVER, "Find the inventory id of the player with a certain player id.",
-			{}, cmd::suggestPlayerId<1>) {
+            {}, cmd::suggestPlayerId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -215,7 +215,7 @@ CON_COMMAND(mp_get_player_inventory_id, "<player_id>", ConCommand::SERVER, "Find
 }
 
 CON_COMMAND(mp_award_player_points, "<player_id> <points>", ConCommand::SERVER,
-			"Give points to a player with a certain id and potentially level them up.", {}, cmd::suggestPlayerId<1>) {
+            "Give points to a player with a certain id and potentially level them up.", {}, cmd::suggestPlayerId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -277,7 +277,7 @@ CON_COMMAND(mp_play_world_sound, "<sound> <x> <y>", ConCommand::SERVER, "Play a 
 }
 
 CON_COMMAND(mp_play_world_sound_from_player, "<sound> <x> <y> <player_id>", ConCommand::SERVER,
-			"Play a sound at (x, y) in the world, originating from a certain player.", {}, cmd::suggestValidSoundFilename<1>) {
+            "Play a sound at (x, y) in the world, originating from a certain player.", {}, cmd::suggestValidSoundFilename<1>) {
 	if (argv.size() != 5) {
 		return cmd::error(self.getUsage());
 	}
@@ -298,7 +298,7 @@ CON_COMMAND(mp_play_world_sound_from_player, "<sound> <x> <y> <player_id>", ConC
 }
 
 CON_COMMAND(mp_play_team_sound, "<sound> <team>", ConCommand::SERVER, "Play a sound to everyone in a certain team.", {},
-			cmd::suggestValidSoundFilename<1>) {
+            cmd::suggestValidSoundFilename<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -317,7 +317,7 @@ CON_COMMAND(mp_play_team_sound, "<sound> <team>", ConCommand::SERVER, "Play a so
 }
 
 CON_COMMAND(mp_play_team_sound_separate, "<sound> <other_team_sound> <team>", ConCommand::SERVER,
-			"Play a sound to everyone in a certain team, and a different sound to everyone else.", {}, cmd::suggestValidSoundFilename<1>) {
+            "Play a sound to everyone in a certain team, and a different sound to everyone else.", {}, cmd::suggestValidSoundFilename<1>) {
 	if (argv.size() != 4) {
 		return cmd::error(self.getUsage());
 	}
@@ -354,7 +354,7 @@ CON_COMMAND(mp_play_game_sound, "<sound>", ConCommand::SERVER, "Play a sound to 
 }
 
 CON_COMMAND(mp_write_event, "[relevant_player_ids...] <text>", ConCommand::SERVER,
-			"Write a server event message to all players, and optionally send them as personal event messages to a set of player ids.", {}, nullptr) {
+            "Write a server event message to all players, and optionally send them as personal event messages to a set of player ids.", {}, nullptr) {
 	if (argv.size() < 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -379,7 +379,7 @@ CON_COMMAND(mp_write_event, "[relevant_player_ids...] <text>", ConCommand::SERVE
 }
 
 CON_COMMAND(mp_write_event_team, "<team> <text>", ConCommand::SERVER, "Write a server event message to all players in a certain team.", {},
-			cmd::suggestValidTeamId<1>) {
+            cmd::suggestValidTeamId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -397,7 +397,7 @@ CON_COMMAND(mp_write_event_team, "<team> <text>", ConCommand::SERVER, "Write a s
 }
 
 CON_COMMAND(mp_write_event_player, "<player_id> <text>", ConCommand::SERVER, "Write a personal server event mesage to a certain player.",
-			{}, cmd::suggestPlayerId<1>) {
+            {}, cmd::suggestPlayerId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -427,7 +427,7 @@ CON_COMMAND(mp_write_chat, "<text>", ConCommand::SERVER, "Write a server chat me
 }
 
 CON_COMMAND(mp_write_chat_team, "<team> <text>", ConCommand::SERVER, "Write a server chat message to all players in a certain team.", {},
-			cmd::suggestValidTeamId<1>) {
+            cmd::suggestValidTeamId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}
@@ -445,7 +445,7 @@ CON_COMMAND(mp_write_chat_team, "<team> <text>", ConCommand::SERVER, "Write a se
 }
 
 CON_COMMAND(mp_write_chat_player, "<player_id> <text>", ConCommand::SERVER, "Write a server chat message to a certain player.", {},
-			cmd::suggestPlayerId<1>) {
+            cmd::suggestPlayerId<1>) {
 	if (argv.size() != 3) {
 		return cmd::error(self.getUsage());
 	}

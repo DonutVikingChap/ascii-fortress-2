@@ -160,7 +160,7 @@ auto Process::format(float currentTime) const -> std::string {
 			};
 
 			return fmt::format((frame.commands.size() <= 2) ? "  {}" : "  {}...",
-							   frame.commands | util::take(2) | util::transform(formatCommand) | util::join("; "));
+		                       frame.commands | util::take(2) | util::transform(formatCommand) | util::join("; "));
 		}) | util::join('\n'));
 }
 
@@ -300,12 +300,12 @@ auto Process::run(Game& game, GameServer* server, GameClient* client, MetaServer
 					(commandState.arguments.size() == 1) ?
 						commandState.arguments.front().value :
                         fmt::format("{} {}",
-									commandState.arguments.front().value,
-									util::subview(commandState.arguments, 1) | util::transform([](const auto& arg) { return arg.value; }) |
-										util::transform(Script::escapedString) | util::join(' '))) {
+				                    commandState.arguments.front().value,
+				                    util::subview(commandState.arguments, 1) | util::transform([](const auto& arg) { return arg.value; }) |
+				                        util::transform(Script::escapedString) | util::join(' '))) {
 					if (!this->checkAliases(result, frame->env, commandState.arguments, frame->returnFrameIndex, frame->returnArgumentIndex) &&
-						!this->checkObjects(result, frame->env, commandState.arguments, frame->returnFrameIndex, frame->returnArgumentIndex) &&
-						!this->checkGlobals(result, commandState.arguments, commandState.data, frameIndex, game, server, client, metaServer, metaClient)) {
+					    !this->checkObjects(result, frame->env, commandState.arguments, frame->returnFrameIndex, frame->returnArgumentIndex) &&
+					    !this->checkGlobals(result, commandState.arguments, commandState.data, frameIndex, game, server, client, metaServer, metaClient)) {
 						if (client) {
 							result = cmd::error(
 								"Unknown command: \"{}\". Try \"{}\".\n"
@@ -316,8 +316,8 @@ auto Process::run(Game& game, GameServer* server, GameClient* client, MetaServer
 								getChatBoundInput(game));
 						} else {
 							result = cmd::error("Unknown command: \"{}\". Try \"{}\".",
-												commandState.arguments.front().value,
-												GET_COMMAND(help).getName());
+							                    commandState.arguments.front().value,
+							                    GET_COMMAND(help).getName());
 						}
 						const auto& cmds = ConCommand::all();
 						const auto& cvars = ConVar::all();
@@ -325,7 +325,7 @@ auto Process::run(Game& game, GameServer* server, GameClient* client, MetaServer
 						const auto isSimilar = [&](const auto& cmd) {
 							const auto lengths = std::minmax(cmd.second.getName().size(), commandState.arguments.front().value.size());
 							return (lengths.second - lengths.first) <= 3 &&
-								   util::ifind(cmd.second.getName(), commandState.arguments.front().value) == 0;
+							       util::ifind(cmd.second.getName(), commandState.arguments.front().value) == 0;
 						};
 
 						if (const auto itCmd = util::findIf(cmds, isSimilar); itCmd != cmds.end()) {
@@ -418,12 +418,12 @@ auto Process::await(Game& game, GameServer* server, GameClient* client, MetaServ
 }
 
 auto Process::awaitUnlimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-							 std::size_t targetFrameIndex) -> cmd::Result {
+                             std::size_t targetFrameIndex) -> cmd::Result {
 	return this->awaitLimited(game, server, client, metaServer, metaClient, 0, targetFrameIndex);
 }
 
 auto Process::awaitLimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient, int limit,
-						   std::size_t targetFrameIndex) -> cmd::Result {
+                           std::size_t targetFrameIndex) -> cmd::Result {
 	auto result = cmd::done();
 	DEBUG_MSG_INDENT(Msg::CONSOLE_DETAILED, "Process {} awaiting result...", this->getId()) {
 		for (auto iteration = 0; m_callStack.size() > targetFrameIndex; ++iteration) {
@@ -439,12 +439,12 @@ auto Process::awaitLimited(Game& game, GameServer* server, GameClient* client, M
 }
 
 auto Process::call(std::shared_ptr<Environment> env, std::string_view script, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env), Script::parse(script), returnFrameIndex, returnArgumentIndex, exportTarget);
 }
 
 auto Process::call(std::shared_ptr<Environment> env, cmd::CommandView argv, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	auto command = Script::Command{};
 	command.reserve(argv.size());
 	for (const auto& arg : argv) {
@@ -454,19 +454,19 @@ auto Process::call(std::shared_ptr<Environment> env, cmd::CommandView argv, std:
 }
 
 auto Process::call(std::shared_ptr<Environment> env, Script::Command command, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env), Script{std::move(command)}, returnFrameIndex, returnArgumentIndex, exportTarget);
 }
 
 auto Process::call(std::shared_ptr<Environment> env, Script commands, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	const auto frameIndex = m_callStack.size();
 	assert(returnFrameIndex == NO_FRAME || returnFrameIndex < frameIndex);
 	DEBUG_MSG_INDENT(Msg::CONSOLE_DETAILED,
-					 "Process {} called {}.",
-					 this->getId(),
-					 (commands.empty())    ? "no commands" :
-					 (commands.size() > 1) ? "several commands" :
+	                 "Process {} called {}.",
+	                 this->getId(),
+	                 (commands.empty())    ? "no commands" :
+	                 (commands.size() > 1) ? "several commands" :
                                              commands.front().front().value) {
 		if (frameIndex == Process::MAX_STACK_SIZE) {
 			DEBUG_MSG(Msg::CONSOLE_DETAILED, "Stack overflow!");
@@ -479,12 +479,12 @@ auto Process::call(std::shared_ptr<Environment> env, Script commands, std::size_
 }
 
 auto Process::call(std::shared_ptr<Environment> env, const Environment::Function& function, std::size_t returnFrameIndex,
-				   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env), function, util::Span<const cmd::Value>{}, returnFrameIndex, returnArgumentIndex, exportTarget);
 }
 
 auto Process::call(std::shared_ptr<Environment> env, const Environment::Function& function, util::Span<const cmd::Value> args, std::size_t returnFrameIndex,
-				   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	auto frame = this->call(std::make_shared<Environment>(std::move(env)), function.body, returnFrameIndex, returnArgumentIndex, exportTarget);
 	if (frame) {
 		frame->makeSection();
@@ -522,12 +522,12 @@ auto Process::call(std::shared_ptr<Environment> env, const Environment::Function
 }
 
 auto Process::call(std::shared_ptr<Environment> env, ConCommand& cmd, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env), cmd, util::Span<const cmd::Value>{}, returnFrameIndex, returnArgumentIndex, exportTarget);
 }
 
 auto Process::call(std::shared_ptr<Environment> env, ConCommand& cmd, util::Span<const cmd::Value> args, std::size_t returnFrameIndex,
-				   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	auto command = Script::Command{Script::Argument{std::string{cmd.getName()}, Script::Argument::NO_FLAGS}};
 	for (const auto& arg : args) {
 		command.emplace_back(arg, Script::Argument::NO_FLAGS);
@@ -536,22 +536,22 @@ auto Process::call(std::shared_ptr<Environment> env, ConCommand& cmd, util::Span
 }
 
 auto Process::call(std::shared_ptr<Environment> env, ConVar& cvar, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env),
-					  Script::Command{Script::Argument{std::string{cvar.getName()}, Script::Argument::NO_FLAGS}},
-					  returnFrameIndex,
-					  returnArgumentIndex,
-					  exportTarget);
+	                  Script::Command{Script::Argument{std::string{cvar.getName()}, Script::Argument::NO_FLAGS}},
+	                  returnFrameIndex,
+	                  returnArgumentIndex,
+	                  exportTarget);
 }
 
 auto Process::call(std::shared_ptr<Environment> env, ConVar& cvar, std::string value, std::size_t returnFrameIndex,
-				   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
+                   std::size_t returnArgumentIndex, const std::shared_ptr<Environment>& exportTarget) -> std::optional<CallFrameHandle> {
 	return this->call(std::move(env),
-					  Script::Command{Script::Argument{std::string{cvar.getName()}, Script::Argument::NO_FLAGS},
-									  Script::Argument{std::move(value), Script::Argument::NO_FLAGS}},
-					  returnFrameIndex,
-					  returnArgumentIndex,
-					  exportTarget);
+	                  Script::Command{Script::Argument{std::string{cvar.getName()}, Script::Argument::NO_FLAGS},
+	                                  Script::Argument{std::move(value), Script::Argument::NO_FLAGS}},
+	                  returnFrameIndex,
+	                  returnArgumentIndex,
+	                  exportTarget);
 }
 
 auto operator==(const Process& lhs, const Process& rhs) noexcept -> bool {
@@ -637,7 +637,7 @@ auto Process::expandArgs(std::size_t frameIndex) -> bool {
 						++i;
 						for (const auto& arg : util::subview(*arr, 1)) {
 							command.insert(command.begin() + static_cast<Script::Command::difference_type>(i),
-										   Script::Argument{arg, Script::Argument::NO_FLAGS});
+							               Script::Argument{arg, Script::Argument::NO_FLAGS});
 							++i;
 						}
 					}
@@ -673,7 +673,7 @@ auto Process::expandArgs(std::size_t frameIndex) -> bool {
 }
 
 auto Process::checkAliases(cmd::Result& result, const std::shared_ptr<Environment>& env, cmd::CommandArguments& arguments,
-						   std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool {
+                           std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool {
 	assert(!arguments.empty());
 	for (auto* pEnv = env.get(); pEnv != nullptr; pEnv = pEnv->parent.get()) {
 		if (const auto it = pEnv->aliases.find(arguments.front().value); it != pEnv->aliases.end()) {
@@ -696,7 +696,7 @@ auto Process::checkAliases(cmd::Result& result, const std::shared_ptr<Environmen
 }
 
 auto Process::checkObjects(cmd::Result& result, const std::shared_ptr<Environment>& env, cmd::CommandArguments& arguments,
-						   std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool {
+                           std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool {
 	assert(!arguments.empty());
 	for (auto* pEnv = env.get(); pEnv != nullptr; pEnv = pEnv->parent.get()) {
 		if (const auto it = pEnv->objects.find(arguments.front().value); it != pEnv->objects.end()) {
@@ -719,7 +719,7 @@ auto Process::checkObjects(cmd::Result& result, const std::shared_ptr<Environmen
 				},
 				[&](Environment::Function& function) {
 					if (arguments.size() == function.parameters.size() + 1 ||
-						(!function.parameters.empty() && arguments.size() >= function.parameters.size() && function.parameters.back() == "...")) {
+				        (!function.parameters.empty() && arguments.size() >= function.parameters.size() && function.parameters.back() == "...")) {
 						auto args = std::vector<cmd::Value>{};
 						args.reserve(arguments.size() - 1);
 						for (auto& argument : util::subview(arguments, 1)) {
@@ -800,7 +800,7 @@ auto Process::checkObjects(cmd::Result& result, const std::shared_ptr<Environmen
 }
 
 auto Process::checkGlobals(cmd::Result& result, cmd::CommandArguments& arguments, std::any& data, std::size_t frameIndex, Game& game,
-						   GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> bool {
+                           GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> bool {
 	assert(!arguments.empty());
 	if (auto&& cmd = ConCommand::find(arguments.front().value)) /* Check commands. */ {
 		if ((cmd->getFlags() & ConCommand::CHEAT) != 0 && !sv_cheats) {
@@ -851,11 +851,11 @@ auto Process::checkGlobals(cmd::Result& result, cmd::CommandArguments& arguments
 			result = cmd::error("{} cannot be changed remotely.", cvar->getName());
 		} else {
 			result = cvar->set(util::subview(arguments, 1) | util::transform([](const auto& arg) { return arg.value; }) | util::join(' '),
-							   game,
-							   server,
-							   client,
-							   metaServer,
-							   metaClient);
+			                   game,
+			                   server,
+			                   client,
+			                   metaServer,
+			                   metaClient);
 		}
 	} else if (!arguments.front().value.empty() && arguments.front().value.front() == '+') /* Check input manager press. */ {
 		if ((m_userFlags & Process::ADMIN) == 0) {

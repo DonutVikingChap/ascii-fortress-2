@@ -59,7 +59,7 @@ public:
 	auto draw(Vec2 position, const util::TileMatrix<char>& matrix, Color color) -> void;
 	auto draw(Vec2 position, const util::TileMatrix<char>& matrix, const Rect& srcRect, Color color) -> void;
 	auto draw(Vec2 position, const Map& map, const Rect& srcRect, Color worldColor, Color nonSolidColor, bool red, bool blue,
-			  char trackChar, Color trackColor, char respawnVisChar, Color respawnVisColor, char resupplyChar, Color resupplyColor) -> void;
+	          char trackChar, Color trackColor, char respawnVisChar, Color respawnVisColor, char resupplyChar, Color resupplyColor) -> void;
 
 	auto fill(char ch, Color color) -> void;
 	auto fill(Color color) -> void;

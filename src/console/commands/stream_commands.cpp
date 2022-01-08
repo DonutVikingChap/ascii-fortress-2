@@ -8,9 +8,9 @@
 #include "../virtual_machine.hpp"        // VirtualMachine
 
 CON_COMMAND(echo, "[strings...]", ConCommand::NO_FLAGS,
-			"Write a line of space-separated strings to the process output, or to the virtual machine if the process has no output. Echoes "
-			"piped input if no arguments are provided.",
-			{}, nullptr) {
+            "Write a line of space-separated strings to the process output, or to the virtual machine if the process has no output. Echoes "
+            "piped input if no arguments are provided.",
+            {}, nullptr) {
 	if (argv.size() == 1) {
 		auto wrote = false;
 		while (auto result = frame.process()->input()->readln()) {
@@ -125,7 +125,7 @@ CON_COMMAND(write_done, "", ConCommand::NO_FLAGS, "Tell our output process that 
 }
 
 CON_COMMAND(write_done_to, "<process>", ConCommand::NO_FLAGS, "Tell a certain process that we are done writing to it.", {},
-			VirtualMachine::suggestProcessId<1>) {
+            VirtualMachine::suggestProcessId<1>) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}

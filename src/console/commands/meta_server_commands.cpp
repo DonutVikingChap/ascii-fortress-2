@@ -121,7 +121,7 @@ CON_COMMAND(meta_sv_ban, "<ip>", ConCommand::META_SERVER | ConCommand::ADMIN_ONL
 }
 
 CON_COMMAND(meta_sv_unban, "<ip>", ConCommand::META_SERVER | ConCommand::ADMIN_ONLY,
-			"Remove an ip address from the meta server's banned client list.", {}, nullptr) {
+            "Remove an ip address from the meta server's banned client list.", {}, nullptr) {
 	if (argv.size() != 2) {
 		return cmd::error(self.getUsage());
 	}
@@ -134,9 +134,9 @@ CON_COMMAND(meta_sv_unban, "<ip>", ConCommand::META_SERVER | ConCommand::ADMIN_O
 	assert(metaServer);
 	if (!metaServer->unbanClient(ip)) {
 		return cmd::error("{}: Ip address \"{}\" is not banned. Use \"{}\" for a list of banned ips.",
-						  self.getName(),
-						  std::string{ip},
-						  GET_COMMAND(meta_sv_ban_list).getName());
+		                  self.getName(),
+		                  std::string{ip},
+		                  GET_COMMAND(meta_sv_ban_list).getName());
 	}
 
 	return cmd::done();
@@ -148,7 +148,7 @@ CON_COMMAND(meta_sv_ban_list, "", ConCommand::META_SERVER | ConCommand::ADMIN_ON
 }
 
 CON_COMMAND(meta_sv_writeconfig, "", ConCommand::META_SERVER | ConCommand::ADMIN_ONLY | ConCommand::NO_RCON,
-			"Save the current meta server config.", {}, nullptr) {
+            "Save the current meta server config.", {}, nullptr) {
 	using BannedClientRef = util::Reference<const MetaServer::BannedClients::value_type>;
 	using Refs = std::vector<BannedClientRef>;
 
@@ -162,13 +162,13 @@ CON_COMMAND(meta_sv_writeconfig, "", ConCommand::META_SERVER | ConCommand::ADMIN
 
 	assert(metaServer);
 	if (!util::dumpFile(fmt::format("{}/{}/{}", data_dir, data_subdir_cfg, meta_sv_config_file),
-						fmt::format("{}\n"
-									"\n"
-									"// Banned IPs:\n"
-									"{}\n",
-									MetaServer::getConfigHeader(),
-									metaServer->getBannedClients() | util::collect<Refs>() | util::sort(compareBannedClientRefs) |
-										util::transform(getBannedClientCommand) | util::join('\n')))) {
+	                    fmt::format("{}\n"
+	                                "\n"
+	                                "// Banned IPs:\n"
+	                                "{}\n",
+	                                MetaServer::getConfigHeader(),
+	                                metaServer->getBannedClients() | util::collect<Refs>() | util::sort(compareBannedClientRefs) |
+	                                    util::transform(getBannedClientCommand) | util::join('\n')))) {
 		return cmd::error("{}: Failed to save config file \"{}\"!", self.getName(), meta_sv_config_file);
 	}
 	return cmd::done();

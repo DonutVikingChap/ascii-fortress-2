@@ -66,7 +66,7 @@ public:
 
 	auto createPlayer(Vec2 position, std::string name) -> PlayerId;
 	auto createProjectile(Vec2 position, Direction moveDirection, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-						  Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> ProjectileId;
+	                      Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> ProjectileId;
 	auto createExplosion(Vec2 position, Team team, PlayerId owner, Weapon weapon, Health damage, SoundId hurtSound, float disappearTime) -> ExplosionId;
 	auto createSentryGun(Vec2 position, Team team, Health health, PlayerId owner) -> SentryGunId;
 	auto createMedkit(Vec2 position) -> MedkitId;
@@ -80,7 +80,7 @@ public:
 	auto spawnAmmopack(AmmopackId id) -> bool;
 
 	auto applyDamageToPlayer(PlayerId id, Health damage, SoundId hurtSound, bool allowOverheal, PlayerId inflictor,
-							 Weapon weapon = Weapon::none()) -> bool;
+	                         Weapon weapon = Weapon::none()) -> bool;
 	auto applyDamageToSentryGun(SentryGunId id, Health damage, SoundId hurtSound, bool allowOverheal, PlayerId inflictor) -> bool;
 
 	auto killPlayer(PlayerId id, bool announce, PlayerId killer, Weapon weapon = Weapon::none()) -> bool;
@@ -215,7 +215,7 @@ private:
 	using PayloadCartIterator = PayloadCartRegistry::stable_iterator;
 
 	using EntityIterator = std::variant<PlayerIterator, ProjectileIterator, ExplosionIterator, SentryGunIterator, MedkitIterator,
-										AmmopackIterator, GenericEntityIterator, FlagIterator, PayloadCartIterator>;
+	                                    AmmopackIterator, GenericEntityIterator, FlagIterator, PayloadCartIterator>;
 	using CollisionMap = std::unordered_map<Vec2, std::vector<EntityIterator>>;
 
 	struct TeamSpawn final {
@@ -352,7 +352,7 @@ private:
 	auto teleportFlag(FlagIterator it, Vec2 destination) -> bool;
 
 	auto applyDamageToPlayer(PlayerIterator it, Health damage, SoundId hurtSound, bool allowOverheal, PlayerIterator inflictor,
-							 Weapon weapon = Weapon::none()) -> void;
+	                         Weapon weapon = Weapon::none()) -> void;
 	auto applyDamageToSentryGun(SentryGunIterator it, Health damage, SoundId hurtSound, bool allowOverheal, PlayerIterator inflictor) -> void;
 
 	auto killPlayer(PlayerIterator it, bool announce, PlayerIterator killer, Weapon weapon = Weapon::none()) -> void;
@@ -362,7 +362,7 @@ private:
 	auto updatePlayerMovement(PlayerIterator it, float deltaTime) -> void;
 
 	auto updatePlayerWeapon(PlayerIterator it, float deltaTime, Weapon weapon, Weapon otherWeapon, util::CountdownLoop<float>& shootTimer,
-							util::CountdownLoop<float>& secondaryShootTimer, Ammo& ammo, bool shooting, util::CountdownLoop<float>& reloadTimer) -> void;
+	                        util::CountdownLoop<float>& secondaryShootTimer, Ammo& ammo, bool shooting, util::CountdownLoop<float>& reloadTimer) -> void;
 	auto shootPlayerWeapon(PlayerIterator it, Weapon weapon, Weapon otherWeapon, util::CountdownLoop<float>& secondaryShootTimer) -> void;
 
 	auto teleportPlayerToSpawn(PlayerIterator it) -> bool;
@@ -390,9 +390,9 @@ private:
 	auto captureFlag(FlagIterator it, PlayerIterator carrier) -> void;
 
 	auto createShotgunSpread(Vec2 position, Direction direction, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-							 Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void;
+	                         Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void;
 	auto createSniperRifleTrail(Vec2 position, Direction direction, ProjectileType type, Team team, PlayerId owner, Weapon weapon,
-								Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void;
+	                            Health damage, SoundId hurtSound, float disappearTime, float moveInterval) -> void;
 
 	auto cleanupSentryGuns(PlayerId id) -> void;
 	auto cleanupProjectiles(PlayerId id) -> void;

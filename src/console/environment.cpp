@@ -40,7 +40,7 @@ auto Environment::appendToTable(Table& table, std::string_view script) -> cmd::R
 			}
 		} else {
 			return cmd::error("Invalid table initialization syntax \"{}\". Correct syntax is \"<key>\" or \"<key> <value>\".",
-							  Script::commandString(command));
+			                  Script::commandString(command));
 		}
 	}
 	return cmd::done();

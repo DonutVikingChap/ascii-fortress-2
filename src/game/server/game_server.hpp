@@ -222,13 +222,13 @@ private:
 	};
 
 	using Clients = util::MultiHash<ClientInfo,           // client
-									net::IpEndpoint,      // endpoint
-									net::IpAddress,       // address
-									std::string,          // username
-									PlayerId,             // playerId
-									InventoryId,          // inventoryId
-									ClientInfo::RconToken // rconToken
-									>;
+	                                net::IpEndpoint,      // endpoint
+	                                net::IpAddress,       // address
+	                                std::string,          // username
+	                                PlayerId,             // playerId
+	                                InventoryId,          // inventoryId
+	                                ClientInfo::RconToken // rconToken
+	                                >;
 
 	static constexpr auto CLIENT_CLIENT = std::size_t{0};                           // client
 	static constexpr auto CLIENT_ENDPOINT = std::size_t{CLIENT_CLIENT + 1};         // endpoint

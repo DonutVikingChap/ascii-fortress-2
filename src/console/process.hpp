@@ -87,43 +87,43 @@ public:
 	auto end() noexcept -> void;
 
 	[[nodiscard]] auto run(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-						   std::size_t targetFrameIndex = 0) -> cmd::Result;
+	                       std::size_t targetFrameIndex = 0) -> cmd::Result;
 	[[nodiscard]] auto await(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-							 std::size_t targetFrameIndex = 0) -> cmd::Result;
+	                         std::size_t targetFrameIndex = 0) -> cmd::Result;
 	[[nodiscard]] auto awaitUnlimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-									  std::size_t targetFrameIndex = 0) -> cmd::Result;
+	                                  std::size_t targetFrameIndex = 0) -> cmd::Result;
 	[[nodiscard]] auto awaitLimited(Game& game, GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient,
-									int limit, std::size_t targetFrameIndex = 0) -> cmd::Result;
+	                                int limit, std::size_t targetFrameIndex = 0) -> cmd::Result;
 
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, std::string_view script, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, cmd::CommandView argv, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, Script::Command command, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, Script commands, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, const Environment::Function& function, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, const Environment::Function& function, util::Span<const cmd::Value> args,
-							std::size_t returnFrameIndex = NO_FRAME, std::size_t returnArgumentIndex = 0,
-							const std::shared_ptr<Environment>& exportTarget = nullptr) -> std::optional<CallFrameHandle>;
+	                        std::size_t returnFrameIndex = NO_FRAME, std::size_t returnArgumentIndex = 0,
+	                        const std::shared_ptr<Environment>& exportTarget = nullptr) -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, ConCommand& cmd, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, ConCommand& cmd, util::Span<const cmd::Value> args,
-							std::size_t returnFrameIndex = NO_FRAME, std::size_t returnArgumentIndex = 0,
-							const std::shared_ptr<Environment>& exportTarget = nullptr) -> std::optional<CallFrameHandle>;
+	                        std::size_t returnFrameIndex = NO_FRAME, std::size_t returnArgumentIndex = 0,
+	                        const std::shared_ptr<Environment>& exportTarget = nullptr) -> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, ConVar& cvar, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 	[[nodiscard]] auto call(std::shared_ptr<Environment> env, ConVar& cvar, std::string value, std::size_t returnFrameIndex = NO_FRAME,
-							std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
+	                        std::size_t returnArgumentIndex = 0, const std::shared_ptr<Environment>& exportTarget = nullptr)
 		-> std::optional<CallFrameHandle>;
 
 	friend auto operator==(const Process& lhs, const Process& rhs) noexcept -> bool;
@@ -133,7 +133,7 @@ private:
 	friend CallFrameHandle;
 	struct CallFrame final {
 		CallFrame(std::shared_ptr<Environment> env, Script commands, std::size_t returnFrameIndex, std::size_t returnArgumentIndex,
-				  const std::shared_ptr<Environment>& exportTarget)
+		          const std::shared_ptr<Environment>& exportTarget)
 			: commands(std::move(commands))
 			, commandStates(this->commands.size())
 			, env(std::move(env))
@@ -165,11 +165,11 @@ private:
 	auto setupPipeline(cmd::Result& result, CallFrame& frame) -> void;
 	[[nodiscard]] auto expandArgs(std::size_t frameIndex) -> bool;
 	[[nodiscard]] auto checkAliases(cmd::Result& result, const std::shared_ptr<Environment>& env, cmd::CommandArguments& arguments,
-									std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool;
+	                                std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool;
 	[[nodiscard]] auto checkObjects(cmd::Result& result, const std::shared_ptr<Environment>& env, cmd::CommandArguments& arguments,
-									std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool;
+	                                std::size_t returnFrameIndex, std::size_t returnArgumentIndex) -> bool;
 	[[nodiscard]] auto checkGlobals(cmd::Result& result, cmd::CommandArguments& arguments, std::any& data, std::size_t frameIndex, Game& game,
-									GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> bool;
+	                                GameServer* server, GameClient* client, MetaServer* metaServer, MetaClient* metaClient) -> bool;
 
 	util::Reference<VirtualMachine> m_vm;
 	std::vector<CallFrame> m_callStack{};                             // Current call stack.

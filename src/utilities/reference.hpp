@@ -25,7 +25,7 @@ public:
 	using type = T;
 
 	template <typename U, typename = decltype(detail::lvalue<T>(std::declval<U>()),
-											  std::enable_if_t<!std::is_same_v<Reference, std::remove_cv_t<std::remove_reference_t<U>>>>())>
+	                                          std::enable_if_t<!std::is_same_v<Reference, std::remove_cv_t<std::remove_reference_t<U>>>>())>
 	constexpr Reference(U&& u) noexcept(noexcept(detail::lvalue<T>(std::forward<U>(u))))
 		: m_ptr(std::addressof(detail::lvalue<T>(std::forward<U>(u)))) {}
 

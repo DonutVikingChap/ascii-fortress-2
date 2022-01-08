@@ -115,14 +115,14 @@ auto GameServer::init() -> bool {
 
 	// Execute server config script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{sv_config_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Server config failed.");
 		return false;
 	}
 
 	// Execute server autoexec script.
 	if (m_game.consoleCommand(GET_COMMAND(import), std::array{cmd::Value{GET_COMMAND(file).getName()}, cmd::Value{sv_autoexec_file}}).status ==
-		cmd::Status::ERROR_MSG) {
+	    cmd::Status::ERROR_MSG) {
 		m_game.error("Server autoexec failed.");
 		return false;
 	}
@@ -141,9 +141,9 @@ auto GameServer::init() -> bool {
 	GameServer::modifiedCvars().clear();
 
 	INFO_MSG(Msg::SERVER,
-			 "Game server: Started on \"{}:{}\".",
-			 std::string{net::IpAddress::getLocalAddress(ec)},
-			 m_socket.getLocalEndpoint(ec).getPort());
+	         "Game server: Started on \"{}:{}\".",
+	         std::string{net::IpAddress::getLocalAddress(ec)},
+	         m_socket.getLocalEndpoint(ec).getPort());
 	m_game.println(fmt::format("Server started. Use \"{}\" or \"{}\" to stop.", GET_COMMAND(disconnect).getName(), GET_COMMAND(quit).getName()));
 	return true;
 }
@@ -502,8 +502,8 @@ auto GameServer::rockTheVote(net::IpEndpoint endpoint) -> bool {
 		auto& [client, endpoint, address, username, playerId, inventoryId, rconToken] = *it;
 		if (m_world.getMapTime() < sv_rtv_delay) {
 			this->writeServerChatMessage(fmt::format("{} wants to rock the vote. (Please wait {} seconds.)",
-													 username,
-													 static_cast<int>(std::ceil(sv_rtv_delay - m_world.getMapTime()))));
+			                                         username,
+			                                         static_cast<int>(std::ceil(sv_rtv_delay - m_world.getMapTime()))));
 			return true;
 		}
 
@@ -589,8 +589,8 @@ auto GameServer::writeServerChatMessage(std::string_view message, Team team) -> 
 			if (player.getTeam() == team) {
 				if (!client.write(msg)) {
 					INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-							 "Game server: Failed to write server team chat message to \"{}\".",
-							 std::string{endpoint});
+					         "Game server: Failed to write server team chat message to \"{}\".",
+					         std::string{endpoint});
 				}
 			}
 		}
@@ -604,8 +604,8 @@ auto GameServer::writeServerChatMessagePersonal(std::string_view message, Player
 			INFO_MSG(Msg::CHAT, "[SERVER to player {}]: {}", player.getName(), message);
 			if (!client.write(msg::cl::out::ServerChatMessage{{}, message})) {
 				INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-						 "Game server: Failed to write personal server chat message to \"{}\".",
-						 std::string{endpoint});
+				         "Game server: Failed to write personal server chat message to \"{}\".",
+				         std::string{endpoint});
 				return false;
 			}
 			return true;
@@ -621,8 +621,8 @@ auto GameServer::writeServerEventMessage(std::string_view message) -> void {
 		if (playerId != PLAYER_ID_UNCONNECTED) {
 			if (!client.write(msg)) {
 				INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-						 "Game server: Failed to write server event message to \"{}\".",
-						 std::string{endpoint});
+				         "Game server: Failed to write server event message to \"{}\".",
+				         std::string{endpoint});
 			}
 		}
 	}
@@ -636,8 +636,8 @@ auto GameServer::writeServerEventMessage(std::string_view message, Team team) ->
 			if (player.getTeam() == team) {
 				if (!client.write(msg)) {
 					INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-							 "Game server: Failed to write team server event message to \"{}\".",
-							 std::string{endpoint});
+					         "Game server: Failed to write team server event message to \"{}\".",
+					         std::string{endpoint});
 				}
 			}
 		}
@@ -652,14 +652,14 @@ auto GameServer::writeServerEventMessage(std::string_view message, util::Span<co
 			if (util::contains(relevantPlayerIds, playerId)) {
 				if (!client.write(msg::cl::out::ServerEventMessagePersonal{{}, msg.message})) {
 					INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-							 "Game server: Failed to write team server event message to \"{}\".",
-							 std::string{endpoint});
+					         "Game server: Failed to write team server event message to \"{}\".",
+					         std::string{endpoint});
 				}
 			} else {
 				if (!client.write(msg)) {
 					INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-							 "Game server: Failed to write team server event message to \"{}\".",
-							 std::string{endpoint});
+					         "Game server: Failed to write team server event message to \"{}\".",
+					         std::string{endpoint});
 				}
 			}
 		}
@@ -676,8 +676,8 @@ auto GameServer::writeServerEventMessagePersonal(std::string_view message, Playe
 					return true;
 				}
 				INFO_MSG(Msg::CHAT | Msg::SERVER | Msg::CONNECTION_EVENT,
-						 "Game server: Failed to write personal server event message to \"{}\".",
-						 std::string{endpoint});
+				         "Game server: Failed to write personal server event message to \"{}\".",
+				         std::string{endpoint});
 			}
 		}
 	}
@@ -737,8 +737,8 @@ auto GameServer::playWorldSound(SoundId soundId, Vec2 position, PlayerId source)
 			} else {
 				if (!client.write(msg::cl::out::PlaySoundPositionalUnreliable{{}, soundId, position})) {
 					INFO_MSG(Msg::SERVER | Msg::CONNECTION_EVENT,
-							 "Game server: Failed to write positional world sound message to \"{}\".",
-							 std::string{endpoint});
+					         "Game server: Failed to write positional world sound message to \"{}\".",
+					         std::string{endpoint});
 				}
 			}
 		}
@@ -880,8 +880,8 @@ auto GameServer::handleMessage(msg::sv::in::JoinRequest&& msg) -> void {
 	// Determine if we should allow this client to connect or not.
 	auto ec = std::error_code{};
 	if (const auto maxPlayersPerIp = static_cast<std::size_t>(sv_max_players_per_ip);
-		maxPlayersPerIp != 0 && !address.isLoopback() && !address.isPrivate() && address != net::IpAddress::getLocalAddress(ec) &&
-		this->countPlayersWithIp(address) >= maxPlayersPerIp) {
+	    maxPlayersPerIp != 0 && !address.isLoopback() && !address.isPrivate() && address != net::IpAddress::getLocalAddress(ec) &&
+	    this->countPlayersWithIp(address) >= maxPlayersPerIp) {
 		this->disconnectClient(
 			m_currentClient,
 			fmt::format("The server does not allow more than {} player{} from the same IP address.", maxPlayersPerIp, (maxPlayersPerIp == 1) ? "" : "s"));
@@ -1000,11 +1000,11 @@ auto GameServer::handleMessage(msg::sv::in::ChatMessage&& msg) -> void {
 	for (auto& [otherClient, otherEndpoint, otherAddress, otherUsername, otherPlayerId, otherInventoryId, otherRconToken] : m_clients) {
 		if (otherPlayerId != PLAYER_ID_UNCONNECTED) {
 			if (!otherClient.write(msg::cl::out::ChatMessage{{}, playerId, message}) ||
-				!otherClient.write(msg::cl::out::PlaySoundReliable{{}, SoundId::chat_message()})) {
+			    !otherClient.write(msg::cl::out::PlaySoundReliable{{}, SoundId::chat_message()})) {
 				INFO_MSG(Msg::SERVER | Msg::CONNECTION_EVENT | Msg::CHAT,
-						 "Game server: Failed to write chat message from \"{}\" to \"{}\".",
-						 std::string{endpoint},
-						 std::string{otherEndpoint});
+				         "Game server: Failed to write chat message from \"{}\" to \"{}\".",
+				         std::string{endpoint},
+				         std::string{otherEndpoint});
 			}
 		}
 	}
@@ -1034,11 +1034,11 @@ auto GameServer::handleMessage(msg::sv::in::TeamChatMessage&& msg) -> void {
 				if (const auto& otherPlayer = m_world.findPlayer(otherPlayerId)) {
 					if (otherPlayer.getTeam() == player.getTeam()) {
 						if (!otherClient.write(msg::cl::out::TeamChatMessage{{}, playerId, message}) ||
-							!otherClient.write(msg::cl::out::PlaySoundReliable{{}, SoundId::chat_message()})) {
+						    !otherClient.write(msg::cl::out::PlaySoundReliable{{}, SoundId::chat_message()})) {
 							INFO_MSG(Msg::SERVER | Msg::CONNECTION_EVENT | Msg::CHAT,
-									 "Game server: Failed to write team chat message from \"{}\" to \"{}\".",
-									 std::string{endpoint},
-									 std::string{otherEndpoint});
+							         "Game server: Failed to write team chat message from \"{}\" to \"{}\".",
+							         std::string{endpoint},
+							         std::string{otherEndpoint});
 						}
 					}
 				}
@@ -1190,14 +1190,14 @@ auto GameServer::handleMessage(msg::sv::in::MetaInfoRequest&&) -> void {
 	}
 
 	if (!(*m_currentClient)
-			 ->connection.write<MetaClientOutputMessages>(msg::meta::cl::out::MetaInfo{{},
-																					   m_tickrate,
-																					   static_cast<std::uint32_t>(m_world.getPlayerCount()),
-																					   static_cast<std::uint32_t>(m_bots.size()),
-																					   static_cast<std::uint32_t>(sv_playerlimit),
-																					   m_game.map().getName(),
-																					   sv_hostname,
-																					   game_version})) {
+	         ->connection.write<MetaClientOutputMessages>(msg::meta::cl::out::MetaInfo{{},
+	                                                                                   m_tickrate,
+	                                                                                   static_cast<std::uint32_t>(m_world.getPlayerCount()),
+	                                                                                   static_cast<std::uint32_t>(m_bots.size()),
+	                                                                                   static_cast<std::uint32_t>(sv_playerlimit),
+	                                                                                   m_game.map().getName(),
+	                                                                                   sv_hostname,
+	                                                                                   game_version})) {
 		this->disconnectClient(m_currentClient, "Failed to write meta info.");
 	}
 }
@@ -1427,15 +1427,15 @@ auto GameServer::receivePackets() -> void {
 				static_cast<std::size_t>(sv_max_connecting_clients));
 		} else if (m_clients.size() >= static_cast<std::size_t>(sv_max_clients)) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED,
-					  "Game server: Ignoring {} bytes from unconnected ip \"{}\" because the max client limit of {} has been reached!",
-					  receivedBytes,
-					  std::string{remoteEndpoint},
-					  static_cast<std::size_t>(sv_max_clients));
+			          "Game server: Ignoring {} bytes from unconnected ip \"{}\" because the max client limit of {} has been reached!",
+			          receivedBytes,
+			          std::string{remoteEndpoint},
+			          static_cast<std::size_t>(sv_max_clients));
 		} else if (m_stopping) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED,
-					  "Game server: Ignoring {} bytes from unconnected ip \"{}\" because the server is stopping!",
-					  receivedBytes,
-					  std::string{remoteEndpoint});
+			          "Game server: Ignoring {} bytes from unconnected ip \"{}\" because the server is stopping!",
+			          receivedBytes,
+			          std::string{remoteEndpoint});
 		} else if (remoteEndpoint == m_metaServerEndpoint) {
 			DEBUG_MSG(Msg::CONNECTION_DETAILED, "Game server: Ignoring {} bytes from meta server ip \"{}\"!", receivedBytes, std::string{remoteEndpoint});
 		} else {
@@ -1451,9 +1451,9 @@ auto GameServer::receivePackets() -> void {
 			INFO_MSG_INDENT(Msg::SERVER, "Game server: Client \"{}\" connecting...", std::string{endpoint}) {
 				if (!client.connection.accept(endpoint)) {
 					INFO_MSG(Msg::SERVER,
-							 "Game server: Failed to intialize connection to \"{}\": {}",
-							 std::string{endpoint},
-							 client.connection.getDisconnectMessage());
+					         "Game server: Failed to intialize connection to \"{}\": {}",
+					         std::string{endpoint},
+					         client.connection.getDisconnectMessage());
 					m_clients.pop_back();
 				} else {
 					++m_connectingClients;
@@ -1465,13 +1465,13 @@ auto GameServer::receivePackets() -> void {
 						INFO_MSG(Msg::SERVER, "Game server: This ip address is banned from the server. Kicking.");
 						this->disconnectClient(std::prev(m_clients.end()), "You are banned from this server.");
 					} else if (const auto maxClientsPerIp = static_cast<std::size_t>(sv_max_connections_per_ip);
-							   maxClientsPerIp != 0 && !address.isLoopback() && !address.isPrivate() &&
-							   address != net::IpAddress::getLocalAddress(ec) && this->countClientsWithIp(address) > maxClientsPerIp) {
+					           maxClientsPerIp != 0 && !address.isLoopback() && !address.isPrivate() &&
+					           address != net::IpAddress::getLocalAddress(ec) && this->countClientsWithIp(address) > maxClientsPerIp) {
 						INFO_MSG(Msg::SERVER, "Meta server: Too many clients with the same ip address. Kicking.");
 						this->disconnectClient(std::prev(m_clients.end()),
-											   fmt::format("The server does not allow more than {} client{} from the same IP address.",
-														   maxClientsPerIp,
-														   (maxClientsPerIp == 1) ? "" : "s"));
+						                       fmt::format("The server does not allow more than {} client{} from the same IP address.",
+						                                   maxClientsPerIp,
+						                                   (maxClientsPerIp == 1) ? "" : "s"));
 					}
 				}
 			}
@@ -1505,8 +1505,8 @@ auto GameServer::updateTicks(float deltaTime) -> void {
 		const auto timeSinceLastTick = static_cast<float>(ticks) * m_tickInterval;
 		if (ticks > sv_max_ticks_per_frame) {
 			INFO_MSG(Msg::SERVER | Msg::SERVER_TICK,
-					 "Game server: Framerate can't keep up with the tickrate! Skipping {} ms.",
-					 (ticks - sv_max_ticks_per_frame) * m_tickInterval * 1000.0f);
+			         "Game server: Framerate can't keep up with the tickrate! Skipping {} ms.",
+			         (ticks - sv_max_ticks_per_frame) * m_tickInterval * 1000.0f);
 			ticks = sv_max_ticks_per_frame;
 		}
 
@@ -1753,11 +1753,11 @@ auto GameServer::connectToMetaServer() -> void {
 	if (ec) {
 		m_game.warning(
 			fmt::format("Couldn't resolve meta server ip address \"{}\": {}\n"
-						"Your server will not be shown in the server list.\n"
-						"Set {} to 0 to disable connecting to the meta server.",
-						meta_address,
-						ec.message(),
-						sv_meta_submit.cvar().getName()));
+		                "Your server will not be shown in the server list.\n"
+		                "Set {} to 0 to disable connecting to the meta server.",
+		                meta_address,
+		                ec.message(),
+		                sv_meta_submit.cvar().getName()));
 		if (sv_meta_submit_retry) {
 			m_game.warning(fmt::format("The connection will be retried in {} seconds.", static_cast<float>(sv_meta_submit_retry_interval)));
 		}
@@ -1779,10 +1779,10 @@ auto GameServer::connectToMetaServer() -> void {
 			INFO_MSG(Msg::SERVER, "Game server: Failed to intialize connection to \"{}\": {}", std::string{endpoint}, client.connection.getDisconnectMessage());
 			m_game.warning(
 				fmt::format("Failed to intialize connection to meta server: {}\n"
-							"Your server will not be shown in the server list.\n"
-							"Set {} to 0 to disable connecting to the meta server.",
-							client.connection.getDisconnectMessage(),
-							sv_meta_submit.cvar().getName()));
+			                "Your server will not be shown in the server list.\n"
+			                "Set {} to 0 to disable connecting to the meta server.",
+			                client.connection.getDisconnectMessage(),
+			                sv_meta_submit.cvar().getName()));
 			if (sv_meta_submit_retry) {
 				m_game.warning(fmt::format("The connection will be retried in {} seconds.", static_cast<float>(sv_meta_submit_retry_interval)));
 			}
@@ -1833,9 +1833,9 @@ auto GameServer::dropClient(Clients::iterator it) -> void {
 			if (client.connection.getDisconnectMessage() == Connection::HANDSHAKE_TIMED_OUT_MESSAGE) {
 				m_game.warning(
 					fmt::format("Failed to connect to the meta server.\n"
-								"Your server will not be shown in the server list.\n"
-								"Set {} to 0 to disable connecting to the meta server.",
-								sv_meta_submit.cvar().getName()));
+				                "Your server will not be shown in the server list.\n"
+				                "Set {} to 0 to disable connecting to the meta server.",
+				                sv_meta_submit.cvar().getName()));
 				if (sv_meta_submit_retry) {
 					m_game.warning(fmt::format("The connection will be retried in {} seconds.", static_cast<float>(sv_meta_submit_retry_interval)));
 				}
@@ -1848,9 +1848,9 @@ auto GameServer::dropClient(Clients::iterator it) -> void {
 	}
 
 	INFO_MSG(Msg::SERVER,
-			 "Game server: Client \"{}\" was dropped.{}",
-			 std::string{endpoint},
-			 (client.connection.getDisconnectMessage().empty()) ? "" : fmt::format(" Reason: {}", client.connection.getDisconnectMessage()));
+	         "Game server: Client \"{}\" was dropped.{}",
+	         std::string{endpoint},
+	         (client.connection.getDisconnectMessage().empty()) ? "" : fmt::format(" Reason: {}", client.connection.getDisconnectMessage()));
 }
 
 auto GameServer::writeServerInfo(ClientInfo& client) -> bool {
@@ -1858,16 +1858,16 @@ auto GameServer::writeServerInfo(ClientInfo& client) -> bool {
 		auto salt = crypto::pw::Salt{};
 		util::copy(*saltView, salt.begin());
 		return client.write(msg::cl::out::ServerInfo{{},
-													 m_tickrate,
-													 static_cast<std::uint32_t>(m_world.getPlayerCount()),
-													 static_cast<std::uint32_t>(m_bots.size()),
-													 static_cast<std::uint32_t>(sv_playerlimit),
-													 m_game.map().getName(),
-													 sv_hostname,
-													 game_version,
-													 salt,
-													 sv_password.getHashType(),
-													 m_resourceInfo});
+		                                             m_tickrate,
+		                                             static_cast<std::uint32_t>(m_world.getPlayerCount()),
+		                                             static_cast<std::uint32_t>(m_bots.size()),
+		                                             static_cast<std::uint32_t>(sv_playerlimit),
+		                                             m_game.map().getName(),
+		                                             sv_hostname,
+		                                             game_version,
+		                                             salt,
+		                                             sv_password.getHashType(),
+		                                             m_resourceInfo});
 	}
 	return false;
 }
@@ -1875,16 +1875,16 @@ auto GameServer::writeServerInfo(ClientInfo& client) -> bool {
 auto GameServer::writeCommandOutput(ClientInfo& client, std::string_view message) -> void { // NOLINT(readability-convert-member-functions-to-static)
 	if (!client.write(msg::cl::out::CommandOutput{{}, false, message})) {
 		INFO_MSG(Msg::SERVER | Msg::CONNECTION_EVENT,
-				 "Game server: Failed to write special command output to \"{}\".",
-				 std::string{client.connection.getRemoteEndpoint()});
+		         "Game server: Failed to write special command output to \"{}\".",
+		         std::string{client.connection.getRemoteEndpoint()});
 	}
 }
 
 auto GameServer::writeCommandError(ClientInfo& client, std::string_view message) -> void { // NOLINT(readability-convert-member-functions-to-static)
 	if (!client.write(msg::cl::out::CommandOutput{{}, true, message})) {
 		INFO_MSG(Msg::SERVER | Msg::CONNECTION_EVENT,
-				 "Game server: Failed to write special command error to \"{}\".",
-				 std::string{client.connection.getRemoteEndpoint()});
+		         "Game server: Failed to write special command error to \"{}\".",
+		         std::string{client.connection.getRemoteEndpoint()});
 	}
 }
 
@@ -1903,10 +1903,10 @@ auto GameServer::writeWorldStateToClients() -> void {
 					}
 				} else {
 					DEBUG_MSG_INDENT(Msg::CONNECTION_DETAILED,
-									 "Game server: Player \"{}\": Writing snapshot delta from #{} to #{}.",
-									 username,
-									 client.latestSnapshotReceived,
-									 tick) {
+					                 "Game server: Player \"{}\": Writing snapshot delta from #{} to #{}.",
+					                 username,
+					                 client.latestSnapshotReceived,
+					                 tick) {
 						const auto sourceTick = client.latestSnapshotReceived;
 						const auto& sourceSnapshot = (*client.snapshots)[sourceTick % client.snapshots->size()];
 
