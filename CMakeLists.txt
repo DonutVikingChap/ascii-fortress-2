@@ -179,7 +179,6 @@ add_executable(ascii_fortress_2
 	"src/game/shared/resource_info.hpp"
 	"src/game/shared/snapshot.cpp"
 	"src/game/shared/snapshot.hpp"
-	"src/game/shared/special_commands.hpp"
 	"src/game/state/game_client_state.cpp"
 	"src/game/state/game_client_state.hpp"
 	"src/game/state/game_server_state.cpp"
