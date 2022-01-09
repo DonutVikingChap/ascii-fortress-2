@@ -1184,8 +1184,9 @@ auto Game::runHeadless() -> void {
 	auto inputThread = std::thread{[&] {
 		try {
 			while (m_running) {
-				auto command = std::string{};
-				if (std::getline(std::cin, command)) {
+				std::this_thread::sleep_for(300ms);
+				std::cout << "> ";
+				if (auto command = std::string{}; std::getline(std::cin, command)) {
 					auto expected = false;
 					while (!accessingCommandQueue.compare_exchange_weak(expected, true)) {
 						std::this_thread::yield();
