@@ -24,6 +24,7 @@ auto isSpecificOption(const Value& arg, char name, std::string_view longName) no
 	}
 	return false;
 }
+
 auto optc(CommandView argv) noexcept -> std::size_t {
 	assert(!argv.empty());
 	return util::countIf(util::subview(argv, 1), cmd::isOption);
