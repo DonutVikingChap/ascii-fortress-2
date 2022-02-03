@@ -440,7 +440,7 @@ auto Map::findPath(Vec2 start, Vec2 destination, bool red, bool blue) const -> s
 		Vec2 position;
 	};
 
-	// Heurisitc function for A*. Uses Manhattan distance.
+	// Heuristic function for A*. Uses Manhattan distance.
 	const auto heuristic = [destination](Vec2 p) {
 		return std::abs(p.x - destination.x) + std::abs(p.y - destination.y);
 	};
