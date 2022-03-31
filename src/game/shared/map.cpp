@@ -13,6 +13,9 @@
 
 namespace {
 
+constexpr auto COST_STRAIGHT = std::uint32_t{1000};
+constexpr auto COST_DIAGONAL = std::uint32_t{1414};
+
 auto parseSubstr(std::string_view str, std::string_view beginTag, std::string_view endTag) -> std::string_view {
 	const auto i = str.find(beginTag);
 	if (i == std::string_view::npos) {
@@ -90,9 +93,6 @@ auto makePath(const std::unordered_set<Vec2>& nodes, Vec2 start) -> std::vector<
 
 template <typename Func>
 auto forEachNonSolidNeighbor(const Map& map, Vec2 p, bool red, bool blue, Func&& callback) -> void {
-	constexpr auto COST_STRAIGHT = std::uint32_t{1000};
-	constexpr auto COST_DIAGONAL = std::uint32_t{1414};
-
 	if (const auto up = Vec2{p.x, p.y - 1}; !map.isSolid(up, red, blue, Direction::up())) {
 		callback(up, COST_STRAIGHT);
 	}
@@ -442,7 +442,7 @@ auto Map::findPath(Vec2 start, Vec2 destination, bool red, bool blue) const -> s
 
 	// Heuristic function for A*. Uses Manhattan distance.
 	const auto heuristic = [destination](Vec2 p) {
-		return std::abs(p.x - destination.x) + std::abs(p.y - destination.y);
+		return (std::abs(p.x - destination.x) + std::abs(p.y - destination.y)) * COST_STRAIGHT;
 	};
 
 	auto cost = std::unordered_map<Vec2, std::uint32_t>{{start, 0}};
