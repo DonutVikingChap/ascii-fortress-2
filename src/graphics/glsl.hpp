@@ -118,7 +118,7 @@ template <std::size_t N, typename T>
 }
 
 template <std::size_t N, typename T>
-[[nodiscard]] constexpr auto operator-(vec<N, T> rhs) noexcept -> vec<2, T> {
+[[nodiscard]] constexpr auto operator-(vec<N, T> rhs) noexcept -> vec<N, T> {
 	auto result = vec<N, T>{};
 	for (auto i = std::size_t{0}; i < N; ++i) {
 		result[i] = -rhs[i];
