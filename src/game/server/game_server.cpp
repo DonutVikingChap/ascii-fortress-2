@@ -402,7 +402,7 @@ auto GameServer::addBot(std::string name, Team team, PlayerClass playerClass) ->
 }
 
 auto GameServer::kickBot(std::string_view name) -> bool {
-	bool found = false;
+	auto found = false;
 	util::eraseIf(m_bots, [&](const auto& bot) {
 		if (util::iequals(bot.getName(), name)) {
 			this->writeServerChatMessage(fmt::format("Kicking bot {}.", bot.getName()));
@@ -1716,7 +1716,7 @@ auto GameServer::loadMap() -> bool {
 	// Find the next map in the map rotation and set the next level.
 	const auto& mapRotation = Script::parse(sv_map_rotation);
 
-	bool found = false;
+	auto found = false;
 	for (const auto [i, command] : util::enumerate(mapRotation)) {
 		if (const auto name = Script::commandString(command); name == m_game.map().getName()) {
 			const auto nextName = Script::commandString(mapRotation[(i + 1) % mapRotation.size()]);
