@@ -417,18 +417,21 @@ CON_COMMAND(mp_kill_ammopack, "[options...] <ammopack_id>", ConCommand::SERVER, 
 
 #define DEFINE_DELETE_COMMAND(Name, name, prefix, Str, str) \
 	CON_COMMAND(mp_delete_##name, "<" #name "_id>", ConCommand::SERVER, "Delete " prefix " " str ".", {}, cmd::suggest##Name##Id<1>) { \
-		if (argv.size() != 2) \
+		if (argv.size() != 2) { \
 			return cmd::error(self.getUsage()); \
+		} \
 \
 		auto parseError = cmd::ParseError{}; \
 \
 		const auto id = cmd::parseNumber<World::Name##Id>(parseError, argv[1], str " id"); \
-		if (parseError) \
+		if (parseError) { \
 			return cmd::error("{}: {}", self.getName(), *parseError); \
+		} \
 \
 		assert(server); \
-		if (server->world().delete##Name(id)) \
+		if (server->world().delete##Name(id)) { \
 			return cmd::done(); \
+		} \
 		return cmd::error("{}: " Str " with id \"{}\" not found.", self.getName(), id); \
 	}
 
@@ -442,14 +445,16 @@ DEFINE_DELETE_COMMAND(Flag, flag, "a", "Flag", "flag")
 
 #define DEFINE_HAS_COMMAND(Name, name, prefix, Str, str) \
 	CON_COMMAND(mp_has_##name, "<" #name "_id>", ConCommand::SERVER, "Check if a " str " with a certain id exists.", {}, cmd::suggest##Name##Id<1>) { \
-		if (argv.size() != 2) \
+		if (argv.size() != 2) { \
 			return cmd::error(self.getUsage()); \
+		} \
 \
 		auto parseError = cmd::ParseError{}; \
 \
 		const auto id = cmd::parseNumber<World::Name##Id>(parseError, argv[1], str " id"); \
-		if (parseError) \
+		if (parseError) { \
 			return cmd::error("{}: {}", self.getName(), *parseError); \
+		} \
 \
 		assert(server); \
 		return cmd::done(server->world().has##Name##Id(id)); \
@@ -467,8 +472,9 @@ DEFINE_HAS_COMMAND(PayloadCart, cart, "a", "Payload cart", "payload cart")
 
 #define DEFINE_COUNT_COMMAND(Name, name, prefix, Str, str) \
 	CON_COMMAND(mp_##name##_count, "", ConCommand::SERVER, "Get the active " str " count.", {}, nullptr) { \
-		if (argv.size() != 1) \
+		if (argv.size() != 1) { \
 			return cmd::error(self.getUsage()); \
+		} \
 \
 		assert(server); \
 		return cmd::done(server->world().get##Name##Count()); \
@@ -486,8 +492,9 @@ DEFINE_COUNT_COMMAND(PayloadCart, cart, "a", "Payload cart", "payload cart")
 
 #define DEFINE_LIST_COMMAND(Name, name, prefix, Str, str) \
 	CON_COMMAND(mp_##name##_list, "", ConCommand::SERVER, "List every active " str " id.", {}, nullptr) { \
-		if (argv.size() != 1) \
+		if (argv.size() != 1) { \
 			return cmd::error(self.getUsage()); \
+		} \
 \
 		assert(server); \
 		return cmd::done(server->world().getAll##Name##Ids() | util::transform(cmd::format##Name##Id) | util::join('\n')); \
@@ -510,20 +517,23 @@ DEFINE_LIST_COMMAND(PayloadCart, cart, "a", "Payload cart", "payload cart")
 	            "Instantly move " prefix " " str " to a certain destination.", \
 	            {}, \
 	            cmd::suggest##Name##Id<1>) { \
-		if (argv.size() != 4) \
+		if (argv.size() != 4) { \
 			return cmd::error(self.getUsage()); \
+		} \
 \
 		auto parseError = cmd::ParseError{}; \
 \
 		const auto id = cmd::parseNumber<World::Name##Id>(parseError, argv[1], str " id"); \
 		const auto x = cmd::parseNumber<Vec2::Length>(parseError, argv[2], "x coordinate"); \
 		const auto y = cmd::parseNumber<Vec2::Length>(parseError, argv[3], "y coordinate"); \
-		if (parseError) \
+		if (parseError) { \
 			return cmd::error("{}: {}", self.getName(), *parseError); \
+		} \
 \
 		assert(server); \
-		if (server->world().teleport##Name(id, Vec2{x, y})) \
+		if (server->world().teleport##Name(id, Vec2{x, y})) { \
 			return cmd::done(); \
+		} \
 		return cmd::error("{}: Couldn't teleport " str " with id \"{}\" to ({}, {})!", self.getName(), id, x, y); \
 	}
 
