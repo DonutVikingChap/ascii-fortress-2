@@ -90,7 +90,7 @@ public:
 	}
 
 	[[nodiscard]] auto end() const noexcept -> decltype(auto) {
-		return m_arr.begin();
+		return m_arr.end();
 	}
 
 private:
