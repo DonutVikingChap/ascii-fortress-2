@@ -204,8 +204,8 @@ auto Font::renderGlyph(char32_t ch) -> FontGlyph {
 }
 
 auto Font::GlyphAtlas::insert(std::size_t width, std::size_t height) -> InsertResult {
-	const auto paddedWidth = width * PADDING * std::size_t{2};
-	const auto paddedHeight = height * PADDING * std::size_t{2};
+	const auto paddedWidth = width + PADDING * std::size_t{2};
+	const auto paddedHeight = height + PADDING * std::size_t{2};
 	AtlasRow* rowPtr = nullptr;
 	for (auto& row : m_rows) {
 		if (const auto heightRatio = static_cast<float>(paddedHeight) / static_cast<float>(row.height);
