@@ -9,7 +9,7 @@ set(FT_DISABLE_BROTLI TRUE CACHE BOOL "" FORCE)
 
 FetchContent_Declare(FreeType
 	GIT_REPOSITORY https://github.com/freetype/freetype
-	GIT_TAG 3f83daeecb1a78d851b660eed025eeba362c0e4a # 2.11.1
+	GIT_TAG e8ebfe988b5f57bfb9a3ecb13c70d9791bce9ecf # 2.12.1
 )
 FetchContent_MakeAvailable(FreeType)
 

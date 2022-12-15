@@ -177,7 +177,7 @@ auto Font::renderGlyph(char32_t ch) -> FontGlyph {
 		return FontGlyph{};
 	}
 	if (const auto err = FT_Load_Char(face, FT_ULong{ch}, FT_LOAD_RENDER); err != FT_Err_Ok) {
-		throw Error{getErrorString(fmt::format("Failed to render font glyph for char \'{}\'", ch), err)};
+		throw Error{getErrorString(fmt::format("Failed to render font glyph for char \'{}\'", FT_ULong{ch}), err)};
 	}
 	auto x = std::size_t{0};
 	auto y = std::size_t{0};
@@ -185,7 +185,7 @@ auto Font::renderGlyph(char32_t ch) -> FontGlyph {
 	const auto height = static_cast<std::size_t>(face->glyph->bitmap.rows);
 	if (const auto* const pixels = face->glyph->bitmap.buffer) {
 		if (face->glyph->bitmap.pixel_mode != FT_PIXEL_MODE_GRAY) {
-			throw Error{fmt::format("Invalid font glyph pixel mode for char {}!", ch)};
+			throw Error{fmt::format("Invalid font glyph pixel mode for char {}!", FT_ULong{ch})};
 		}
 		const auto [atlasX, atlasY, resized] = m_atlas.insert(width, height);
 		if (resized) {

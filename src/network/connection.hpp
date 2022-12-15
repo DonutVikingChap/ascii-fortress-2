@@ -116,7 +116,7 @@ struct PacketHeader final {
 		                             header.flags,
 		                             2 + 2 * sizeof(Flags),
 		                             header.ack,
-		                             header.mask,
+		                             header.mask.to_ullong(),
 		                             2 + 2 * sizeof(PacketMask),
 		                             header.seq);
 	}

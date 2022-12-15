@@ -4,11 +4,7 @@
 #include "../../console/script.hpp" // Script
 #include "../data/actions.hpp"      // Actions, Action
 
-// clang-format off
-#include <string.h> // memcpy (needed by SDL.h) // NOLINT(modernize-deprecated-headers)
-#include <SDL.h>    // SDL_...
-// clang-format on
-
+#include <SDL.h>         // SDL_...
 #include <cstddef>       // std::size_t
 #include <memory>        // std::unique_ptr
 #include <string>        // std::string

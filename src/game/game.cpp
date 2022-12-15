@@ -750,7 +750,7 @@ auto Game::autoComplete(gui::TextInput& textInput) -> void {
 			assert(!command.empty());
 			const auto i = (text.compare(text.size() - command.back().value.size(), command.back().value.size(), command.back().value) == 0) ?
 			                   command.size() - 1 :
-                               command.size();
+			                   command.size();
 
 			const auto doAutoCompleteRaw = [&](std::string_view str) {
 				if (i == command.size()) {
@@ -947,7 +947,7 @@ auto Game::createWindow(int width, int height, bool fullscreen) -> void {
 
 	glewExperimental = GL_TRUE;
 	if (const auto err = glewInit(); err != GLEW_OK) {
-		throw std::runtime_error{fmt::format("Failed to initialize GLEW: {}", glewGetErrorString(err))};
+		throw std::runtime_error{fmt::format("Failed to initialize GLEW: {}", reinterpret_cast<const char*>(glewGetErrorString(err)))};
 	}
 
 #ifndef NDEBUG
@@ -1145,7 +1145,7 @@ auto Game::applyWindowIcon() -> void {
 	}
 }
 
-auto Game::applyBackgroundColor() -> void {
+auto Game::applyBackgroundColor() -> void { // NOLINT(readability-convert-member-functions-to-static)
 	const auto backgroundColor = Color{r_background_color};
 	const auto backgroundR = static_cast<float>(backgroundColor.r) * (1.0f / 255.0f);
 	const auto backgroundG = static_cast<float>(backgroundColor.g) * (1.0f / 255.0f);

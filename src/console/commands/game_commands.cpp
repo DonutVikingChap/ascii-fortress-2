@@ -741,7 +741,7 @@ CON_COMMAND(host_publish_game, "<outdir>", ConCommand::ADMIN_ONLY | ConCommand::
 				if (ec) {
 					return cmd::error("{}: Failed to copy library file \"{}\" to \"{}\": {}",
 					                  self.getName(),
-					                  path,
+					                  path.string(),
 					                  (outPath / path.filename()).string(),
 					                  ec.message());
 				}

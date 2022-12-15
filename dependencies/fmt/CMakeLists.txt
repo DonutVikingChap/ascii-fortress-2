@@ -2,7 +2,7 @@ message(STATUS "Fetching fmt...")
 
 FetchContent_Declare(fmt
 	GIT_REPOSITORY https://github.com/fmtlib/fmt
-	GIT_TAG d141cdbeb0fb422a3fb7173b285fd38e0d1772dc # 8.0.1
+	GIT_TAG a33701196adfad74917046096bf5a2aa0ab0bb50 # 9.1.0
 )
 FetchContent_MakeAvailable(fmt)
 
