@@ -2,7 +2,7 @@
 
 #include "../game/client/char_window.hpp" // CharWindow
 
-#include <cmath>    // std::remquo, std::signbit
+#include <cmath>    // std::signbit
 #include <iterator> // std::make_move_iterator
 #include <utility>  // std::move
 
@@ -33,12 +33,11 @@ auto Console::handleEvent(const SDL_Event& e, const CharWindow& charWindow) -> v
 				this->scrollDown();
 			}
 		} else if (e.type == SDL_MOUSEWHEEL) {
-			auto scrolls = int{};
-			std::remquo(e.wheel.preciseY, 1.0f, &scrolls);
+			auto scrolls = static_cast<std::ptrdiff_t>(e.wheel.preciseY);
 			if (scrolls == 0) {
-				scrolls = (std::signbit(e.wheel.preciseY)) ? -1 : 1;
+				scrolls = (std::signbit(e.wheel.preciseY)) ? std::ptrdiff_t{-1} : std::ptrdiff_t{1};
 			}
-			this->scroll(static_cast<std::ptrdiff_t>(scrolls));
+			this->scroll(scrolls);
 		}
 	}
 }

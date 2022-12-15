@@ -2,7 +2,6 @@
 #define AF2_UTILITIES_COUNTDOWN_HPP
 
 #include <algorithm>   // std::min
-#include <cmath>       // std::remquo
 #include <type_traits> // std::enable_if_t, std::is_..._v
 #include <utility>     // std::forward, std::pair, std::make_pair
 
@@ -111,25 +110,15 @@ public:
 		m_timeElapsed = Duration{};
 	}
 
-	auto advance(Duration deltaTime, Duration interval) noexcept -> int {
-		if (interval <= Duration{}) {
-			return 1;
-		}
-		auto loops = 0;
-		m_timeElapsed = std::remquo(m_timeElapsed + deltaTime, interval, &loops);
-		return loops;
+	constexpr auto advance(Duration deltaTime, Duration interval) noexcept -> int {
+		return this->advance(deltaTime, interval, [] { return true; });
 	}
 
-	[[nodiscard]] auto ticks(Duration deltaTime, Duration interval) const noexcept -> int {
-		if (interval <= Duration{}) {
-			return 1;
-		}
-		auto loops = 0;
-		std::remquo(m_timeElapsed + deltaTime, interval, &loops);
-		return loops;
+	[[nodiscard]] constexpr auto ticks(Duration deltaTime, Duration interval) const noexcept -> int {
+		return this->ticks(deltaTime, interval, [] { return true; });
 	}
 
-	auto advance(Duration deltaTime, Duration interval, bool active) noexcept -> int {
+	constexpr auto advance(Duration deltaTime, Duration interval, bool active) noexcept -> int {
 		if (active) {
 			return this->advance(deltaTime, interval);
 		}
@@ -137,14 +126,14 @@ public:
 		return 0;
 	}
 
-	[[nodiscard]] auto ticks(Duration deltaTime, Duration interval, bool active) const noexcept -> int {
+	[[nodiscard]] constexpr auto ticks(Duration deltaTime, Duration interval, bool active) const noexcept -> int {
 		return (active) ? this->ticks(deltaTime, interval) : 0;
 	}
 
 	template <typename Condition, typename = std::enable_if_t<std::is_invocable_r_v<bool, Condition>>>
 	constexpr auto advance(Duration deltaTime, Duration interval, Condition&& cond) noexcept(std::is_nothrow_invocable_v<Condition>) -> int {
 		if (interval <= Duration{}) {
-			return cond() ? 1 : 0;
+			return (cond()) ? 1 : 0;
 		}
 
 		auto loops = 0;
@@ -160,7 +149,7 @@ public:
 	[[nodiscard]] constexpr auto ticks(Duration deltaTime, Duration interval, Condition&& cond) const
 		noexcept(std::is_nothrow_invocable_v<Condition>) -> int {
 		if (interval <= Duration{}) {
-			return cond() ? 1 : 0;
+			return (cond()) ? 1 : 0;
 		}
 
 		auto loops = 0;
@@ -329,7 +318,7 @@ public:
 	template <typename Condition, typename = std::enable_if_t<std::is_invocable_r_v<bool, Condition>>>
 	constexpr auto advance(Duration deltaTime, Duration interval, Condition&& cond) noexcept(std::is_nothrow_invocable_v<Condition>) -> int {
 		if (interval <= Duration{}) {
-			return cond() ? 1 : 0;
+			return (cond()) ? 1 : 0;
 		}
 
 		auto loops = 0;

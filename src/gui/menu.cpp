@@ -5,7 +5,7 @@
 #include "element.hpp"                    // gui::Element
 
 #include <cassert> // assert
-#include <cmath>   // std::remquo, std::signbit
+#include <cmath>   // std::signbit
 #include <utility> // std::move
 
 namespace gui {
@@ -88,13 +88,11 @@ auto Menu::handleEvent(const SDL_Event& e, const CharWindow& charWindow) -> void
 			}
 		} else if (e.type == SDL_MOUSEWHEEL) {
 			if (m_onScroll) {
-				auto scrollsX = int{};
-				std::remquo(e.wheel.preciseX, 1.0f, &scrollsX);
+				auto scrollsX = static_cast<int>(e.wheel.preciseX);
 				if (scrollsX == 0) {
 					scrollsX = (std::signbit(e.wheel.preciseX)) ? -1 : 1;
 				}
-				auto scrollsY = int{};
-				std::remquo(e.wheel.preciseY, 1.0f, &scrollsY);
+				auto scrollsY = static_cast<int>(e.wheel.preciseY);
 				if (scrollsY == 0) {
 					scrollsY = (std::signbit(e.wheel.preciseY)) ? -1 : 1;
 				}
